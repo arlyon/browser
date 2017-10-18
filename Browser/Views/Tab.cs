@@ -9,10 +9,13 @@
     using global::Browser.Properties;
     using global::Browser.Requests;
 
+    using TidyManaged;
+
     /// <inheritdoc cref="TabPage" />
     /// <summary>
     ///     The base class for the browser tabs.
     /// </summary>
+    //public partial class Tab : UserControl
     public partial class Tab : TabPage, ITab
     {
         /// <summary>

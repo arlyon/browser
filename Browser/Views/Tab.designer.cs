@@ -124,12 +124,12 @@
             // GoForwardButton
             // 
             this.GoForwardButton.BackColor = System.Drawing.Color.Transparent;
-            this.GoForwardButton.BackgroundImage = global::BrowserWinForm.Properties.Resources.forward;
             this.GoForwardButton.FlatAppearance.BorderSize = 0;
             this.GoForwardButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.GoForwardButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.GoForwardButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GoForwardButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.GoForwardButton.Image = global::Browser.Properties.Resources.forward;
             this.GoForwardButton.Location = new System.Drawing.Point(79, 3);
             this.GoForwardButton.Name = "GoForwardButton";
             this.GoForwardButton.Size = new System.Drawing.Size(32, 32);
@@ -140,12 +140,12 @@
             // ReloadButton
             // 
             this.ReloadButton.BackColor = System.Drawing.Color.Transparent;
-            this.ReloadButton.BackgroundImage = global::BrowserWinForm.Properties.Resources.reload;
             this.ReloadButton.FlatAppearance.BorderSize = 0;
             this.ReloadButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.ReloadButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.ReloadButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ReloadButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ReloadButton.Image = global::Browser.Properties.Resources.reload;
             this.ReloadButton.Location = new System.Drawing.Point(41, 3);
             this.ReloadButton.Name = "ReloadButton";
             this.ReloadButton.Size = new System.Drawing.Size(32, 32);
@@ -157,11 +157,11 @@
             // 
             this.GoHomeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GoHomeButton.BackColor = System.Drawing.Color.Transparent;
-            this.GoHomeButton.BackgroundImage = global::BrowserWinForm.Properties.Resources.home;
             this.GoHomeButton.FlatAppearance.BorderSize = 0;
             this.GoHomeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.LightGray;
             this.GoHomeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.GoHomeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GoHomeButton.Image = global::Browser.Properties.Resources.home;
             this.GoHomeButton.Location = new System.Drawing.Point(672, 3);
             this.GoHomeButton.Name = "GoHomeButton";
             this.GoHomeButton.Size = new System.Drawing.Size(32, 32);
@@ -173,12 +173,12 @@
             // 
             this.FavoritesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.FavoritesButton.BackColor = System.Drawing.Color.Transparent;
-            this.FavoritesButton.BackgroundImage = global::BrowserWinForm.Properties.Resources.star;
             this.FavoritesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.FavoritesButton.FlatAppearance.BorderSize = 0;
             this.FavoritesButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.FavoritesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.FavoritesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.FavoritesButton.Image = global::Browser.Properties.Resources.star;
             this.FavoritesButton.Location = new System.Drawing.Point(634, 3);
             this.FavoritesButton.Name = "FavoritesButton";
             this.FavoritesButton.Size = new System.Drawing.Size(32, 32);
@@ -190,12 +190,12 @@
             // GoBackButton
             // 
             this.GoBackButton.BackColor = System.Drawing.Color.Transparent;
-            this.GoBackButton.BackgroundImage = global::BrowserWinForm.Properties.Resources.back;
             this.GoBackButton.FlatAppearance.BorderSize = 0;
             this.GoBackButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.GoBackButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.GoBackButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GoBackButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.GoBackButton.Image = global::Browser.Properties.Resources.back;
             this.GoBackButton.Location = new System.Drawing.Point(3, 3);
             this.GoBackButton.Name = "GoBackButton";
             this.GoBackButton.Size = new System.Drawing.Size(32, 32);

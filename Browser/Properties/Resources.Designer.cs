@@ -251,6 +251,15 @@ namespace Browser.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Tab.
+        /// </summary>
+        internal static string NewTab {
+            get {
+                return ResourceManager.GetString("NewTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap nofavicon {
@@ -277,15 +286,6 @@ namespace Browser.Properties {
             get {
                 object obj = ResourceManager.GetObject("star", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Tab.
-        /// </summary>
-        internal static string Tab_Tab {
-            get {
-                return ResourceManager.GetString("Tab_Tab", resourceCulture);
             }
         }
     }
