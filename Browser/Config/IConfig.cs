@@ -7,7 +7,7 @@
     /// <summary>
     /// The Config interface.
     /// </summary>
-    public interface IConfig : IDataSource
+    public interface IConfig
     {
         /// <summary>
         /// Gets the database name.

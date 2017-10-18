@@ -21,7 +21,7 @@
     /// <summary>
     /// The history interface.
     /// </summary>
-    public interface IHistory : IDataSource
+    public interface IHistory
     {
         /// <summary>
         /// The history updated.

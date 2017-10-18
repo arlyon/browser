@@ -32,28 +32,9 @@
         /// </param>
         public void Push(HistoryLocation historyLocation)
         {
-            using (var conn = new SQLiteConnection("data.db"))
-            {
-                string statement =
-                    $"INSERT INTO `History` (Id, Date, Url, Title) values ({historyLocation.ID}, {historyLocation.Date}, {historyLocation.Url}, {historyLocation.Title}";
-                SQLiteCommand insert = new SQLiteCommand(statement, conn);
-                insert.ExecuteNonQuery();
-
+                // TODO push to database
                 this._history.AddLast(historyLocation);
                 this.HistoryUpdated?.Invoke(this, new HistoryPushEventArgs(this._history));
-            }
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// The save.
-        /// </summary>
-        public async void Save()
-        {
-            using (var conn = new SQLiteConnection("data.db"))
-            {
-                await conn.SaveChangesAsync();
-            }
         }
 
         /// <summary>
@@ -61,11 +42,7 @@
         /// </summary>
         private void Load()
         {
-            using (var conn = new SQLiteConnection("data.db"))
-            {
-                var test = new LinkedList<HistoryLocation>(conn.History);
-                this._history = new LinkedList<HistoryLocation>(conn.History.OrderBy(location => location.Date));
-            }
+            // TODO load from database
         }
     }
 }

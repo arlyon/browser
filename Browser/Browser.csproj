@@ -33,6 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Browser.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo_owu_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Sqlite, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Sqlite.Core.2.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
@@ -141,7 +147,6 @@
     <Compile Include="History\Location.cs" />
     <Compile Include="History\TabHistory.cs" />
     <Compile Include="Presenters\BrowserPresenter.cs" />
-    <Compile Include="Presenters\IDataSource.cs" />
     <Compile Include="Presenters\TabPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -205,6 +210,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="logo_owu_icon.ico" />
     <Content Include="Resources\back.png" />
     <Content Include="Resources\forward.png" />
     <Content Include="Resources\home.png" />

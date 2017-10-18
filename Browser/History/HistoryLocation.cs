@@ -51,7 +51,6 @@
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        [Key]
         public Guid ID { get; set; }
 
         /// <summary>

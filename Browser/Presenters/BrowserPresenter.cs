@@ -262,9 +262,7 @@
         /// </summary>
         private void SaveChanges(object sender, EventArgs e)
         {
-            this._history.Save();
-            this._favorites.Save();
-            this._config.Save();
+            // TODO save everythin
         }
 
         private void SetNewHome(object sender, EventArgs e)

@@ -7,7 +7,7 @@
     /// <summary>
     /// The SQLiteFavorites interface.
     /// </summary>
-    public interface IFavorites : IDataSource
+    public interface IFavorites
     {
         /// <summary>
         /// The add.
