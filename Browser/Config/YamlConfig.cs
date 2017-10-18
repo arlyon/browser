@@ -7,6 +7,9 @@
 
     using Browser.Requests;
 
+    using YamlDotNet.Serialization;
+    using YamlDotNet.Serialization.NamingConventions;
+
     /// <inheritdoc cref="IConfig" />
     /// <summary>
     /// The yaml config.
@@ -110,7 +113,6 @@
         /// <param name="propertyName">
         /// The property name.
         /// </param>
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

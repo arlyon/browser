@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.0.11.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.11\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +46,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.4.2.2\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\FaviconCache.cs" />
@@ -66,17 +72,23 @@
     <Compile Include="Requests\HttpRequest.cs" />
     <Compile Include="Requests\HttpResponse.cs" />
     <Compile Include="Requests\Url.cs" />
-    <Compile Include="Views\Browser.cs" />
+    <Compile Include="Views\Browser.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\Browser.designer.cs">
       <DependentUpon>Browser.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\IBrowser.cs" />
     <Compile Include="Views\ITab.cs" />
-    <Compile Include="Views\RenderDocument.cs" />
+    <Compile Include="Views\RenderDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Views\RenderDocument.designer.cs">
       <DependentUpon>RenderDocument.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Tab.cs" />
+    <Compile Include="Views\Tab.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\Tab.designer.cs">
       <DependentUpon>Tab.cs</DependentUpon>
     </Compile>
@@ -102,6 +114,7 @@
     <EmbeddedResource Include="Views\Tab.resx">
       <DependentUpon>Tab.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
