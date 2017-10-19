@@ -1,5 +1,6 @@
 ﻿namespace Browser.Config
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
@@ -22,10 +23,16 @@
         private Url _home;
 
         /// <summary>
+        /// Determines whether the property update event handler should save.
+        /// </summary>
+        private bool _triggerSave;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="YamlConfig"/> class. 
         /// </summary>
         public YamlConfig()
         {
+            this._triggerSave = true;
             this.PropertyChanged += this.Save;
             this.Load();
         }
@@ -58,6 +65,16 @@
         }
 
         /// <summary>
+        /// Gets or sets the history time span.
+        /// </summary>
+        public TimeSpan HistoryTimeSpan { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to load all history.
+        /// </summary>
+        public bool LoadAllHistory { get; set; }
+
+        /// <summary>
         /// Gets or sets the serializable version of homeurl which is kept as a string for easy modification.
         /// </summary>
         public string HomeUrl
@@ -81,23 +98,28 @@
             {
                 using (var input = new StreamReader("settings.yaml"))
                 {
+                    this._triggerSave = false;
                     var properties = deserializer.Deserialize<Dictionary<string, string>>(input);
                     this.HomeUrl = properties["HomeUrl"];
                     this.Database = properties["Database"];
+                    this.HistoryTimeSpan = TimeSpan.Parse(properties["HistoryTimeSpan"]);
+                    this.LoadAllHistory = bool.Parse(properties["LoadAllHistory"]);
+                    this._triggerSave = true;
                 }
             }
-            catch (IOException)
+            catch (Exception e)
             {
                 this.GenerateDefault();
             }
         }
-
-        /// <inheritdoc />
+        
         /// <summary>
         /// Saves the config file to disk.
         /// </summary>
         public void Save()
         {
+            if (!this._triggerSave) return;
+
             var serializer = new SerializerBuilder().Build();
             var yaml = serializer.Serialize(this);
 
@@ -125,6 +147,8 @@
         {
             this.Home = new Url("https://www.hw.ac.uk/");
             this.Database = "sqlite.db";
+            this.HistoryTimeSpan = new TimeSpan(1,0,0,0);
+            this.LoadAllHistory = false;
             this.Save();
         }
 

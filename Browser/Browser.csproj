@@ -154,6 +154,14 @@
     <Compile Include="Migrations\20171018215735_Initial.designer.cs">
       <DependentUpon>20171018215735_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20171019170844_changedname.cs" />
+    <Compile Include="Migrations\20171019170844_changedname.designer.cs">
+      <DependentUpon>20171019170844_changedname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20171019182427_ChangePK.cs" />
+    <Compile Include="Migrations\20171019182427_ChangePK.designer.cs">
+      <DependentUpon>20171019182427_ChangePK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Presenters\BrowserPresenter.cs" />
     <Compile Include="Presenters\TabPresenter.cs" />

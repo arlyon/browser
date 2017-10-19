@@ -1,6 +1,7 @@
 ﻿namespace Browser.Requests
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -12,6 +13,13 @@
         /// The url test.
         /// </summary>
         private static readonly Regex UrlTest = new Regex(@"^(.*:\/\/)?([\p{L}\p{M}\.\:\@0-9]*)([\/\#]?.*)?");
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Url"/> class.
+        /// </summary>
+        public Url()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Url"/> class.
@@ -39,8 +47,6 @@
                 this.Addon = string.Empty;
                 this.Unidentified = url;
             }
-
-            this.ID = Guid.NewGuid();
         }
 
         /// <summary>
@@ -64,7 +70,6 @@
             this.Host = host;
             this.Addon = addon;
             this.Unidentified = unidentified;
-            this.ID = Guid.NewGuid();
         }
 
         /// <summary>
@@ -75,12 +80,8 @@
         /// <summary>
         /// Gets or sets the host.
         /// </summary>
+        [Key]
         public string Host { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        public Guid ID { get; set; }
 
         /// <summary>
         /// Gets or sets the scheme.

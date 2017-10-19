@@ -13,7 +13,10 @@
     using SimpleInjector;
     using SimpleInjector.Lifestyles;
 
-    static class Program
+    /// <summary>
+    /// The main program.
+    /// </summary>
+    public static class Program
     {
         /// <summary>
         /// The container.
@@ -41,7 +44,7 @@
         }
 
         /// <summary>
-        ///     The main entry point for the application.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
         private static void Main()

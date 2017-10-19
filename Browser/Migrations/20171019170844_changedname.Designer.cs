@@ -11,9 +11,10 @@ using System;
 namespace Browser.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20171019170844_changedname")]
+    partial class changedname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,45 +29,47 @@ namespace Browser.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<string>("UrlAddon");
-
-                    b.Property<string>("UrlHost");
-
-                    b.Property<string>("UrlScheme");
-
-                    b.Property<string>("UrlUnidentified");
+                    b.Property<Guid?>("UrlID");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UrlScheme", "UrlHost", "UrlAddon", "UrlUnidentified");
+                    b.HasIndex("UrlID");
 
                     b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("Browser.History.HistoryLocation", b =>
                 {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("Date");
+                    b.Property<Guid?>("UrlID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UrlID");
 
                     b.ToTable("History");
                 });
 
             modelBuilder.Entity("Browser.Requests.Url", b =>
                 {
-                    b.Property<string>("Scheme");
-
-                    b.Property<string>("Host");
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Addon");
 
+                    b.Property<string>("Host");
+
+                    b.Property<string>("Scheme");
+
                     b.Property<string>("Unidentified");
 
-                    b.HasKey("Scheme", "Host", "Addon", "Unidentified");
-
-                    b.HasAlternateKey("Host");
+                    b.HasKey("ID");
 
                     b.ToTable("Url");
                 });
@@ -75,7 +78,14 @@ namespace Browser.Migrations
                 {
                     b.HasOne("Browser.Requests.Url", "Url")
                         .WithMany()
-                        .HasForeignKey("UrlScheme", "UrlHost", "UrlAddon", "UrlUnidentified");
+                        .HasForeignKey("UrlID");
+                });
+
+            modelBuilder.Entity("Browser.History.HistoryLocation", b =>
+                {
+                    b.HasOne("Browser.Requests.Url", "Url")
+                        .WithMany()
+                        .HasForeignKey("UrlID");
                 });
 #pragma warning restore 612, 618
         }

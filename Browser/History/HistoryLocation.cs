@@ -1,14 +1,23 @@
 ﻿namespace Browser.History
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using Browser.Requests;
+
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// The history entry.
     /// </summary>
     public class HistoryLocation
     {
+        /// <summary>
+        /// The url as string.
+        /// </summary>
+        private string _url;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HistoryLocation"/> class.
         /// </summary>
@@ -19,7 +28,6 @@
         {
             this.Url = url;
             this.Date = DateTime.Now;
-            this.ID = Guid.NewGuid();
         }
 
         /// <summary>
@@ -40,18 +48,13 @@
             this.Url = l.Url;
             this.Title = l.Title;
             this.Date = DateTime.Now;
-            this.ID = Guid.NewGuid();
         }
 
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
+        [Key]
         public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id.
-        /// </summary>
-        public Guid ID { get; set; }
 
         /// <summary>
         /// Gets or sets the title.
@@ -61,6 +64,7 @@
         /// <summary>
         /// Gets or sets the url.
         /// </summary>
-        public Url Url { get; set; }
+        [NotMapped]
+        public Url Url { get => new Url(_url); set => _url = value.ToString(); }
     }
 }
