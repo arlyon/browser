@@ -162,6 +162,10 @@
     <Compile Include="Migrations\20171019182427_ChangePK.designer.cs">
       <DependentUpon>20171019182427_ChangePK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20171019184007_ChangePK2.cs" />
+    <Compile Include="Migrations\20171019184007_ChangePK2.designer.cs">
+      <DependentUpon>20171019184007_ChangePK2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DataContextModelSnapshot.cs" />
     <Compile Include="Presenters\BrowserPresenter.cs" />
     <Compile Include="Presenters\TabPresenter.cs" />

@@ -14,11 +14,6 @@
     public class HistoryLocation
     {
         /// <summary>
-        /// The url as string.
-        /// </summary>
-        private string _url;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="HistoryLocation"/> class.
         /// </summary>
         /// <param name="url">
@@ -64,7 +59,6 @@
         /// <summary>
         /// Gets or sets the url.
         /// </summary>
-        [NotMapped]
-        public Url Url { get => new Url(_url); set => _url = value.ToString(); }
+        public Url Url { get; set; }
     }
 }
