@@ -1,16 +1,29 @@
 ﻿namespace Browser.Favorites
 {
-    using System;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Runtime.CompilerServices;
 
+    using Browser.Annotations;
     using Browser.History;
     using Browser.Requests;
 
+    /// <inheritdoc />
     /// <summary>
     /// The favorites entry.
     /// </summary>
-    public class FavoritesLocation
+    public class FavoritesLocation : INotifyPropertyChanged
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// The name.
+        /// </summary>
+        private string name;
+
+        /// <summary>
+        /// The url.
+        /// </summary>
+        private Url url;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class.
         /// </summary>
@@ -21,11 +34,8 @@
         {
             this.Name = url.Host;
             this.Url = url;
-            this.Title = url.Host;
-            this.ID = Guid.NewGuid();
         }
-
-        /// <inheritdoc />
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class. 
         /// </summary>
@@ -36,11 +46,8 @@
         {
             this.Name = l.Url.Host;
             this.Url = l.Url;
-            this.Title = l.Title;
-            this.ID = Guid.NewGuid();
         }
-
-        /// <inheritdoc />
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class.
         /// </summary>
@@ -51,21 +58,50 @@
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
-        public Guid ID { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => this.name;
+            set
+            {
+                this.name = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
-        public string Title { get; set; }
+        public Url Url
+        {
+            get => this.url;
+            set
+            {
+                this.url = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// The property changed.
         /// </summary>
-        public Url Url { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// The on property changed.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The property name.
+        /// </param>
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -129,7 +129,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADA
-        AAAAAk1TRnQBSQFMAwEBAAHcAQAB3AEAARABAAEQAQAE/wERAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        AAAAAk1TRnQBSQFMAwEBAAFkAQEBZAEBARABAAEQAQAE/wERAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
         ARADAAEBAQABEAYAAQj/AP8A/wD/AP8A/wD/AP8AGgABQgFNAT4HAAE+AwABKAMAAUADAAEQAwABAQEA
         AQEFAAGAFwAD/wEAAv8GAAL/BgAC/wYAAv8GAAL/BgAC/wYAAv8GAAL/BgAC/wYAAv8GAAL/BgAC/wYA
         Av8GAAL/BgAC/wYAAv8GAAs=
@@ -156,28 +156,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Tabs.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="SideBar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
   </data>
-  <data name="Favorites.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="FavoritesName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="FavoritesName.Width" type="System.Int32, mscorlib">
+    <value>107</value>
+  </data>
+  <data name="FavoritesUrl.Text" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="FavoritesUrl.Width" type="System.Int32, mscorlib">
+    <value>110</value>
   </data>
   <data name="Favorites.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="Favorites.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 602</value>
+    <value>221, 605</value>
   </data>
   <data name="Favorites.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;Favorites.Name" xml:space="preserve">
     <value>Favorites</value>
   </data>
   <data name="&gt;&gt;Favorites.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Browser.Views.BindableListView, Browser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Favorites.Parent" xml:space="preserve">
     <value>FavoritesTab</value>
@@ -215,6 +224,9 @@
   <data name="History.Alignment" type="System.Windows.Forms.ListViewAlignment, System.Windows.Forms">
     <value>Default</value>
   </data>
+  <data name="History.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="Title.Text" xml:space="preserve">
     <value>Title</value>
   </data>
@@ -240,7 +252,7 @@
     <value>History</value>
   </data>
   <data name="&gt;&gt;History.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Browser.Views.BindableListView, Browser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;History.Parent" xml:space="preserve">
     <value>HistoryTab</value>
@@ -261,7 +273,7 @@
     <value>1</value>
   </data>
   <data name="HistoryTab.Text" xml:space="preserve">
-    <value>history</value>
+    <value>History</value>
   </data>
   <data name="&gt;&gt;HistoryTab.Name" xml:space="preserve">
     <value>HistoryTab</value>
@@ -294,7 +306,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;SideBar.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="MainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>115, 17</value>
@@ -316,6 +328,22 @@
   </data>
   <data name="newWindowToolStripMenuItem.Text" xml:space="preserve">
     <value>New Window</value>
+  </data>
+  <data name="goHomeToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJRSURBVFhH7ddLSFRRHMfxO5PlorASwSIoyR6TkdGD
+        atG2XBS4q4gIWravXYtaRUi4d5MLhcAWEVHQpl0ERZpmNWpJL6GIomxVTdP3p/PXO5czdx6dawT94IPO
+        uefx59zDvTNBPp//q4JsNvsnGrEm0laVIJ1O1+oUpjCNLtTB1S9WLVmEy2D/itzGKiSaZtyCFvyJ0ziA
+        qULbGPYikewBN21mIS14EJZW3IOufcNJRLMOm6AdrDonMA0toIU2IJqluAL1kUuwm7wE2p0fWK+GSpPC
+        RdikvViGuJzBL6j/DTRBeQ21aRcqigZehy1+FpXmEN5D455A5+J54fNGlM0OaKAGfMBhVJsMHkBz6FyI
+        Dq7r9hXlKD5DAx9iC2pNA/qhuUQF6DCWzAVY56tYDh85h+/QvNewEkVZgQHY4qIt9JkXsLmHsA0z2Q9t
+        tS58gm1/O3ylHipAt+AtNP9HHMHc6RyEFn1U+LwdvqICJqECdqEPWuMrgn3oht2XZ0iqAM27Vg3kPI7P
+        /jsfPXieIskCYp8D/0QBq6H7qIeVzoz6mVLPeW8F6Pp96LrLF9g9DsdbAXq7TUDXxzEK9dfB1QlXexui
+        8VqAXqu6vhXqL4thhbkeYIkUEH5HhHdmwQrQDljq8L8A7wVsVoMj9sW0VAEtanDkJSoqwBY4Bj1sdobs
+        xivEFdAJvWrD4/S+eQddL/ud8CbUsZy59zlRAW/g6hemr3eNmE8mk4lqxQCGMFjCHTTBxqTQgxEMh/6a
+        x7iLDoTXCoJcLudTytEWy/mTeeHkg98sUGbrWcFFtgAAAABJRU5ErkJggg==
+</value>
   </data>
   <data name="goHomeToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+H</value>
@@ -417,30 +445,54 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;MainMenu.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="FavoritesRightClickMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>239, 27</value>
   </metadata>
-  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 22</value>
+  <data name="EditFavoritesListItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 22</value>
   </data>
-  <data name="editToolStripMenuItem.Text" xml:space="preserve">
-    <value>Update</value>
+  <data name="EditFavoritesListItem.Text" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="deleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 22</value>
+  <data name="OpenFavoritesListItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>78, 22</value>
   </data>
-  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Delete</value>
+  <data name="OpenFavoritesListItem.Text" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="FavoritesRightClickMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 48</value>
+    <value>79, 48</value>
   </data>
   <data name="&gt;&gt;FavoritesRightClickMenu.Name" xml:space="preserve">
     <value>FavoritesRightClickMenu</value>
   </data>
   <data name="&gt;&gt;FavoritesRightClickMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="HistoryRightClickMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>459, 25</value>
+  </metadata>
+  <data name="HistoryRightClickAddToFavoritesPressed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="HistoryRightClickAddToFavoritesPressed.Text" xml:space="preserve">
+    <value>Add To Favorites</value>
+  </data>
+  <data name="HistoryRightClickOpenPressed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>137, 22</value>
+  </data>
+  <data name="HistoryRightClickOpenPressed.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="HistoryRightClickMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 48</value>
+  </data>
+  <data name="&gt;&gt;HistoryRightClickMenu.Name" xml:space="preserve">
+    <value>HistoryRightClickMenu</value>
+  </data>
+  <data name="&gt;&gt;HistoryRightClickMenu.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -463,6 +515,18 @@
   </data>
   <data name="&gt;&gt;Favicons.Type" xml:space="preserve">
     <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoritesName.Name" xml:space="preserve">
+    <value>FavoritesName</value>
+  </data>
+  <data name="&gt;&gt;FavoritesName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FavoritesUrl.Name" xml:space="preserve">
+    <value>FavoritesUrl</value>
+  </data>
+  <data name="&gt;&gt;FavoritesUrl.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Title.Name" xml:space="preserve">
     <value>Title</value>
@@ -548,16 +612,28 @@
   <data name="&gt;&gt;reloadTabToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;editToolStripMenuItem.Name" xml:space="preserve">
-    <value>editToolStripMenuItem</value>
+  <data name="&gt;&gt;EditFavoritesListItem.Name" xml:space="preserve">
+    <value>EditFavoritesListItem</value>
   </data>
-  <data name="&gt;&gt;editToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;EditFavoritesListItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;deleteToolStripMenuItem.Name" xml:space="preserve">
-    <value>deleteToolStripMenuItem</value>
+  <data name="&gt;&gt;OpenFavoritesListItem.Name" xml:space="preserve">
+    <value>OpenFavoritesListItem</value>
   </data>
-  <data name="&gt;&gt;deleteToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;OpenFavoritesListItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HistoryRightClickAddToFavoritesPressed.Name" xml:space="preserve">
+    <value>HistoryRightClickAddToFavoritesPressed</value>
+  </data>
+  <data name="&gt;&gt;HistoryRightClickAddToFavoritesPressed.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;HistoryRightClickOpenPressed.Name" xml:space="preserve">
+    <value>HistoryRightClickOpenPressed</value>
+  </data>
+  <data name="&gt;&gt;HistoryRightClickOpenPressed.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

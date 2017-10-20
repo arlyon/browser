@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
 
     using Browser.Presenters;
@@ -16,8 +17,7 @@
     /// The args.
     /// </param>
     public delegate void HistoryPushEventHandler(object sender, HistoryPushEventArgs args);
-
-    /// <inheritdoc />
+    
     /// <summary>
     /// The history interface.
     /// </summary>
@@ -35,6 +35,14 @@
         /// The historyLocation.
         /// </param>
         void Push(HistoryLocation historyLocation);
+
+        /// <summary>
+        /// Gets the history list.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="LinkedList"/>.
+        /// </returns>
+        BindingList<HistoryViewModel> GetViewModel();
     }
 
     /// <inheritdoc />
@@ -50,19 +58,14 @@
         /// <param name="history">
         ///     The entire history.
         /// </param>
-        public HistoryPushEventArgs(LinkedList<HistoryLocation> history)
+        public HistoryPushEventArgs(HistoryLocation history)
         {
-            this.History = history;
+            this.Change = history;
         }
 
         /// <summary>
         /// Gets the new historyLocation.
         /// </summary>
-        public HistoryLocation Change => this.History.Last();
-
-        /// <summary>
-        /// Gets the historyLocation.
-        /// </summary>
-        public LinkedList<HistoryLocation> History { get; }
+        public HistoryLocation Change { get; }
     }
 }

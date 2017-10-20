@@ -73,6 +73,11 @@
         }
 
         /// <summary>
+        /// The hash code.
+        /// </summary>
+        public int HashCode => this.GetHashCode();
+
+        /// <summary>
         /// Gets or sets the addon.
         /// </summary>
         public string Addon { get; set; }
@@ -80,7 +85,6 @@
         /// <summary>
         /// Gets or sets the host.
         /// </summary>
-        [Key]
         public string Host { get; set; }
 
         /// <summary>
@@ -94,6 +98,47 @@
         public string Unidentified { get; set; }
 
         /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// The ==.
+        /// </summary>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <returns>
+        /// Whether the urls point to the same place.
+        /// </returns>
+        public static bool operator ==(Url a, Url b)
+        {
+            // not null and equal to b
+            return !ReferenceEquals(a, null) && !ReferenceEquals(b, null) && a.Equals(b);
+        }
+
+        /// <summary>
+        /// The !=.
+        /// </summary>
+        /// <param name="a">
+        /// The a.
+        /// </param>
+        /// <param name="b">
+        /// The b.
+        /// </param>
+        /// <returns>
+        /// Whether the urls don't point to the same place.
+        /// </returns>
+        public static bool operator !=(Url a, Url b)
+        {
+            return !(a == b);
+        }
+
+        /// <summary>
         /// The to string.
         /// </summary>
         /// <returns>
@@ -102,6 +147,38 @@
         public override string ToString()
         {
             return this.Scheme + this.Host + this.Addon + this.Unidentified;
+        }
+
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public override bool Equals(object other)
+        {
+            return other is Url && this.ToString() == other.ToString();
+        }
+
+        /// <summary>
+        /// The get hash code.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = this.Addon != null ? this.Addon.GetHashCode() : 0;
+                hashCode = (hashCode * 397) ^ (this.Host != null ? this.Host.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.Scheme != null ? this.Scheme.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (this.Unidentified != null ? this.Unidentified.GetHashCode() : 0);
+                return hashCode;
+            }
         }
 
         /// <summary>

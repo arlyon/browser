@@ -22,6 +22,11 @@
         public DbSet<FavoritesLocation> Favorites { get; set; }
 
         /// <summary>
+        /// Gets or sets the urls.
+        /// </summary>
+        public DbSet<Url> Urls { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DataContext"/> class.
         /// </summary>
         public DataContext()
@@ -48,7 +53,6 @@
         /// </param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Url>().HasKey(url => new { url.Scheme, url.Host, url.Addon, url.Unidentified });
         }
     }
 }

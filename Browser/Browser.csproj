@@ -41,6 +41,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build.Tasks.v4.0" />
     <Reference Include="Microsoft.Data.Sqlite, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Sqlite.Core.2.0.0\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
     </Reference>
@@ -141,15 +142,22 @@
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Config\YamlConfig.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="Favorites\FavoritesViewModel.cs" />
     <Compile Include="Favorites\Favorites.cs" />
     <Compile Include="Favorites\FavoritesLocation.cs" />
     <Compile Include="Favorites\IFavorites.cs" />
     <Compile Include="History\History.cs" />
     <Compile Include="History\HistoryLocation.cs" />
+    <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="History\IHistory.cs" />
     <Compile Include="History\ITabHistory.cs" />
     <Compile Include="History\Location.cs" />
     <Compile Include="History\TabHistory.cs" />
+    <Compile Include="Presenters\EditFavoritesPresenter.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Views\BindableListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Migrations\20171018215735_Initial.cs" />
     <Compile Include="Migrations\20171018215735_Initial.designer.cs">
       <DependentUpon>20171018215735_Initial.cs</DependentUpon>
@@ -180,7 +188,14 @@
     <Compile Include="Views\Browser.designer.cs">
       <DependentUpon>Browser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditFavorites.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EditFavorites.Designer.cs">
+      <DependentUpon>EditFavorites.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\IBrowser.cs" />
+    <Compile Include="Views\IEditFavorites.cs" />
     <Compile Include="Views\ITab.cs" />
     <Compile Include="Views\RenderDocument.cs">
       <SubType>Form</SubType>
@@ -209,6 +224,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Browser.resx">
       <DependentUpon>Browser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditFavorites.resx">
+      <DependentUpon>EditFavorites.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RenderDocument.resx">
       <DependentUpon>RenderDocument.cs</DependentUpon>

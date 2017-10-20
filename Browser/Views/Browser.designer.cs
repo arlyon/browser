@@ -1,5 +1,7 @@
 ﻿namespace Browser.Views
 {
+    using System.Windows.Forms;
+
     partial class Browser
     {
         /// <summary>
@@ -34,9 +36,11 @@
             this.Favicons = new System.Windows.Forms.ImageList(this.components);
             this.SideBar = new System.Windows.Forms.TabControl();
             this.FavoritesTab = new System.Windows.Forms.TabPage();
-            this.Favorites = new System.Windows.Forms.ListBox();
+            this.Favorites = new BindableListView();
+            this.FavoritesName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FavoritesUrl = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HistoryTab = new System.Windows.Forms.TabPage();
-            this.History = new System.Windows.Forms.ListView();
+            this.History = new BindableListView();
             this.Title = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -53,13 +57,17 @@
             this.setAsHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FavoritesRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditFavoritesListItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenFavoritesListItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HistoryRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.HistoryRightClickAddToFavoritesPressed = new System.Windows.Forms.ToolStripMenuItem();
+            this.HistoryRightClickOpenPressed = new System.Windows.Forms.ToolStripMenuItem();
             this.SideBar.SuspendLayout();
             this.FavoritesTab.SuspendLayout();
             this.HistoryTab.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.FavoritesRightClickMenu.SuspendLayout();
+            this.HistoryRightClickMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tabs
@@ -99,11 +107,25 @@
             // 
             // Favorites
             // 
+            this.Favorites.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.FavoritesName,
+            this.FavoritesUrl});
+            this.Favorites.DataMember = null;
+            this.Favorites.DataSource = null;
             resources.ApplyResources(this.Favorites, "Favorites");
-            this.Favorites.FormattingEnabled = true;
             this.Favorites.Name = "Favorites";
-            this.Favorites.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnFavoritesListClicked);
+            this.Favorites.UseCompatibleStateImageBehavior = false;
+            this.Favorites.View = System.Windows.Forms.View.Details;
+            this.Favorites.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnFavoritesListClick);
             this.Favorites.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnFavoritesListDoubleClicked);
+            // 
+            // FavoritesName
+            // 
+            resources.ApplyResources(this.FavoritesName, "FavoritesName");
+            // 
+            // FavoritesUrl
+            // 
+            resources.ApplyResources(this.FavoritesUrl, "FavoritesUrl");
             // 
             // HistoryTab
             // 
@@ -118,9 +140,13 @@
             this.History.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Title,
             this.Date});
+            this.History.DataMember = null;
+            this.History.DataSource = null;
             this.History.Name = "History";
             this.History.UseCompatibleStateImageBehavior = false;
             this.History.View = System.Windows.Forms.View.Details;
+            this.History.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnHistoryListClick);
+            this.History.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnHistoryListDoubleClicked);
             // 
             // Title
             // 
@@ -164,9 +190,8 @@
             // 
             // goHomeToolStripMenuItem
             // 
-            this.goHomeToolStripMenuItem.Image = global::Browser.Properties.Resources.home;
-            this.goHomeToolStripMenuItem.Name = "goHomeToolStripMenuItem";
             resources.ApplyResources(this.goHomeToolStripMenuItem, "goHomeToolStripMenuItem");
+            this.goHomeToolStripMenuItem.Name = "goHomeToolStripMenuItem";
             this.goHomeToolStripMenuItem.Click += new System.EventHandler(this.OnGoHomeButtonPressed);
             // 
             // closeTabToolStripMenuItem
@@ -224,21 +249,44 @@
             // FavoritesRightClickMenu
             // 
             this.FavoritesRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editToolStripMenuItem,
-            this.deleteToolStripMenuItem});
+            this.EditFavoritesListItem,
+            this.OpenFavoritesListItem});
             this.FavoritesRightClickMenu.Name = "FavoritesRightClickMenu";
             this.FavoritesRightClickMenu.ShowImageMargin = false;
             resources.ApplyResources(this.FavoritesRightClickMenu, "FavoritesRightClickMenu");
             // 
-            // editToolStripMenuItem
+            // EditFavoritesListItem
             // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            resources.ApplyResources(this.editToolStripMenuItem, "editToolStripMenuItem");
+            this.EditFavoritesListItem.Name = "EditFavoritesListItem";
+            resources.ApplyResources(this.EditFavoritesListItem, "EditFavoritesListItem");
+            this.EditFavoritesListItem.Click += new System.EventHandler(this.EditFavoritesItem);
             // 
-            // deleteToolStripMenuItem
+            // OpenFavoritesListItem
             // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.OpenFavoritesListItem.Name = "OpenFavoritesListItem";
+            resources.ApplyResources(this.OpenFavoritesListItem, "OpenFavoritesListItem");
+            this.OpenFavoritesListItem.Click += new System.EventHandler(this.OpenFavoritesItem);
+            // 
+            // HistoryRightClickMenu
+            // 
+            this.HistoryRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HistoryRightClickAddToFavoritesPressed,
+            this.HistoryRightClickOpenPressed});
+            this.HistoryRightClickMenu.Name = "FavoritesRightClickMenu";
+            this.HistoryRightClickMenu.ShowImageMargin = false;
+            resources.ApplyResources(this.HistoryRightClickMenu, "HistoryRightClickMenu");
+            // 
+            // HistoryRightClickAddToFavoritesPressed
+            // 
+            this.HistoryRightClickAddToFavoritesPressed.Name = "HistoryRightClickAddToFavoritesPressed";
+            resources.ApplyResources(this.HistoryRightClickAddToFavoritesPressed, "HistoryRightClickAddToFavoritesPressed");
+            this.HistoryRightClickAddToFavoritesPressed.Click += new System.EventHandler(this.SaveHistoryItem);
+            // 
+            // HistoryRightClickOpenPressed
+            // 
+            this.HistoryRightClickOpenPressed.Name = "HistoryRightClickOpenPressed";
+            resources.ApplyResources(this.HistoryRightClickOpenPressed, "HistoryRightClickOpenPressed");
+            this.HistoryRightClickOpenPressed.Click += new System.EventHandler(this.OpenHistoryItem);
             // 
             // Browser
             // 
@@ -257,6 +305,7 @@
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.FavoritesRightClickMenu.ResumeLayout(false);
+            this.HistoryRightClickMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,7 +316,6 @@
         private System.Windows.Forms.TabControl Tabs;
         private System.Windows.Forms.TabControl SideBar;
         private System.Windows.Forms.TabPage FavoritesTab;
-        private System.Windows.Forms.ListBox Favorites;
         private System.Windows.Forms.TabPage HistoryTab;
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -283,12 +331,18 @@
         private System.Windows.Forms.ToolStripMenuItem setAsHomeToolStripMenuItem;
         private System.Windows.Forms.ImageList Favicons;
         private System.Windows.Forms.ContextMenuStrip FavoritesRightClickMenu;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditFavoritesListItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenFavoritesListItem;
         private System.Windows.Forms.ToolStripMenuItem reloadTabToolStripMenuItem;
-        private System.Windows.Forms.ListView History;
+        private BindableListView History;
         private System.Windows.Forms.ColumnHeader Title;
         private System.Windows.Forms.ColumnHeader Date;
+        private BindableListView Favorites;
+        private System.Windows.Forms.ColumnHeader FavoritesName;
+        private System.Windows.Forms.ColumnHeader FavoritesUrl;
+        private ContextMenuStrip HistoryRightClickMenu;
+        private ToolStripMenuItem HistoryRightClickAddToFavoritesPressed;
+        private ToolStripMenuItem HistoryRightClickOpenPressed;
     }
 }
 

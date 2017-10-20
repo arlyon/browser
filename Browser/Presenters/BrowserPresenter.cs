@@ -42,6 +42,12 @@
         /// <param name="favorites">
         /// The favorites model.
         /// </param>
+        /// <param name="config">
+        /// The config model.
+        /// </param>
+        /// <param name="favicons">
+        /// The favicon caching engine.
+        /// </param>
         public BrowserPresenter(
             IBrowser browser,
             IHistory history,
@@ -57,9 +63,6 @@
 
             this._tabs = new List<TabPresenter>();
 
-            // set the favicon favicons up
-            this._browser.SetImageList(this._favicons.Favicons);
-
             // add event handlers
             this._browser.CloseTab += this.CloseTab;
             this._browser.CloseWindow += this.CloseWindow;
@@ -72,18 +75,58 @@
             this._browser.NewIncognitoTab += this.NewIncognitoTab;
             this._browser.HomeChanged += this.SetNewHome;
             this._browser.HistoryDoubleClick += this.PushFromHistory;
-            this._browser.FavoritesDoubleClick += null;
+            this._browser.FavoritesDoubleClick += this.PushFromFavorites;
+            this._browser.FavoritesMenuOpenClick += this.PushFromFavorites;
+            this._browser.FavoritesMenuEditClick += this.EditFavoritesEntry;
+            this._browser.HistoryMenuSaveToFavoritesClick += this.SaveFavoriteFromHistory;
+
             this._browser.BrowserClosed += this.SaveChanges;
             this._browser.ReloadTab += this.ReloadTab;
+            
+            // set the favicon favicons up
+            this._browser.SetImageList(this._favicons.Favicons);
 
-            // set history data source
-            this._history.HistoryUpdated += this.UpdateHistory;
-
+            // Bind the history and favorites
+            this._browser.BindHistory(this._history.GetViewModel());
+            this._browser.BindFavorites(this._favorites.GetViewModel());
+            
             // show window
             this._browser.Show();
-
+            
             // create a new tab
             this.NewTab(this._config.Home);
+        }
+
+        /// <summary>
+        /// The save favorite from history.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        private void SaveFavoriteFromHistory(object sender, HistoryClickEventArgs args)
+        {
+            var window = new EditFavoritesWindow();
+            var presenter = new EditFavoritesPresenter(window, this._history.GetViewModel()[args.ClickedIndex].GetUrl(), this._favorites);
+            window.Show();
+        }
+
+        /// <summary>
+        /// The edit favorites entry.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        private void EditFavoritesEntry(object sender, FavoritesClickEventArgs args)
+        {
+            var window = new EditFavoritesWindow();
+            var presenter = new EditFavoritesPresenter(window, this._favorites.GetViewModel()[args.ClickedIndex].GetUrl(), this._favorites);
+            window.Show();
         }
 
         /// <summary>
@@ -168,14 +211,13 @@
         /// <summary>
         ///     Creates a new incognito tab.
         /// </summary>
-        private TabPresenter NewIncognitoTab()
+        private void NewIncognitoTab()
         {
             var tab = new Tab();
             var presenter = new IncognitoTabPresenter(tab, this._favorites, this._config, this._favicons);
             this._tabs.Add(presenter);
             this._browser.InsertTab(this._tabs.Count - 1, tab); // insert tab
             this.SwitchToTab(this._tabs.Count - 1); // switch to new tab
-            return presenter;
         }
 
         /// <summary>
@@ -249,7 +291,21 @@
 
         private void PushFromHistory(object sender, HistoryClickEventArgs e)
         {
-            this._tabs[this._currentTabIndex].Push(e.Location.Url);
+            this._tabs[this._currentTabIndex].Push(this._history.GetViewModel()[e.ClickedIndex].GetUrl());
+        }
+
+        /// <summary>
+        /// The push from favorites.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void PushFromFavorites(object sender, FavoritesClickEventArgs e)
+        {
+            this._tabs[this._currentTabIndex].Push(this._favorites.GetViewModel()[e.ClickedIndex].GetUrl());
         }
 
         private void ReloadTab(object sender, EventArgs e)
@@ -299,20 +355,6 @@
 
             this._currentTabIndex = index; // update the tabindex
             this._browser.SelectTab(guid); // update the tab index on the ui
-        }
-
-        /// <summary>
-        /// Updates the history list box.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="args">
-        /// The args.
-        /// </param>
-        private void UpdateHistory(object sender, HistoryPushEventArgs args)
-        {
-            this._browser.WriteHistory(args.Change);
         }
     }
 }

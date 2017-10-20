@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -21,7 +22,19 @@
         public Browser()
         {
             this.InitializeComponent();
+            this._recentlySelectedFavorite = -1;
+            this._recentlySelectedHistory = -1;
         }
+
+        /// <summary>
+        /// The _recently selected.
+        /// </summary>
+        private int _recentlySelectedFavorite;
+
+        /// <summary>
+        /// The _recently selected history.
+        /// </summary>
+        private int _recentlySelectedHistory;
 
         /// <summary>
         ///     The browser closed.
@@ -41,7 +54,14 @@
         /// <summary>
         ///     The favorites double click.
         /// </summary>
-        public event EventHandler FavoritesDoubleClick;
+        public event FavoritesDoubleClickEventHandler FavoritesDoubleClick;
+
+        /// <summary>
+        /// The favorites menu edit click.
+        /// </summary>
+        public event FavoritesDoubleClickEventHandler FavoritesMenuEditClick;
+
+        public event FavoritesDoubleClickEventHandler FavoritesMenuOpenClick;
 
         /// <summary>
         ///     The go home.
@@ -51,7 +71,17 @@
         /// <summary>
         ///     The history double click.
         /// </summary>
-        public event HistoryClickEventHandler HistoryDoubleClick;
+        public event HistoryDoubleClickEventHandler HistoryDoubleClick;
+
+        /// <summary>
+        /// The history menu save to favorites click.
+        /// </summary>
+        public event HistoryDoubleClickEventHandler HistoryMenuSaveToFavoritesClick;
+
+        /// <summary>
+        /// The history edit.
+        /// </summary>
+        public event HistoryDoubleClickEventHandler FavoritesEdit;
 
         /// <summary>
         ///     The home changed.
@@ -105,7 +135,7 @@
         /// <param name="tab">The TabPage to insert.</param>
         public void InsertTab(int index, TabPage tab)
         {
-            index = Math.Min(index, this.Tabs.TabPages.Count); // allow insertion at the end of the list
+            index = Math.Min(index, this.Tabs.TabPages.Count); // allow insertion at the end of the history
             index = Math.Max(index, 0);
 
             this.Tabs.TabPages.Insert(index, tab);
@@ -138,7 +168,7 @@
         }
 
         /// <summary>
-        ///     Sets the image list of the browser to the specified list.
+        ///     Sets the image history of the browser to the specified history.
         /// </summary>
         /// <param name="list">The imagelist you want to set.</param>
         public void SetImageList(ImageList list)
@@ -148,65 +178,28 @@
             this.History.SmallImageList = this.Favicons;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// The write favorite.
-        /// </summary>
-        /// <param name="favorite">
-        /// The favorite.
-        /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
-        public void WriteFavorite(FavoritesLocation favorite)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// The write favorite.
+        /// The bind favorites.
         /// </summary>
         /// <param name="favorites">
-        /// The favorites.
+        ///     The favorites.
         /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
-        public void WriteFavorite(List<FavoritesLocation> favorites)
+        public void BindFavorites(BindingList<FavoritesViewModel> favorites)
         {
-            throw new NotImplementedException();
+            this.Favorites.DataSource = favorites;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// The write history.
+        /// The bind history.
         /// </summary>
-        /// <param name="newLocation">
-        /// The new location.
+        /// <param name="history">
+        ///     The history.
         /// </param>
-        public void WriteHistory(HistoryLocation newLocation)
+        public void BindHistory(BindingList<HistoryViewModel> history)
         {
-            var listViewItem = new ListViewItem(newLocation.Url.Host);
-            listViewItem.SubItems.Add(newLocation.Date.ToString());
-            this.History.Items.Insert(0, listViewItem);
-        }
-
-        /// <summary>
-        /// Asynchronously writes the history to the tab.
-        /// </summary>
-        /// <param name="list">
-        /// The args location.
-        /// </param>
-        public void WriteHistory(LinkedList<HistoryLocation> list)
-        {
-            this.History.BeginUpdate();
-            var history = new ListView.ListViewItemCollection(this.History);
-
-            foreach (var l in list.OrderBy(location => location.Date))
-            {
-                // TODO location favicon
-                var listViewItem = new ListViewItem(l.Url.Host);
-                listViewItem.SubItems.Add(l.Date.ToString());
-                history.Insert(0, listViewItem);
-            }
-
-            this.History.EndUpdate();
+            this.History.DataSource = history;
         }
 
         /// <summary>
@@ -239,40 +232,6 @@
         }
 
         /// <summary>
-        /// The on favorites clicked.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void OnFavoritesListClicked(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Right) return;
-            var index = this.Favorites.IndexFromPoint(e.Location);
-
-            if (index != ListBox.NoMatches)
-            {
-                // ie !-1
-            }
-        }
-
-        /// <summary>
-        /// The favorites double clicked.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void OnFavoritesListDoubleClicked(object sender, MouseEventArgs e)
-        {
-            this.FavoritesDoubleClick?.Invoke(sender, e);
-        }
-
-        /// <summary>
         /// The go home button pressed.
         /// </summary>
         /// <param name="sender">
@@ -284,25 +243,6 @@
         private void OnGoHomeButtonPressed(object sender, EventArgs e)
         {
             this.GoHome?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// The on history list double clicked.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void OnHistoryListDoubleClicked(object sender, MouseEventArgs e)
-        {
-            // TODO this
-            // TODO this
-            /**
-            if (this.History.IndexFromPoint(e.Location) == -1) return;
-            var l = (Location)this.History.Items[this.History.IndexFromPoint(e.Location)];
-            this.HistoryDoubleClick?.Invoke(sender, new HistoryClickEventArgs(l)); **/
         }
 
         /// <summary>
@@ -444,6 +384,131 @@
         private void OnWindowClosed(object sender, FormClosedEventArgs e)
         {
             this.BrowserClosed?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// The on favorites list click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void OnFavoritesListClick(object sender, MouseEventArgs e)
+        {
+            this._recentlySelectedFavorite = ((BindableListView)sender).SelectedIndices[0];
+            if (e.Button != MouseButtons.Right) return;
+            this.FavoritesRightClickMenu.Show(this, e.Location, ToolStripDropDownDirection.Right);
+            
+        }
+
+        /// <summary>
+        /// The edit favorites item.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void EditFavoritesItem(object sender, EventArgs e)
+        {
+            if (this._recentlySelectedFavorite == -1) return;
+            this.FavoritesMenuEditClick?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
+        }
+
+        /// <summary>
+        /// The open favorites item.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void OpenFavoritesItem(object sender, EventArgs e)
+        {
+            if (this._recentlySelectedFavorite == -1) return;
+            this.FavoritesDoubleClick?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
+        }
+
+        /// <summary>
+        /// The on history history double clicked.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void OnHistoryListDoubleClicked(object sender, MouseEventArgs e)
+        {
+            this.HistoryDoubleClick?.Invoke(sender, new HistoryClickEventArgs(this._recentlySelectedHistory));
+        }
+
+        /// <summary>
+        /// The favorites double clicked.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void OnFavoritesListDoubleClicked(object sender, MouseEventArgs e)
+        {
+            if (this._recentlySelectedFavorite == -1) return;
+            this.FavoritesDoubleClick?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
+        }
+
+        /// <summary>
+        /// The open history item.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void OpenHistoryItem(object sender, EventArgs e)
+        {
+            if (this._recentlySelectedHistory == -1) return;
+            this.HistoryDoubleClick?.Invoke(sender, new HistoryClickEventArgs(this._recentlySelectedHistory));
+        }
+
+        /// <summary>
+        /// The save history item.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void SaveHistoryItem(object sender, EventArgs e)
+        {
+            if (this._recentlySelectedHistory == -1) return;
+            this.HistoryMenuSaveToFavoritesClick?.Invoke(
+                sender,
+                new HistoryClickEventArgs(this._recentlySelectedHistory));
+
+        }
+
+        /// <summary>
+        /// The on history list click.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void OnHistoryListClick(object sender, MouseEventArgs e)
+        {
+            this._recentlySelectedHistory = ((BindableListView)sender).SelectedIndices[0];
+            if (e.Button != MouseButtons.Right) return;
+            this.HistoryRightClickMenu.Show(this, e.Location, ToolStripDropDownDirection.Right);
         }
     }
 }

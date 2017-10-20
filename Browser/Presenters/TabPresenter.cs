@@ -176,7 +176,9 @@
         /// </param>
         private void AddFavorite(object sender, EventArgs e)
         {
-            this._favorites.Add(new Url("www.favorite.com"));
+            EditFavoritesWindow ef = new EditFavoritesWindow();
+            EditFavoritesPresenter pres = new EditFavoritesPresenter(ef, this.TabHistory.Current().Url, this._favorites);
+            ef.Show();
         }
 
         /// <summary>
@@ -241,10 +243,10 @@
                 this._tab.FaviconIndex = favicon;
                 this._currentResponse = page;
                 this._tab.Display(page, page.Url.Host);
-                var title = await titletask;
+                if (string.IsNullOrEmpty(await titletask)) return;
                 if (!this.TabHistory.Current().Equals(l)) return; // make sure the user hasnt navigated away
-                this._tab.Display(page, title);
-                this.TabHistory.UpdateTitle(title);
+                this._tab.Display(page, await titletask);
+                this.TabHistory.UpdateTitle(await titletask);
             }
             catch
             {

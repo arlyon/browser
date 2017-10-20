@@ -2,11 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
+    using Browser.Annotations;
     using Browser.Config;
+    using Browser.Requests;
 
+    using Microsoft.Data.Sqlite;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     /// <summary>
     /// The history class.
@@ -14,9 +20,14 @@
     public class History : IHistory
     {
         /// <summary>
-        /// The history linked list (since we only really need access to the last element).
+        /// The History.
         /// </summary>
         private LinkedList<HistoryLocation> _history;
+
+        /// <summary>
+        /// The History view model.
+        /// </summary>
+        private BindingList<HistoryViewModel> _historyViewModel;
 
         /// <summary>
         /// The configuration file.
@@ -33,6 +44,52 @@
         {
             this._config = config;
             this.Load();
+            this.HistoryUpdated += this.AddToHistory;
+        }
+
+        /// <summary>
+        /// The add to history.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        private void AddToHistory(object sender, HistoryPushEventArgs args)
+        {
+            this._history.AddLast(args.Change);
+            this._historyViewModel.Insert(0, HistoryViewModel.FromHistoryLocation(args.Change));
+            args.Change.PropertyChanged += this.SaveChanges;
+        }
+
+        /// <summary>
+        /// The save changes.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void SaveChanges(object sender, PropertyChangedEventArgs e)
+        {
+            HistoryLocation updated = (HistoryLocation)sender;
+
+            using (var db = new DataContext())
+            {
+                try
+                {
+
+                    var entity = db.History.Single(loc => loc.Date == updated.Date);
+                    entity.Title = updated.Title;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    //FUCK
+                }
+            }
         }
 
         /// <inheritdoc />
@@ -48,15 +105,44 @@
         /// <param name="historyLocation">
         /// The historyLocation.
         /// </param>
-        public async void Push(HistoryLocation historyLocation)
+        public void Push(HistoryLocation historyLocation)
         {
             using (var db = new DataContext())
             {
+                try
+                {
+                    // try to find the matching url by id or by hash code
+                    var foundurl = historyLocation.Url.Id != 0 ? 
+                        db.Urls.Single(url => url.Id == historyLocation.Url.Id) : 
+                        db.Urls.FirstOrDefault(url => url.HashCode == historyLocation.Url.HashCode);
+
+                    historyLocation.Url = foundurl ?? historyLocation.Url;
+                }
+                catch
+                {
+                    // wait
+                }
+               
+
                 db.History.Add(historyLocation);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
-            this._history.AddLast(historyLocation);
-            this.HistoryUpdated?.Invoke(this, new HistoryPushEventArgs(this._history));
+
+            // update memory history and report update in view model
+            this.HistoryUpdated?.Invoke(this, new HistoryPushEventArgs(historyLocation));
+        }
+
+
+
+        /// <summary>
+        /// The get.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="LinkedList"/>.
+        /// </returns>
+        public BindingList<HistoryViewModel> GetViewModel()
+        {
+            return this._historyViewModel;
         }
 
         /// <summary>
@@ -66,12 +152,22 @@
         {
             using (var db = new DataContext())
             {
-                // do not track the query
-                this._history = new LinkedList<HistoryLocation>(
-                    db.History.AsNoTracking()
-                        .Where(history => this._config.LoadAllHistory ? DateTime.Now < history.Date.Add(this._config.HistoryTimeSpan) : true)
-                        .Include(history => history.Url));
+                // do not track the query, and load either all or all in x hours based on config
+                IQueryable<HistoryLocation> query = db.History.AsNoTracking()
+                    .Where(history => !this._config.LoadAllHistory || DateTime.Now < history.Date.Add(this._config.HistoryTimeSpan))
+                    .Include(history => history.Url);
+
+                // create history list
+                this._history = new LinkedList<HistoryLocation>(query);
+
+                // create view model
+                this._historyViewModel = new BindingList<HistoryViewModel>(query
+                    .AsEnumerable()
+                    .Select(HistoryViewModel.FromHistoryLocation)
+                    .Reverse()
+                    .ToList());
             }
+
         }
     }
 }
