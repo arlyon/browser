@@ -7,7 +7,10 @@
     using System.Collections;
     using System.ComponentModel;
     using System.Data;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
+
+    using global::Browser.Cache;
 
     /// <summary>
     /// A ListView with complex data binding support.
@@ -211,10 +214,18 @@
                 this.m_currencyManager.Position = this.SelectedIndices[0];
             }
         }
-
-        // IBindingList ListChanged event handler. Deals with fine-grained
-        // changes to list items.
-        private void bindingList_ListChanged(object sender, ListChangedEventArgs e)
+        
+        /// <summary>
+        /// IBindingList ListChanged event handler. Deals with fine-grained
+        /// changes to list items.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private async void BindingListChanged(object sender, ListChangedEventArgs e)
         {
             switch (e.ListChangedType)
             {
@@ -228,7 +239,7 @@
                 case ListChangedType.ItemChanged:
                     object changedRow = this.m_currencyManager.List[e.NewIndex];
                     this.BeginUpdate();
-                    this.Items[e.NewIndex] = this.BuildItemForRow(changedRow);
+                    this.Items[e.NewIndex] = await this.BuildItemForRow(changedRow);
                     this.EndUpdate();
                     break;
 
@@ -253,7 +264,7 @@
                         // way, this is the final notification, so we want
                         // to add the new row now!
                         this.BeginUpdate();
-                        this.Items.Insert(e.NewIndex, this.BuildItemForRow(newRow));
+                        this.Items.Insert(e.NewIndex, await this.BuildItemForRow(newRow));
                         this.EndUpdate();
                     }
 
@@ -287,24 +298,39 @@
                     this.LoadColumnsFromSource();
                     this.LoadItemsFromSource();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        // Build a single ListViewItem for a single row from the source. (We
-        // need to do this when constructing the original list, but this is
-        // also called in the IBindingList.ListChanged event handler when
-        // updating individual items.)
-        private ListViewItem BuildItemForRow(object row)
+
+        /// <summary>
+        /// Build a single <see cref="ListViewItem"/> for a single row from the source. (We
+        /// need to do this when constructing the original list, but this is
+        /// also called in the <see cref="IBindingList.ListChanged" /> event handler when
+        /// updating individual items.)
+        /// </summary>
+        /// <param name="row">
+        /// The row.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        private async Task<ListViewItem> BuildItemForRow(object row)
         {
-            string[] itemText = new string[this.m_properties.Count];
-            for (int column = 0; column < itemText.Length; ++column)
+            var itemText = new string[this.m_properties.Count];
+            for (var column = 0; column < itemText.Length; ++column)
             {
                 // Use the PropertyDescriptors to extract the property value -
                 // this might be a virtual property.
-                itemText[column] = this.m_properties[column].GetValue(row).ToString();
+                itemText[column] = this.m_properties[column].GetValue(row)?.ToString();
             }
 
-            return new ListViewItem(itemText);
+            var newItem = new ListViewItem(itemText);
+
+            if (row is IHasFavicon favicon) newItem.ImageIndex = await favicon.GetFaviconId();
+
+            return newItem;
         }
 
         // Called by the CurrencyManager when stuff changes. (Yes I know
@@ -337,11 +363,11 @@
                 // since last time, and if it has, reattach our event handlers.
                 if (!ReferenceEquals(this.m_bindingList, this.m_currencyManager.List))
                 {
-                    this.m_bindingList.ListChanged -= new ListChangedEventHandler(this.bindingList_ListChanged);
+                    this.m_bindingList.ListChanged -= new ListChangedEventHandler(this.BindingListChanged);
                     this.m_bindingList = this.m_currencyManager.List as IBindingList;
                     if (this.m_bindingList != null)
                     {
-                        this.m_bindingList.ListChanged += new ListChangedEventHandler(this.bindingList_ListChanged);
+                        this.m_bindingList.ListChanged += new ListChangedEventHandler(this.BindingListChanged);
                     }
                 }
 
@@ -397,9 +423,11 @@
             // It doesn't stick first time.
             this.Columns[0].Width = -2;
         }
-
-        // Reload list items from the data source.
-        private void LoadItemsFromSource()
+        
+        /// <summary>
+        /// Reload list items from the data source.
+        /// </summary>
+        private async void LoadItemsFromSource()
         {
             // Tell the control not to bother redrawing until we're done
             // adding new items - avoids flicker and speeds things up.
@@ -417,10 +445,10 @@
                 IList items = this.m_currencyManager.List;
 
                 // Add items to list.
-                int nItems = items.Count;
-                for (int i = 0; i < nItems; ++i)
+                int numberOfItems = items.Count;
+                for (int i = 0; i < numberOfItems; ++i)
                 {
-                    this.Items.Add(this.BuildItemForRow(items[i]));
+                    this.Items.Add(await this.BuildItemForRow(items[i]));
                 }
 
                 int index = this.m_currencyManager.Position;
@@ -505,7 +533,7 @@
                 // bound to an IBindingList, detach the event handler.
                 if (this.m_bindingList != null)
                 {
-                    this.m_bindingList.ListChanged -= new ListChangedEventHandler(this.bindingList_ListChanged);
+                    this.m_bindingList.ListChanged -= new ListChangedEventHandler(this.BindingListChanged);
                 }
 
                 // Now hook up a handler to the new IBindingList - this
@@ -518,7 +546,7 @@
                 if (bindingList != null)
                 {
                     reloadItems = true;
-                    bindingList.ListChanged += new ListChangedEventHandler(this.bindingList_ListChanged);
+                    bindingList.ListChanged += new ListChangedEventHandler(this.BindingListChanged);
                 }
             }
 

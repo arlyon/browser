@@ -7,6 +7,7 @@
     using System.Runtime.CompilerServices;
 
     using Browser.Annotations;
+    using Browser.Cache;
     using Browser.Config;
     using Browser.Requests;
 
@@ -35,13 +36,22 @@
         private IConfig _config;
 
         /// <summary>
+        /// The _favicon cache.
+        /// </summary>
+        private readonly IFaviconCache _faviconCache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="History"/> class. 
         /// </summary>
         /// <param name="config">
         /// The config.
         /// </param>
-        public History(IConfig config)
+        /// <param name="cache">
+        /// The cache.
+        /// </param>
+        public History(IConfig config, IFaviconCache cache)
         {
+            this._faviconCache = cache;
             this._config = config;
             this.Load();
             this.HistoryUpdated += this.AddToHistory;
@@ -59,7 +69,7 @@
         private void AddToHistory(object sender, HistoryPushEventArgs args)
         {
             this._history.AddLast(args.Change);
-            this._historyViewModel.Insert(0, HistoryViewModel.FromHistoryLocation(args.Change));
+            this._historyViewModel.Insert(0, HistoryViewModel.FromHistoryLocation(args.Change, this._faviconCache));
             args.Change.PropertyChanged += this.SaveChanges;
         }
 
@@ -163,7 +173,7 @@
                 // create view model
                 this._historyViewModel = new BindingList<HistoryViewModel>(query
                     .AsEnumerable()
-                    .Select(HistoryViewModel.FromHistoryLocation)
+                    .Select(hist => HistoryViewModel.FromHistoryLocation(hist, this._faviconCache))
                     .Reverse()
                     .ToList());
             }

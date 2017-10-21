@@ -176,6 +176,7 @@
             this.Favicons = list;
             this.Tabs.ImageList = this.Favicons;
             this.History.SmallImageList = this.Favicons;
+            this.Favorites.SmallImageList = this.Favicons;
         }
 
         /// <inheritdoc />

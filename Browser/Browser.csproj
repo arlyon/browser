@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="Cache\FaviconCache.cs" />
     <Compile Include="Cache\IFaviconCache.cs" />
+    <Compile Include="Cache\IHasFavicon.cs" />
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Config\YamlConfig.cs" />
     <Compile Include="DataContext.cs" />

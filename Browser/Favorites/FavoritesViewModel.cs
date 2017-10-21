@@ -3,8 +3,10 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     using Browser.Annotations;
+    using Browser.Cache;
     using Browser.Favorites;
     using Browser.Requests;
 
@@ -12,7 +14,7 @@
     /// <summary>
     /// The history view model.
     /// </summary>
-    public class FavoritesViewModel : INotifyPropertyChanged
+    public class FavoritesViewModel : INotifyPropertyChanged, IHasFavicon
     {
         /// <summary>
         /// Gets or sets the name.
@@ -56,11 +58,9 @@
         private string url;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="FavoritesViewModel"/> class from being created.
+        /// The _favicon lookup.
         /// </summary>
-        private FavoritesViewModel()
-        {
-        }
+        private IFaviconCache _faviconLookup;
 
         /// <summary>
         /// The from history location.
@@ -68,21 +68,36 @@
         /// <param name="location">
         /// The location.
         /// </param>
+        /// <param name="faviconLookup">
+        /// The favicon Lookup.
+        /// </param>
         /// <returns>
         /// The <see cref="HistoryViewModel"/>.
         /// </returns>
-        public static FavoritesViewModel FromFavoritesLocation(FavoritesLocation location)
+        public static FavoritesViewModel FromFavoritesLocation(FavoritesLocation location, IFaviconCache faviconLookup)
         {
             FavoritesViewModel hvm = new FavoritesViewModel()
             {
                 Name = location.Name,
                 Url = location.Url.ToString(),
-                _favoritesLocation = location
+                _favoritesLocation = location,
+                _faviconLookup = faviconLookup
             };
 
             location.PropertyChanged += hvm.UpdateViewModel;
 
             return hvm;
+        }
+
+        /// <summary>
+        /// The get favicon id.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public async Task<int> GetFaviconId()
+        {
+            return await this._faviconLookup.Request(this.GetUrl());
         }
 
         /// <summary>
@@ -112,6 +127,13 @@
                        : this._favoritesLocation.Name;
             this.Url = this._favoritesLocation.Url.ToString();
             this.OnPropertyChanged();
+        }
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="FavoritesViewModel"/> class from being created.
+        /// </summary>
+        private FavoritesViewModel()
+        {
         }
 
         /// <summary>

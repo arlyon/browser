@@ -3,14 +3,16 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     using Browser.Annotations;
+    using Browser.Cache;
     using Browser.Requests;
 
     /// <summary>
     /// The history view model.
     /// </summary>
-    public class HistoryViewModel : INotifyPropertyChanged
+    public class HistoryViewModel : INotifyPropertyChanged, IHasFavicon
     {
         /// <summary>
         /// Gets the name.
@@ -40,10 +42,13 @@
         /// <param name="location">
         /// The location.
         /// </param>
+        /// <param name="faviconLookup">
+        /// The favicon Lookup.
+        /// </param>
         /// <returns>
         /// The <see cref="HistoryViewModel"/>.
         /// </returns>
-        public static HistoryViewModel FromHistoryLocation(HistoryLocation location)
+        public static HistoryViewModel FromHistoryLocation(HistoryLocation location, IFaviconCache faviconLookup)
         {
             HistoryViewModel hvm = new HistoryViewModel()
                 {
@@ -51,12 +56,29 @@
                                ? location.Url.Host
                                : location.Title,
                     Date = location.Date,
-                    _historyLocation = location
+                    _historyLocation = location,
+                    _faviconLookup = faviconLookup
                 };
 
             location.PropertyChanged += hvm.UpdateViewModel;
 
             return hvm;
+        }
+
+        /// <summary>
+        /// Gets or sets the _favicon lookup.
+        /// </summary>
+        private IFaviconCache _faviconLookup;
+
+        /// <summary>
+        /// The get favicon id.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="int"/>.
+        /// </returns>
+        public async Task<int> GetFaviconId()
+        {
+            return await this._faviconLookup.Request(this.GetUrl());
         }
 
         /// <summary>

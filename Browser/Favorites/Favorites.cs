@@ -1,12 +1,10 @@
 ﻿namespace Browser.Favorites
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
+    using Browser.Cache;
     using Browser.Config;
     using Browser.History;
     using Browser.Requests;
@@ -35,12 +33,23 @@
         private IConfig _config;
 
         /// <summary>
+        /// The _favicon cache.
+        /// </summary>
+        private readonly IFaviconCache _faviconCache;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Favorites"/> class.
         /// </summary>
-        /// <param name="config">The config file.</param>
-        public Favorites(IConfig config)
+        /// <param name="config">
+        /// The config file.
+        /// </param>
+        /// <param name="cache">
+        /// The cache.
+        /// </param>
+        public Favorites(IConfig config, IFaviconCache cache)
         {
             this._config = config;
+            this._faviconCache = cache;
             this.Load();
             this.OnFavoritesUpdated += this.UpdateFavorites;
         }
@@ -64,7 +73,7 @@
 
             if (toUpdate == null)
             {
-                this._favoritesViewModels.Add(FavoritesViewModel.FromFavoritesLocation(args.location));
+                this._favoritesViewModels.Add(FavoritesViewModel.FromFavoritesLocation(args.location, this._faviconCache));
             }
             else
             {
@@ -83,7 +92,7 @@
                 var query = db.Favorites.Include(favorite => favorite.Url);
                 this._favorites = query.ToDictionary(entry => entry.Id, entry => entry);
                 this._favoritesViewModels = new BindingList<FavoritesViewModel>(
-                    query.AsEnumerable().Select(FavoritesViewModel.FromFavoritesLocation).ToList());
+                    query.AsEnumerable().Select(fav => FavoritesViewModel.FromFavoritesLocation(fav, this._faviconCache)).ToList());
             }
         }
 

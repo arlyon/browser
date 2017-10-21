@@ -158,6 +158,7 @@
             // 
             // MainMenu
             // 
+            this.MainMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.windowToolStripMenuItem});
@@ -248,6 +249,7 @@
             // 
             // FavoritesRightClickMenu
             // 
+            this.FavoritesRightClickMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.FavoritesRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EditFavoritesListItem,
             this.OpenFavoritesListItem});
@@ -269,6 +271,7 @@
             // 
             // HistoryRightClickMenu
             // 
+            this.HistoryRightClickMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.HistoryRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.HistoryRightClickAddToFavoritesPressed,
             this.HistoryRightClickOpenPressed});
