@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Windows.Forms;
-    
+
     using global::Browser.History;
 
     /// <summary>
@@ -12,97 +12,12 @@
     public interface IBrowser
     {
         /// <summary>
-        /// The browser closed.
+        /// Opens the <see cref="IBrowser"/>.
         /// </summary>
-        event EventHandler BrowserClosed;
+        void Show();
 
         /// <summary>
-        /// The close tab.
-        /// </summary>
-        event EventHandler CloseTab;
-
-        /// <summary>
-        /// The close window.
-        /// </summary>
-        event EventHandler CloseWindow;
-
-        /// <summary>
-        /// The favorites double click.
-        /// </summary>
-        event FavoritesDoubleClickEventHandler FavoritesDoubleClick;
-
-        /// <summary>
-        /// The favorites menu edit click.
-        /// </summary>
-        event FavoritesDoubleClickEventHandler FavoritesMenuEditClick;
-
-        /// <summary>
-        /// The favorites menu open click.
-        /// </summary>
-        event FavoritesDoubleClickEventHandler FavoritesMenuOpenClick;
-
-        /// <summary>
-        /// The go home.
-        /// </summary>
-        event EventHandler GoHome;
-
-        /// <summary>
-        /// The history double click.
-        /// </summary>
-        event HistoryDoubleClickEventHandler HistoryDoubleClick;
-
-        /// <summary>
-        /// The history menu save to favorites click.
-        /// </summary>
-        event HistoryDoubleClickEventHandler HistoryMenuSaveToFavoritesClick;
-
-        /// <summary>
-        /// The home changed.
-        /// </summary>
-        event EventHandler HomeChanged;
-
-        /// <summary>
-        /// The middle mouse click.
-        /// </summary>
-        event MouseEventHandler MiddleMouseClick;
-
-        /// <summary>
-        /// The new incognito tab.
-        /// </summary>
-        event EventHandler NewIncognitoTab;
-
-        /// <summary>
-        /// The new tab.
-        /// </summary>
-        event EventHandler NewTab;
-
-        /// <summary>
-        /// The new window.
-        /// </summary>
-        event EventHandler NewWindow;
-
-        /// <summary>
-        /// The next tab.
-        /// </summary>
-        event EventHandler NextTab;
-
-        /// <summary>
-        /// The prev tab.
-        /// </summary>
-        event EventHandler PrevTab;
-
-        /// <summary>
-        /// The reload tab.
-        /// </summary>
-        event EventHandler ReloadTab;
-
-        /// <summary>
-        /// The tab changed.
-        /// </summary>
-        event EventHandler TabChanged;
-
-        /// <summary>
-        /// Tells the browser to close the window.
+        /// Closes the <see cref="IBrowser"/>.
         /// </summary>
         void Close();
 
@@ -134,37 +49,120 @@
         void SelectTab(string guid);
 
         /// <summary>
-        /// Sets the image history.
+        /// Binds the specified image list to the UI.
         /// </summary>
         /// <param name="list">
-        /// The history.
+        /// The images to bind.
         /// </param>
-        void SetImageList(ImageList list);
+        /// <remarks>
+        /// Used for binding the favicons to the UI.
+        /// </remarks>
+        void BindImageList(ImageList list);
 
         /// <summary>
-        /// Tells the browser to show the window.
-        /// </summary>
-        void Show();
-
-        /// <summary>
-        /// The write favorite.
+        /// Binds a list of <see cref="FavoritesViewModel"/> to the UI.
         /// </summary>
         /// <param name="favorites">
-        ///     The favorites.
+        /// The <see cref="BindingList{T}"/> to bind.
         /// </param>
         void BindFavorites(BindingList<FavoritesViewModel> favorites);
 
         /// <summary>
-        /// Writes a history of locations to the history.
+        /// Binds a list of <see cref="HistoryViewModel"/> to the UI.
         /// </summary>
         /// <param name="history">
-        ///     The history of locations to write.
+        /// The <see cref="BindingList{T}"/> to bind.
         /// </param>
         void BindHistory(BindingList<HistoryViewModel> history);
+
+        #region Events
+
+        /// <summary>
+        /// The close tab event.
+        /// </summary>
+        event EventHandler CloseTab;
+
+        /// <summary>
+        /// The close window event.
+        /// </summary>
+        event EventHandler CloseWindow;
+
+        /// <summary>
+        /// The favorites list open event.
+        /// </summary>
+        event FavoritesListEventHandler FavoritesListOpen;
+
+        /// <summary>
+        /// The favorites list edit event.
+        /// </summary>
+        event FavoritesListEventHandler FavoritesListEdit;
+
+        /// <summary>
+        /// The history list open event.
+        /// </summary>
+        event HistoryListEventHandler HistoryListOpen;
+
+        /// <summary>
+        /// The history list save to favorites event.
+        /// </summary>
+        event HistoryListEventHandler HistoryListSave;
+
+        /// <summary>
+        /// The home changed event.
+        /// </summary>
+        event EventHandler HomeChanged;
+
+        /// <summary>
+        /// The tab list middle mouse click event.
+        /// </summary>
+        event MouseEventHandler TabListMiddleMouseClick;
+
+        /// <summary>
+        /// The new incognito tab event.
+        /// </summary>
+        event EventHandler NewIncognitoTab;
+
+        /// <summary>
+        /// The new tab event.
+        /// </summary>
+        event EventHandler NewTab;
+
+        /// <summary>
+        /// The new window event.
+        /// </summary>
+        event EventHandler NewWindow;
+
+        /// <summary>
+        /// The next tab event.
+        /// </summary>
+        event EventHandler NextTab;
+
+        /// <summary>
+        /// The previous tab event.
+        /// </summary>
+        event EventHandler PrevTab;
+
+        /// <summary>
+        /// The reload tab event.
+        /// </summary>
+        event EventHandler ReloadTab;
+
+        /// <summary>
+        /// The tab changed event.
+        /// </summary>
+        event TabChangedEventHandler TabChanged;
+
+        /// <summary>
+        /// The go home event.
+        /// </summary>
+        event EventHandler GoHome;
+
+        #endregion
+
     }
 
     /// <summary>
-    /// The history click event handler. Called when a history element is clicked on.
+    /// The tab changed event handler.
     /// </summary>
     /// <param name="sender">
     /// The sender.
@@ -172,7 +170,40 @@
     /// <param name="args">
     /// The args.
     /// </param>
-    public delegate void HistoryDoubleClickEventHandler(object sender, HistoryClickEventArgs historyClickEventArgs);
+    public delegate void TabChangedEventHandler(object sender, TabChangedEventArgs args);
+
+    /// <summary>
+    /// The tab changed event args.
+    /// </summary>
+    public class TabChangedEventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabChangedEventArgs"/> class.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        public TabChangedEventArgs(int index)
+        {
+            this.SelectedIndex = index;
+        }
+
+        /// <summary>
+        /// Gets the selected index.
+        /// </summary>
+        public int SelectedIndex { get; }
+    }
+
+    /// <summary>
+    /// The history double click event handler.
+    /// </summary>
+    /// <param name="sender">
+    /// The sender.
+    /// </param>
+    /// <param name="historyClickEventArgs">
+    /// The history click event args.
+    /// </param>
+    public delegate void HistoryListEventHandler(object sender, HistoryClickEventArgs historyClickEventArgs);
 
     /// <summary>
     /// The history click event args.
@@ -191,13 +222,13 @@
         }
 
         /// <summary>
-        /// Gets or sets the index.
+        /// Gets the index.
         /// </summary>
-        public int ClickedIndex { get; set; }
+        public int ClickedIndex { get; }
     }
 
     /// <summary>
-    /// The favorites click event h andler.
+    /// The favorites double click event handler.
     /// </summary>
     /// <param name="sender">
     /// The sender.
@@ -205,15 +236,17 @@
     /// <param name="args">
     /// The args.
     /// </param>
-    public delegate void FavoritesDoubleClickEventHandler(object sender, FavoritesClickEventArgs args);
+    public delegate void FavoritesListEventHandler(object sender, FavoritesClickEventArgs args);
 
+    /// <inheritdoc />
     /// <summary>
     /// The favorites click event args.
     /// </summary>
     public class FavoritesClickEventArgs : EventArgs
     {
+        /// <inheritdoc />
         /// <summary>
-        /// Initializes a new instance of the <see cref="FavoritesClickEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="FavoritesClickEventArgs" /> class.
         /// </summary>
         /// <param name="favoritesSelectedIndex">
         /// The favorites selected index.
@@ -224,8 +257,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the selected index.
+        /// Gets the selected index.
         /// </summary>
-        public int ClickedIndex { get; set; }
+        public int ClickedIndex { get; }
     }
 }

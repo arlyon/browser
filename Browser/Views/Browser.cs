@@ -37,98 +37,6 @@
         private int _recentlySelectedHistory;
 
         /// <summary>
-        ///     The browser closed.
-        /// </summary>
-        public event EventHandler BrowserClosed;
-
-        /// <summary>
-        ///     The close tab event.
-        /// </summary>
-        public event EventHandler CloseTab;
-
-        /// <summary>
-        ///     The close window event.
-        /// </summary>
-        public event EventHandler CloseWindow;
-
-        /// <summary>
-        ///     The favorites double click.
-        /// </summary>
-        public event FavoritesDoubleClickEventHandler FavoritesDoubleClick;
-
-        /// <summary>
-        /// The favorites menu edit click.
-        /// </summary>
-        public event FavoritesDoubleClickEventHandler FavoritesMenuEditClick;
-
-        public event FavoritesDoubleClickEventHandler FavoritesMenuOpenClick;
-
-        /// <summary>
-        ///     The go home.
-        /// </summary>
-        public event EventHandler GoHome;
-
-        /// <summary>
-        ///     The history double click.
-        /// </summary>
-        public event HistoryDoubleClickEventHandler HistoryDoubleClick;
-
-        /// <summary>
-        /// The history menu save to favorites click.
-        /// </summary>
-        public event HistoryDoubleClickEventHandler HistoryMenuSaveToFavoritesClick;
-
-        /// <summary>
-        /// The history edit.
-        /// </summary>
-        public event HistoryDoubleClickEventHandler FavoritesEdit;
-
-        /// <summary>
-        ///     The home changed.
-        /// </summary>
-        public event EventHandler HomeChanged;
-
-        /// <summary>
-        ///     The middle mouse click.
-        /// </summary>
-        public event MouseEventHandler MiddleMouseClick;
-
-        /// <summary>
-        ///     The new incognito tab.
-        /// </summary>
-        public event EventHandler NewIncognitoTab;
-
-        /// <summary>
-        ///     The new tab.
-        /// </summary>
-        public event EventHandler NewTab;
-
-        /// <summary>
-        ///     The new window.
-        /// </summary>
-        public event EventHandler NewWindow;
-
-        /// <summary>
-        ///     The next tab.
-        /// </summary>
-        public event EventHandler NextTab;
-
-        /// <summary>
-        ///     The prev tab.
-        /// </summary>
-        public event EventHandler PrevTab;
-
-        /// <summary>
-        ///     The reload tab.
-        /// </summary>
-        public event EventHandler ReloadTab;
-
-        /// <summary>
-        ///     The tab changed.
-        /// </summary>
-        public event EventHandler TabChanged;
-
-        /// <summary>
         ///     Inserts a tab at the specified index, or if out of range and the start or end.
         /// </summary>
         /// <param name="index">The index to insert it at.</param>
@@ -171,7 +79,7 @@
         ///     Sets the image history of the browser to the specified history.
         /// </summary>
         /// <param name="list">The imagelist you want to set.</param>
-        public void SetImageList(ImageList list)
+        public void BindImageList(ImageList list)
         {
             this.Favicons = list;
             this.Tabs.ImageList = this.Favicons;
@@ -202,6 +110,88 @@
         {
             this.History.DataSource = history;
         }
+
+        #region Events
+        
+        /// <summary>
+        /// The close tab event.
+        /// </summary>
+        public event EventHandler CloseTab;
+
+        /// <summary>
+        /// The close window event.
+        /// </summary>
+        public event EventHandler CloseWindow;
+
+        /// <summary>
+        /// The favorites list open event.
+        /// </summary>
+        public event FavoritesListEventHandler FavoritesListOpen;
+
+        /// <summary>
+        /// The favorites list edit event.
+        /// </summary>
+        public event FavoritesListEventHandler FavoritesListEdit;
+
+        /// <summary>
+        /// The history list open event.
+        /// </summary>
+        public event HistoryListEventHandler HistoryListOpen;
+
+        /// <summary>
+        /// The history list save event.
+        /// </summary>
+        public event HistoryListEventHandler HistoryListSave;
+
+        /// <summary>
+        /// The home changed event.
+        /// </summary>
+        public event EventHandler HomeChanged;
+
+        /// <summary>
+        /// The middle mouse click event.
+        /// </summary>
+        public event MouseEventHandler TabListMiddleMouseClick;
+
+        /// <summary>
+        /// The new incognito tab event.
+        /// </summary>
+        public event EventHandler NewIncognitoTab;
+
+        /// <summary>
+        /// The new tab event.
+        /// </summary>
+        public event EventHandler NewTab;
+
+        /// <summary>
+        /// The new window event.
+        /// </summary>
+        public event EventHandler NewWindow;
+
+        /// <summary>
+        /// The next tab event.
+        /// </summary>
+        public event EventHandler NextTab;
+
+        /// <summary>
+        /// The prev tab event.
+        /// </summary>
+        public event EventHandler PrevTab;
+
+        /// <summary>
+        /// The reload tab event.
+        /// </summary>
+        public event EventHandler ReloadTab;
+
+        /// <summary>
+        /// The tab changed event.
+        /// </summary>
+        public event TabChangedEventHandler TabChanged;
+
+        /// <summary>
+        /// The go home event.
+        /// </summary>
+        public event EventHandler GoHome;
 
         /// <summary>
         /// The close tab button pressed.
@@ -341,7 +331,7 @@
         /// </param>
         private void OnSelectedTabIndexChanged(object sender, EventArgs e)
         {
-            this.TabChanged?.Invoke(sender, e);
+            this.TabChanged?.Invoke(sender, new TabChangedEventArgs(((TabControl)sender).SelectedIndex));
         }
 
         /// <summary>
@@ -370,21 +360,7 @@
         private void OnTabsMouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Middle) return;
-            this.MiddleMouseClick?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// The browser_ form closed.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void OnWindowClosed(object sender, FormClosedEventArgs e)
-        {
-            this.BrowserClosed?.Invoke(sender, e);
+            this.TabListMiddleMouseClick?.Invoke(sender, e);
         }
 
         /// <summary>
@@ -416,7 +392,7 @@
         private void EditFavoritesItem(object sender, EventArgs e)
         {
             if (this._recentlySelectedFavorite == -1) return;
-            this.FavoritesMenuEditClick?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
+            this.FavoritesListEdit?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
         }
 
         /// <summary>
@@ -431,7 +407,7 @@
         private void OpenFavoritesItem(object sender, EventArgs e)
         {
             if (this._recentlySelectedFavorite == -1) return;
-            this.FavoritesDoubleClick?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
+            this.FavoritesListOpen?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
         }
 
         /// <summary>
@@ -445,7 +421,7 @@
         /// </param>
         private void OnHistoryListDoubleClicked(object sender, MouseEventArgs e)
         {
-            this.HistoryDoubleClick?.Invoke(sender, new HistoryClickEventArgs(this._recentlySelectedHistory));
+            this.HistoryListOpen?.Invoke(sender, new HistoryClickEventArgs(this._recentlySelectedHistory));
         }
 
         /// <summary>
@@ -460,7 +436,7 @@
         private void OnFavoritesListDoubleClicked(object sender, MouseEventArgs e)
         {
             if (this._recentlySelectedFavorite == -1) return;
-            this.FavoritesDoubleClick?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
+            this.FavoritesListOpen?.Invoke(sender, new FavoritesClickEventArgs(this._recentlySelectedFavorite));
         }
 
         /// <summary>
@@ -475,7 +451,7 @@
         private void OpenHistoryItem(object sender, EventArgs e)
         {
             if (this._recentlySelectedHistory == -1) return;
-            this.HistoryDoubleClick?.Invoke(sender, new HistoryClickEventArgs(this._recentlySelectedHistory));
+            this.HistoryListOpen?.Invoke(sender, new HistoryClickEventArgs(this._recentlySelectedHistory));
         }
 
         /// <summary>
@@ -490,7 +466,7 @@
         private void SaveHistoryItem(object sender, EventArgs e)
         {
             if (this._recentlySelectedHistory == -1) return;
-            this.HistoryMenuSaveToFavoritesClick?.Invoke(
+            this.HistoryListSave?.Invoke(
                 sender,
                 new HistoryClickEventArgs(this._recentlySelectedHistory));
 
@@ -511,5 +487,7 @@
             if (e.Button != MouseButtons.Right) return;
             this.HistoryRightClickMenu.Show(this, e.Location, ToolStripDropDownDirection.Right);
         }
+        
+        #endregion
     }
 }

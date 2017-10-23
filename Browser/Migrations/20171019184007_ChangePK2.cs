@@ -49,7 +49,7 @@ namespace Browser.Migrations
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "Addon",
+                name: "Path",
                 table: "Url",
                 type: "TEXT",
                 nullable: false,
@@ -82,7 +82,7 @@ namespace Browser.Migrations
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Url",
                 table: "Url",
-                columns: new[] { "Scheme", "Host", "Addon", "Unidentified" });
+                columns: new[] { "Scheme", "Host", "Path", "Unidentified" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Favorites_UrlScheme_UrlHost_UrlAddon_UrlUnidentified",
@@ -94,7 +94,7 @@ namespace Browser.Migrations
                 table: "Favorites",
                 columns: new[] { "UrlScheme", "UrlHost", "UrlAddon", "UrlUnidentified" },
                 principalTable: "Url",
-                principalColumns: new[] { "Scheme", "Host", "Addon", "Unidentified" },
+                principalColumns: new[] { "Scheme", "Host", "Path", "Unidentified" },
                 onDelete: ReferentialAction.Restrict);
         }
 
@@ -136,7 +136,7 @@ namespace Browser.Migrations
                 oldType: "TEXT");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Addon",
+                name: "Path",
                 table: "Url",
                 nullable: true,
                 oldClrType: typeof(string),

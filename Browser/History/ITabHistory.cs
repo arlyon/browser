@@ -26,7 +26,7 @@
     }
 
     /// <summary>
-    /// The TabHistory interface.
+    /// The _tabHistory interface.
     /// </summary>
     public interface ITabHistory
     {
@@ -97,7 +97,7 @@
     }
 
     /// <summary>
-    /// The current location change handler.
+    /// The current Location change handler.
     /// </summary>
     /// <param name="sender">
     /// The sender.
@@ -113,8 +113,29 @@
     /// </summary>
     public class CurrentLocationChangeArgs : EventArgs
     {
-        public ChangeType ChangeType;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CurrentLocationChangeArgs"/> class.
+        /// </summary>
+        /// <param name="type">
+        /// The type.
+        /// </param>
+        /// <param name="location">
+        /// The location.
+        /// </param>
+        public CurrentLocationChangeArgs(ChangeType type, HistoryLocation location)
+        {
+            this.ChangeType = type;
+            this.HistoryLocation = location;
+        }
 
-        public HistoryLocation HistoryLocation;
+        /// <summary>
+        /// Gets the change type.
+        /// </summary>
+        public ChangeType ChangeType { get; }
+
+        /// <summary>
+        /// Gets the history location.
+        /// </summary>
+        public HistoryLocation HistoryLocation { get; }
     }
 }

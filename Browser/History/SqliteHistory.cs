@@ -4,22 +4,27 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
 
-    using Browser.Annotations;
-    using Browser.Cache;
     using Browser.Config;
-    using Browser.Requests;
+    using Browser.Favicon;
 
-    using Microsoft.Data.Sqlite;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     /// <summary>
     /// The history class.
     /// </summary>
-    public class History : IHistory
+    public class SqliteHistory : IHistory
     {
+        /// <summary>
+        /// The configuration file.
+        /// </summary>
+        private readonly IConfig _config;
+
+        /// <summary>
+        /// The _favicon cache.
+        /// </summary>
+        private readonly IFavicon _faviconCache;
+
         /// <summary>
         /// The History.
         /// </summary>
@@ -29,19 +34,9 @@
         /// The History view model.
         /// </summary>
         private BindingList<HistoryViewModel> _historyViewModel;
-
+        
         /// <summary>
-        /// The configuration file.
-        /// </summary>
-        private IConfig _config;
-
-        /// <summary>
-        /// The _favicon cache.
-        /// </summary>
-        private readonly IFaviconCache _faviconCache;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="History"/> class. 
+        /// Initializes a new instance of the <see cref="SqliteHistory"/> class. 
         /// </summary>
         /// <param name="config">
         /// The config.
@@ -49,7 +44,7 @@
         /// <param name="cache">
         /// The cache.
         /// </param>
-        public History(IConfig config, IFaviconCache cache)
+        public SqliteHistory(IConfig config, IFavicon cache)
         {
             this._faviconCache = cache;
             this._config = config;
@@ -70,7 +65,7 @@
         {
             this._history.AddLast(args.Change);
             this._historyViewModel.Insert(0, HistoryViewModel.FromHistoryLocation(args.Change, this._faviconCache));
-            args.Change.PropertyChanged += this.SaveChanges;
+            args.Change.PropertyChanged += this.UpdateTitle;
         }
 
         /// <summary>
@@ -82,22 +77,25 @@
         /// <param name="e">
         /// The e.
         /// </param>
-        private void SaveChanges(object sender, PropertyChangedEventArgs e)
+        private void UpdateTitle(object sender, PropertyChangedEventArgs e)
         {
-            HistoryLocation updated = (HistoryLocation)sender;
+            var updated = (HistoryLocation)sender;
 
             using (var db = new DataContext())
             {
                 try
                 {
-
-                    var entity = db.History.Single(loc => loc.Date == updated.Date);
+                    // try and change the title of the element that matches the date and url
+                    var entity = db.History.Single(loc => loc.Date == updated.Date && loc.Url == updated.Url);
                     entity.Title = updated.Title;
-                    db.SaveChanges();
                 }
-                catch
+                catch (InvalidOperationException)
                 {
-                    //FUCK
+                    // entity does not exist, cannot save
+                }
+                finally
+                {
+                    db.SaveChanges();
                 }
             }
         }
@@ -164,7 +162,7 @@
             {
                 // do not track the query, and load either all or all in x hours based on config
                 IQueryable<HistoryLocation> query = db.History.AsNoTracking()
-                    .Where(history => !this._config.LoadAllHistory || DateTime.Now < history.Date.Add(this._config.HistoryTimeSpan))
+                    .Where(history => this._config.OverrideAndLoadAllHistory || DateTime.Now < history.Date.Add(this._config.HistoryTimeSpan))
                     .Include(history => history.Url);
 
                 // create history list

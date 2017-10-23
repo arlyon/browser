@@ -58,7 +58,7 @@ namespace Browser.Migrations
                     b.Property<string>("Host")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Addon");
+                    b.Property<string>("Path");
 
                     b.Property<string>("Scheme");
 

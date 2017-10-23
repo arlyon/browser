@@ -137,17 +137,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\FaviconCache.cs" />
-    <Compile Include="Cache\IFaviconCache.cs" />
-    <Compile Include="Cache\IHasFavicon.cs" />
+    <Compile Include="Favicon\FaviconCache.cs" />
+    <Compile Include="Favicon\IFavicon.cs" />
+    <Compile Include="Favicon\IHasFavicon.cs" />
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Config\YamlConfig.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Favorites\FavoritesViewModel.cs" />
-    <Compile Include="Favorites\Favorites.cs" />
+    <Compile Include="Favorites\SqliteFavorites.cs" />
     <Compile Include="Favorites\FavoritesLocation.cs" />
     <Compile Include="Favorites\IFavorites.cs" />
-    <Compile Include="History\History.cs" />
+    <Compile Include="History\SqliteHistory.cs" />
     <Compile Include="History\HistoryLocation.cs" />
     <Compile Include="History\HistoryViewModel.cs" />
     <Compile Include="History\IHistory.cs" />
@@ -155,7 +155,9 @@
     <Compile Include="History\Location.cs" />
     <Compile Include="History\TabHistory.cs" />
     <Compile Include="Presenters\EditFavoritesPresenter.cs" />
+    <Compile Include="Presenters\ITabPresenter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Requests\InvalidUrlException.cs" />
     <Compile Include="Views\BindableListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -222,6 +224,7 @@
     </Compile>
     <EmbeddedResource Include="Views\Browser.en.resx">
       <DependentUpon>Browser.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Browser.resx">
       <DependentUpon>Browser.cs</DependentUpon>

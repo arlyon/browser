@@ -2,9 +2,12 @@
 {
     using System;
     using System.Drawing;
+    using System.IO;
+    using System.Net;
+    using System.Threading.Tasks;
 
-    using Browser.Cache;
     using Browser.Config;
+    using Browser.Favicon;
     using Browser.Favorites;
     using Browser.History;
     using Browser.Requests;
@@ -13,7 +16,7 @@
     /// <summary>
     /// The tab presenter.
     /// </summary>
-    public class TabPresenter
+    public class TabPresenter : ITabPresenter
     {
         /// <summary>
         /// The config.
@@ -23,7 +26,7 @@
         /// <summary>
         /// The _favicons.
         /// </summary>
-        private readonly IFaviconCache _favicons;
+        private readonly IFavicon _favicons;
 
         /// <summary>
         /// The favorites.
@@ -33,7 +36,12 @@
         /// <summary>
         /// The _tab.
         /// </summary>
-        private readonly ITab _tab; // view
+        private readonly ITab _tab;
+
+        /// <summary>
+        /// Gets the tab history.
+        /// </summary>
+        private readonly ITabHistory _tabHistory;
 
         /// <summary>
         /// The _current response.
@@ -45,6 +53,19 @@
         /// </summary>
         private string _name;
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name
+        {
+            get => this._name;
+            set
+            {
+                this._tab.Name = value;
+                this._name = value;
+            }
+        }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="TabPresenter"/> class.
         /// </summary>
@@ -63,73 +84,50 @@
         /// <param name="history">
         /// The history.
         /// </param>
-        public TabPresenter(ITab tab, IFavorites favorites, IConfig config, IFaviconCache favicons, IHistory history)
+        /// <param name="tabHistory">
+        /// The tab History.
+        /// </param>
+        public TabPresenter(ITab tab, IFavorites favorites, IConfig config, IFavicon favicons, IHistory history, ITabHistory tabHistory)
         {
-            this.TabHistory = new TabHistory(history);
+            // initialize variables
+            this._tabHistory = tabHistory;
             this._tab = tab;
             this._favorites = favorites;
             this._config = config;
             this._favicons = favicons;
 
-            // so that we can identify it later
+            // give guid for easy identification
             this.Name = Guid.NewGuid().ToString();
 
-            this._tab.AddFavorite += this.AddFavorite;
-            this._tab.Back += this.Back;
-            this._tab.Forward += this.Forward;
-            this._tab.GoHome += this.GoHomeEvent;
-            this._tab.Reload += this.Reload;
-            this._tab.Submit += this.Submit;
-            this._tab.RenderPage += this.RenderPage;
+            // register the event listeners
+            this.RegisterEventListeners();
 
-            this._favicons = favicons;
-
-            this.TabHistory.OnCurrentLocationChange += this.LoadPage;
+            tab.Show();
         }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Sets up all the event listeners.
         /// </summary>
-        public string Name
+        private void RegisterEventListeners()
         {
-            get => this._name;
-            set
-            {
-                this._tab.Name = value;
-                this._name = value;
-            }
+            this._tabHistory.OnCurrentLocationChange += (s, e) => this.LoadCurrentPage();
+
+            this._tab.Reload += (s, e) => this.Reload();
+            this._tab.Back += (s, e) => { if (this._tabHistory.CanGoBackward()) this._tabHistory.Back(); };
+            this._tab.Forward += (s, e) => { if (this._tabHistory.CanGoForward()) this._tabHistory.Forward(); };
+            this._tab.GoHome += (s, e) => this._tabHistory.Push(this._config.Home);
+            this._tab.Submit += (s, e) => this.Push(e.Url);
+            this._tab.RenderPage += (s, e) => { if (this._currentResponse != null) new RenderDocument(this._currentResponse).Show(); };
+            this._tab.AddFavorite += (s, e) =>
+                {
+                    var ef = new EditFavoritesWindow();
+                    var pres = new EditFavoritesPresenter(
+                        ef,
+                        this._tabHistory.Current().Url,
+                        this._favorites);
+                };
         }
-
-        /// <summary>
-        /// Gets the tab history.
-        /// </summary>
-        protected ITabHistory TabHistory { get; }
-
-        /// <summary>
-        /// The contains.
-        /// </summary>
-        /// <param name="screenLocation">
-        /// The e location.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        public bool Contains(Point screenLocation)
-        {
-            return this._tab.Contains(screenLocation);
-        }
-
-        /// <summary>
-        /// The get index.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="int"/>.
-        /// </returns>
-        public int GetIndex()
-        {
-            return this._tab.GetIndex();
-        }
-
+        
         /// <summary>
         /// Pushes a url, or alternatively a google search to the tab history which then triggers a page load.
         /// </summary>
@@ -141,9 +139,8 @@
                 url = new Url(
                     "https://",
                     "www.google.com",
-                    "/search?q=" + (url.Host + url.Addon).Replace(' ', '+'),
-                    string.Empty);
-            this.TabHistory.Push(url);
+                    "/search?q=" + (url.Host + url.Path).Replace(' ', '+'));
+            this._tabHistory.Push(url);
         }
 
         /// <summary>
@@ -155,191 +152,88 @@
         }
 
         /// <summary>
-        /// The url.
+        /// Returns the url that the page is currently visiting.
         /// </summary>
         /// <returns>
         /// The <see cref="Url"/>.
         /// </returns>
         public Url Url()
         {
-            return this.TabHistory.Current()?.Url;
+            return this._tabHistory.Current()?.Url;
         }
 
         /// <summary>
-        /// The add favorite.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void AddFavorite(object sender, EventArgs e)
-        {
-            EditFavoritesWindow ef = new EditFavoritesWindow();
-            EditFavoritesPresenter pres = new EditFavoritesPresenter(ef, this.TabHistory.Current().Url, this._favorites);
-            ef.Show();
-        }
-
-        /// <summary>
-        /// The back.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Back(object sender, EventArgs e)
-        {
-            if (this.TabHistory.CanGoBackward()) this.TabHistory.Back();
-        }
-
-        /// <summary>
-        /// The forward.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Forward(object sender, EventArgs e)
-        {
-            if (this.TabHistory.CanGoForward()) this.TabHistory.Forward();
-        }
-
-        /// <summary>
-        /// The go home event.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void GoHomeEvent(object sender, EventArgs e)
-        {
-            this.TabHistory.Push(this._config.Home);
-        }
-
-        /// <summary>
-        ///     Loads the current historyLocation in the tab's history.
+        /// Loads the current historyLocation in the tab's history.
         /// </summary>
         private async void LoadCurrentPage()
         {
             this._tab.Loading = true;
-            var l = this.TabHistory.Current();
+            this._tab.Display(this._tabHistory.Current().Url.Host);
+
             try
             {
-                var response = HttpRequest.GetAsync(this.TabHistory.Current().Url);
-                var favicontask = this._favicons.Request(this.TabHistory.Current().Url);
-                var page = await response;
-                var titletask = page.GetTitle();
-                var favicon = await favicontask;
-
-                if (!this.TabHistory.Current().Equals(l)) return; // make sure the user hasnt navigated away
-
-                this._tab.FaviconIndex = favicon;
-                this._currentResponse = page;
-                this._tab.Display(page, page.Url.Host);
-                if (string.IsNullOrEmpty(await titletask)) return;
-                if (!this.TabHistory.Current().Equals(l)) return; // make sure the user hasnt navigated away
-                this._tab.Display(page, await titletask);
-                this.TabHistory.UpdateTitle(await titletask);
+                await this.MakeAndDisplayRequest();
             }
-            catch
+            catch (Exception e)
             {
-                // TODO handle when pages arent properly loaded
-                // page could not be loaded
+                this.HandleAndDisplayError(e);
             }
 
             this._tab.Loading = false;
-            this._tab.CanGoForward(this.TabHistory.CanGoForward());
-            this._tab.CanGoBack(this.TabHistory.CanGoBackward());
-            this._tab.CanReload(this.TabHistory.CanReload());
         }
 
         /// <summary>
-        /// The load page.
+        /// The make and display request.
         /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        private async Task MakeAndDisplayRequest()
+        {
+            var locationAtRequestStart = this._tabHistory.Current();
+            var responseTask = HttpRequest.GetAsync(this._tabHistory.Current().Url);
+            var faviconIndexTask = this._favicons.Request(this._tabHistory.Current().Url);
+            var page = await responseTask;
+            var titletask = page.GetTitle();
+            var favicon = await faviconIndexTask;
+
+            // make sure the user hasnt navigated away and update page
+            if (!this._tabHistory.Current().Equals(locationAtRequestStart)) return;
+            this._tab.FaviconIndex = favicon;
+            this._currentResponse = page;
+            this._tab.Display(page, page.Url.Host);
+            this._tab.CanGoForward(this._tabHistory.CanGoForward());
+            this._tab.CanGoBack(this._tabHistory.CanGoBackward());
+            this._tab.CanReload(this._tabHistory.CanReload());
+
+            // make sure the user hasnt navigated away and update title
+            if (!this._tabHistory.Current().Equals(locationAtRequestStart) ||
+                string.IsNullOrEmpty(await titletask)) return;
+
+            this._tab.Display(await titletask); // push the title to the tab title
+            this._tabHistory.UpdateTitle(await titletask); // and to histoy
+        }
+
+        /// <summary>
+        /// The handle and display error.
+        /// </summary>
         /// <param name="e">
         /// The e.
         /// </param>
-        private void LoadPage(object sender, EventArgs e)
+        private void HandleAndDisplayError(Exception e)
         {
-            this.LoadCurrentPage();
-        }
-
-        /// <summary>
-        /// The reload.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Reload(object sender, EventArgs e)
-        {
-            this.LoadCurrentPage();
-        }
-
-        /// <summary>
-        /// The render page.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void RenderPage(object sender, EventArgs e)
-        {
-            if (this._currentResponse != null) new RenderDocument(this._currentResponse).Show();
-        }
-
-        /// <summary>
-        /// The submit.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Submit(object sender, UrlUpdateEventArgs e)
-        {
-            this.Push(e.Url);
-        }
-    }
-
-    /// <summary>
-    /// The incognito tab presenter.
-    /// </summary>
-    internal class IncognitoTabPresenter : TabPresenter
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IncognitoTabPresenter"/> class.
-        /// </summary>
-        /// <param name="tab">
-        /// The tab.
-        /// </param>
-        /// <param name="favorites">
-        /// The favorites.
-        /// </param>
-        /// <param name="config">
-        /// The config.
-        /// </param>
-        /// <param name="favicons">
-        /// The favicons.
-        /// </param>
-        public IncognitoTabPresenter(ITab tab, IFavorites favorites, IConfig config, IFaviconCache favicons)
-            : base(tab, favorites, config, favicons, null)
-        {
+            // if there is an exception, display it on the ui
+            if (e is WebException we && we.Response is HttpWebResponse response)
+            {
+                this._tab.Display(
+                    new HttpResponse()
+                        {
+                            Content = e.Message,
+                            Url = this._tabHistory.Current().Url,
+                            Status = response.StatusCode
+                        });
+            }
+            else this._tab.Display(new HttpResponse() { Content = e.Message, Url = this._tabHistory.Current().Url });
         }
     }
 }

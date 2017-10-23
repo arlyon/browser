@@ -1,40 +1,19 @@
 ﻿namespace Browser.Presenters
 {
-    using System;
-    using System.Threading.Tasks;
-
     using Browser.Favorites;
-    using Browser.History;
     using Browser.Requests;
     using Browser.Views;
 
     /// <summary>
     /// The favorites presenter.
     /// </summary>
-    internal class EditFavoritesPresenter
+    public class EditFavoritesPresenter
     {
         /// <summary>
-        /// The favorites window.
-        /// </summary>
-        private IEditFavorites _favoritesWindow;
-
-        /// <summary>
-        /// The location being edited.
-        /// </summary>
-        private FavoritesLocation _location;
-
-        /// <summary>
-        /// The _favorites.
-        /// </summary>
-        private IFavorites _favorites;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="EditFavoritesPresenter"/> class.
-        /// If the location exists in the favorites menu, it lets you edit the already
-        /// existing one otherise it will create a new entry.
         /// </summary>
         /// <param name="window">
-        /// The window.
+        /// The <see cref="IEditFavorites"/> window.
         /// </param>
         /// <param name="url">
         /// The url.
@@ -42,78 +21,26 @@
         /// <param name="favorites">
         /// The favorites.
         /// </param>
+        /// <remarks>
+        /// If the Location exists in the favorites menu, it lets you edit the already
+        /// existing one otherise it will create a new entry.
+        /// </remarks>
         public EditFavoritesPresenter(IEditFavorites window, Url url, IFavorites favorites)
         {
-            this.SetUp(window, url, favorites);
-        }
+            var location = favorites.GetOrCreate(url);
 
-        /// <summary>
-        /// The set up.
-        /// </summary>
-        /// <param name="window">
-        /// The window.
-        /// </param>
-        /// <param name="url">
-        /// The url.
-        /// </param>
-        /// <param name="favorites">
-        /// The favorites.
-        /// </param>
-        private void SetUp(IEditFavorites window, Url url, IFavorites favorites)
-        {
-            this._favoritesWindow = window;
-            this._favorites = favorites;
-            this._location = this._favorites.GetOrCreate(url);
+            // When the save button is clicked, update the entry in favorites and close the window.
+            window.SaveButtonClicked += (s, e) => { favorites.UpdateById(location.Id, window.GetUpdate()); window.Close(); };
 
-            this._favoritesWindow.SaveButtonClicked += this.Save;
-            this._favoritesWindow.DeleteButtonClicked += this.Delete;
-            this._favoritesWindow.CancelButtonClicked += this.Cancel;
+            // When the delete button is clicked, delete the entry in favorites and close the window.
+            window.DeleteButtonClicked += (s, e) => { favorites.DeleteById(location.Id); window.Close(); };
 
-            this._favoritesWindow.DisplayFavoritesLocation(this._location.Name, this._location.Url.ToString());
-        }
+            // When the cancel button is clicked, just close the window.
+            window.CancelButtonClicked += (s, e) => window.Close();
 
-        /// <summary>
-        /// The delete.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Delete(object sender, EventArgs e)
-        {
-            this._favorites.DeleteById(this._location.Id);
-            this._favoritesWindow.Close();
-        }
+            window.DisplayFavoritesLocation(location.Name, location.Url.ToString());
 
-        /// <summary>
-        /// The cancel.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Cancel(object sender, EventArgs e)
-        {
-            this._favoritesWindow.Close();
-        }
-
-        /// <summary>
-        /// The save.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        private void Save(object sender, EventArgs e)
-        {;
-            this._favorites.UpdateById(this._location.Id, this._favoritesWindow.GetUpdate());
-            this._favoritesWindow.Close();
+            window.Show();
         }
     }
 }

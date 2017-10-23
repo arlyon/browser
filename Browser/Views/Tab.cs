@@ -105,14 +105,25 @@
             this.ReloadButton.Visible = value;
         }
 
-        public bool Contains(Point eLocation)
-        {
-            return this.ClientRectangle.Contains(eLocation);
-        }
-
         public void Display(HttpResponse response, string title)
         {
+            this.Display(response);
+            this.Display(title);
+        }
+
+        public int GetIndex()
+        {
+            return this.TabIndex;
+        }
+
+        public void Display(string title)
+        {
             this.Text = title;
+        }
+
+        public void Display(HttpResponse response)
+        {
+
             this.UrlBar.Text = response.Url.ToString();
             this.ResponseMessageBox.Text = response.Header;
             this.StatusCode.Text = (int)response.Status + " - " + response.Status;
@@ -133,11 +144,6 @@
                 doc.CleanAndRepair();
                 this.ResponseBodyBox.Text = doc.Save();
             }
-        }
-
-        public int GetIndex()
-        {
-            return this.TabIndex;
         }
 
         private void BackButtonPressed(object sender, EventArgs e)
@@ -164,7 +170,7 @@
         {
             // on enter key press
             if (e.KeyCode != Keys.Enter) return;
-            this.Submit?.Invoke(this, UrlUpdateEventArgs.FromKeyEventArgs(e, new Url(this.UrlBar.Text)));
+            this.Submit?.Invoke(this, new UrlUpdateEventArgs(Url.FromString(this.UrlBar.Text)));
         }
 
         private void ReloadButtonPressed(object sender, EventArgs e)

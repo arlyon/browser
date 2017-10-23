@@ -10,7 +10,7 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
-    using global::Browser.Cache;
+    using global::Browser.Favicon;
 
     /// <summary>
     /// A ListView with complex data binding support.

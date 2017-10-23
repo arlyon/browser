@@ -5,48 +5,30 @@
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// The url.
+    /// The url class, a "subset" of the URI class that is only compatible with http. Immutable.
     /// </summary>
     public class Url
     {
         /// <summary>
-        /// The url test.
-        /// </summary>
-        private static readonly Regex UrlTest = new Regex(@"^(.*:\/\/)?([\p{L}\p{M}\.\:\@0-9]*)([\/\#]?.*)?");
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Url"/> class.
-        /// </summary>
-        public Url()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Url"/> class.
+        /// Initializes a new instance of the <see cref="Url"/> class from a string.
         /// </summary>
         /// <param name="url">
-        /// The url.
+        /// The url string.
         /// </param>
-        public Url(string url)
+        /// <returns>
+        /// The <see cref="Url"/>.
+        /// </returns>
+        public static Url FromString(string url)
         {
-            var urlMatch = UrlTest.Match(url);
+            Uri uri;
 
-            if (IsUrl(urlMatch, url))
-            {
-                // if it is a Url, return the three sections
-                this.Scheme = urlMatch.Groups[1].Value;
-                this.Host = urlMatch.Groups[2].Value;
-                this.Addon = urlMatch.Groups[3].Value;
-                this.Unidentified = string.Empty;
-            }
-            else
-            {
-                // if it isnt a Url, then only return the plain Url
-                this.Scheme = string.Empty;
-                this.Host = string.Empty;
-                this.Addon = string.Empty;
-                this.Unidentified = url;
-            }
+            try { uri = new UriBuilder(url).Uri; }
+            catch { throw new InvalidUrlException("Could not identify the url."); }
+
+            if (uri.IsFile) throw new InvalidUrlException("Url is file.");
+            if (!uri.Scheme.Equals("http") && !uri.Scheme.Equals("https")) throw new InvalidUrlException("Url is not http protocol.");
+
+            return new Url(uri.Scheme, uri.Host, uri.AbsolutePath);
         }
 
         /// <summary>
@@ -58,18 +40,24 @@
         /// <param name="host">
         /// The host.
         /// </param>
-        /// <param name="addon">
-        /// The addon.
+        /// <param name="path">
+        /// The path.
         /// </param>
-        /// <param name="unidentified">
-        /// The unidentified.
-        /// </param>
-        public Url(string scheme, string host, string addon, string unidentified)
+        public Url(string scheme, string host, string path)
         {
-            this.Scheme = scheme;
+            scheme = scheme.Replace("://", string.Empty);
+            if (!scheme.Equals("http") && !scheme.Equals("https")) throw new InvalidUrlException("Url is not http protocol.");
+            
+            this.Scheme = scheme + "://";
             this.Host = host;
-            this.Addon = addon;
-            this.Unidentified = unidentified;
+            this.Path = path;
+        }
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="Url"/> class from being created.
+        /// </summary>
+        private Url()
+        {
         }
 
         /// <summary>
@@ -78,33 +66,28 @@
         public int HashCode => this.GetHashCode();
 
         /// <summary>
-        /// Gets or sets the addon.
+        /// Gets the path.
         /// </summary>
-        public string Addon { get; set; }
+        public string Path { get; private set; }
 
         /// <summary>
-        /// Gets or sets the host.
+        /// Gets the host.
         /// </summary>
-        public string Host { get; set; }
+        public string Host { get; private set; }
 
         /// <summary>
-        /// Gets or sets the scheme.
+        /// Gets the scheme.
         /// </summary>
-        public string Scheme { get; set; }
+        public string Scheme { get; private set; }
 
         /// <summary>
-        /// Gets or sets the unidentified.
-        /// </summary>
-        public string Unidentified { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id.
+        /// Gets the id.
         /// </summary>
         [Key]
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         /// <summary>
-        /// The ==.
+        /// Overrides the == operator to check for equality.
         /// </summary>
         /// <param name="a">
         /// The a.
@@ -122,7 +105,7 @@
         }
 
         /// <summary>
-        /// The !=.
+        /// Overrides the != operator to check for equality.
         /// </summary>
         /// <param name="a">
         /// The a.
@@ -139,18 +122,18 @@
         }
 
         /// <summary>
-        /// The to string.
+        /// Converts the url to a string.
         /// </summary>
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
         public override string ToString()
         {
-            return this.Scheme + this.Host + this.Addon + this.Unidentified;
+            return this.Scheme + this.Host + this.Path;
         }
 
         /// <summary>
-        /// The equals.
+        /// Overrides object.equals to check for equality.
         /// </summary>
         /// <param name="other">
         /// The other.
@@ -173,29 +156,11 @@
         {
             unchecked
             {
-                var hashCode = this.Addon != null ? this.Addon.GetHashCode() : 0;
+                var hashCode = this.Path != null ? this.Path.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^ (this.Host != null ? this.Host.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (this.Scheme != null ? this.Scheme.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (this.Unidentified != null ? this.Unidentified.GetHashCode() : 0);
                 return hashCode;
             }
-        }
-
-        /// <summary>
-        /// The is url.
-        /// </summary>
-        /// <param name="urlMatch">
-        /// The url match.
-        /// </param>
-        /// <param name="url">
-        /// The url.
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
-        private static bool IsUrl(Match urlMatch, string url)
-        {
-            return urlMatch.Groups[1].Value + urlMatch.Groups[2].Value + urlMatch.Groups[3].Value == url;
         }
     }
 }

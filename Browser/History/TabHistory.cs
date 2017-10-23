@@ -6,9 +6,9 @@
     using Browser.Requests;
 
     /// <summary>
-    ///     The history for a single tab.
+    /// The history for a single tab.
     /// </summary>
-    internal class TabHistory : ITabHistory
+    public class TabHistory : ITabHistory
     {
         /// <summary>
         /// The history chain.
@@ -66,15 +66,13 @@
         public HistoryLocation Back()
         {
             Contract.Requires(this.CanGoBackward());
+            if (!this.CanGoBackward()) return null;
+
             this._currentPage = this._currentPage.Previous;
 
             this.OnCurrentLocationChange?.Invoke(
                 this,
-                new CurrentLocationChangeArgs
-                    {
-                        ChangeType = ChangeType.Backward,
-                        HistoryLocation = this._currentPage?.Value
-                    });
+                new CurrentLocationChangeArgs(ChangeType.Backward, this._currentPage?.Value));
 
             return this._currentPage?.Value;
         }
@@ -132,22 +130,19 @@
 
         /// <inheritdoc />
         /// <summary>
-        ///     Goes forward a step in the history chain.
+        /// Goes forward a step in the history chain.
         /// </summary>
         /// <returns></returns>
         public HistoryLocation Forward()
         {
             Contract.Requires(this.CanGoForward());
+            if (!this.CanGoForward()) return null;
 
             this._currentPage = this._currentPage.Next;
 
             this.OnCurrentLocationChange?.Invoke(
                 this,
-                new CurrentLocationChangeArgs
-                    {
-                        ChangeType = ChangeType.Forward,
-                        HistoryLocation = this._currentPage?.Value
-                    });
+                new CurrentLocationChangeArgs(ChangeType.Forward, this._currentPage?.Value));
 
             return this._currentPage?.Value;
         }
@@ -156,7 +151,7 @@
         /// <summary>
         ///     Severs any future elements from the chain
         ///     and pushes a new element to the tab history
-        ///     as well as the global <see cref="History" />.
+        ///     as well as the global <see cref="SqliteHistory" />.
         /// </summary>
         /// <param name="url">The <see cref="Url" /> to navigate to.</param>
         /// <returns>The new historyLocation.</returns>
@@ -170,11 +165,7 @@
 
             this.OnCurrentLocationChange?.Invoke(
                 this,
-                new CurrentLocationChangeArgs
-                    {
-                        ChangeType = ChangeType.Push,
-                        HistoryLocation = this._currentPage.Value
-                    });
+                new CurrentLocationChangeArgs(ChangeType.Push, this._currentPage?.Value));
 
             return this._currentPage.Value;
         }

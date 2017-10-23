@@ -60,11 +60,11 @@ namespace Browser.Migrations
 
                     b.Property<string>("Host");
 
-                    b.Property<string>("Addon");
+                    b.Property<string>("Path");
 
                     b.Property<string>("Unidentified");
 
-                    b.HasKey("Scheme", "Host", "Addon", "Unidentified");
+                    b.HasKey("Scheme", "Host", "Path", "Unidentified");
 
                     b.HasAlternateKey("Host");
 

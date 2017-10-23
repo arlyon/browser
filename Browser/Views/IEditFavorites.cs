@@ -7,7 +7,7 @@
     /// <summary>
     /// The EditFavorites interface.
     /// </summary>
-    internal interface IEditFavorites
+    public interface IEditFavorites
     {
         /// <summary>
         /// The save button clicked.
@@ -25,11 +25,13 @@
         event EventHandler DeleteButtonClicked;
 
         /// <summary>
-        /// The display favorites location.
+        /// The display favorites Location.
         /// </summary>
         /// <param name="name">The name of the favorite.</param>
         /// <param name="url">The Url of the favorite.</param>
         void DisplayFavoritesLocation(string name, string url);
+
+        void Show();
 
         /// <summary>
         /// The close.

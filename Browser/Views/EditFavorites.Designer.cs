@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditFavoritesWindow));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -108,7 +107,7 @@
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(75, 23);
             this.Delete.TabIndex = 6;
-            this.Delete.Text = "DeleteById";
+            this.Delete.Text = "Delete";
             this.Delete.UseVisualStyleBackColor = true;
             this.Delete.Click += new System.EventHandler(this.Delete_Click);
             // 
@@ -118,7 +117,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
-            this.ClientSize = new System.Drawing.Size(284, 146);
+            this.ClientSize = new System.Drawing.Size(284, 145);
             this.Controls.Add(this.Delete);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Save);
@@ -126,12 +125,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(300, 185);
-            this.MinimumSize = new System.Drawing.Size(300, 185);
+            this.MaximumSize = new System.Drawing.Size(300, 184);
+            this.MinimumSize = new System.Drawing.Size(300, 184);
             this.Name = "EditFavoritesWindow";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EditFavorites";
+            this.Text = "Edit";
             this.ResumeLayout(false);
             this.PerformLayout();
 

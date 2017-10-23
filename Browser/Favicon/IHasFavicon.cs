@@ -1,4 +1,4 @@
-﻿namespace Browser.Cache
+﻿namespace Browser.Favicon
 {
     using System.Threading.Tasks;
 
@@ -8,7 +8,7 @@
     public interface IHasFavicon
     {
         /// <summary>
-        /// The get favicon id.
+        /// Gets the favicon ID for the imagelist that it is managing.
         /// </summary>
         /// <returns>
         /// The <see cref="int"/>.

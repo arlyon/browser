@@ -14,7 +14,7 @@
         /// <summary>
         /// Gets the database name.
         /// </summary>
-        string Database { get; }
+        string DatabaseName { get; }
 
         /// <summary>
         /// Gets or sets the home url.
@@ -29,6 +29,6 @@
         /// <summary>
         /// Gets or sets a value indicating whether load all history.
         /// </summary>
-        bool LoadAllHistory { get; set; }
+        bool OverrideAndLoadAllHistory { get; set; }
     }
 }

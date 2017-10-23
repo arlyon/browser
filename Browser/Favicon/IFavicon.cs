@@ -1,4 +1,4 @@
-﻿namespace Browser.Cache
+﻿namespace Browser.Favicon
 {
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -6,9 +6,9 @@
     using Browser.Requests;
 
     /// <summary>
-    /// The FaviconCache interface.
+    /// The Favicon interface.
     /// </summary>
-    public interface IFaviconCache
+    public interface IFavicon
     {
         /// <summary>
         /// Gets the favicon image list.

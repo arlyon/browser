@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     using Browser.Annotations;
-    using Browser.Cache;
+    using Browser.Favicon;
     using Browser.Requests;
 
     /// <summary>
@@ -25,7 +25,7 @@
         public DateTime Date { get; private set; }
 
         /// <summary>
-        /// The _history location.
+        /// The _history Location.
         /// </summary>
         private HistoryLocation _historyLocation;
 
@@ -37,10 +37,10 @@
         }
 
         /// <summary>
-        /// The from history location.
+        /// The from history Location.
         /// </summary>
         /// <param name="location">
-        /// The location.
+        /// The Location.
         /// </param>
         /// <param name="faviconLookup">
         /// The favicon Lookup.
@@ -48,7 +48,7 @@
         /// <returns>
         /// The <see cref="HistoryViewModel"/>.
         /// </returns>
-        public static HistoryViewModel FromHistoryLocation(HistoryLocation location, IFaviconCache faviconLookup)
+        public static HistoryViewModel FromHistoryLocation(HistoryLocation location, IFavicon faviconLookup)
         {
             HistoryViewModel hvm = new HistoryViewModel()
                 {
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets or sets the _favicon lookup.
         /// </summary>
-        private IFaviconCache _faviconLookup;
+        private IFavicon _faviconLookup;
 
         /// <summary>
         /// The get favicon id.

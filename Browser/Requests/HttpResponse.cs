@@ -12,7 +12,7 @@
         /// <summary>
         /// The title match.
         /// </summary>
-        private static Regex titleMatch = new Regex("<title.*>(.*)</title>");
+        private static readonly Regex TitleMatch = new Regex("<title.*>(.*)</title>");
 
         /// <summary>
         /// The title.
@@ -40,7 +40,7 @@
         public Url Url { get; set; }
 
         /// <summary>
-        /// Gets the title asynchronously, on demand.
+        /// Gets the title asynchronously, and caches it.
         /// </summary>
         /// <returns>
         /// The <see cref="string">title</see>.
@@ -54,7 +54,7 @@
                                   {
                                       try
                                       {
-                                          return titleMatch.Match(this.Content).Groups[1].Value;
+                                          return TitleMatch.Match(this.Content).Groups[1].Value;
                                       }
                                       catch
                                       {

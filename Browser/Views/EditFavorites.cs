@@ -79,7 +79,7 @@
 
         /// <inheritdoc />
         /// <summary>
-        /// The display favorites location.
+        /// The display favorites Location.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="url"></param>
@@ -87,6 +87,7 @@
         {
             this.textBox1.Text = name;
             this.textBox2.Text = url;
+            this.Text = name;
         }
 
         /// <inheritdoc />
@@ -98,7 +99,7 @@
         /// </returns>
         public FavoritesLocation GetUpdate()
         {
-            return new FavoritesLocation() { Name = this.textBox1.Text, Url = new Url(this.textBox2.Text) };
+            return new FavoritesLocation() { Name = this.textBox1.Text, Url = Url.FromString(this.textBox2.Text) };
         }
     }
 }

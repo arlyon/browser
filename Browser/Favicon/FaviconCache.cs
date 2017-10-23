@@ -1,4 +1,4 @@
-﻿namespace Browser.Cache
+﻿namespace Browser.Favicon
 {
     using System.Collections.Generic;
     using System.Drawing;
@@ -15,7 +15,7 @@
     /// When an image is fetched it is stored in the cache folder, by the
     /// hash of the hostname.
     /// </summary>
-    public class FaviconCache : IFaviconCache
+    public class FaviconCache : IFavicon
     {
         /// <summary>
         /// The loaded favicons.
@@ -29,6 +29,7 @@
         {
             this.Favicons = new ImageList { TransparentColor = Color.Blue };
 
+            // required for the loading animation and places without a favicon
             this.Favicons.Images.Add(Resources.nofavicon);
             this.Favicons.Images.Add(Resources.Frame_1);
             this.Favicons.Images.Add(Resources.Frame_2);
@@ -51,29 +52,30 @@
         }
 
         /// <summary>
-        /// Gets the lfavicon image list.
+        /// Gets the lfavicon <see cref="ImageList"/>.
         /// </summary>
         public ImageList Favicons { get; }
 
         /// <summary>
-        /// The request.
+        /// Gets the favicon from the given url, caches it, adds it to the
+        /// image list in memory, and returns the index for use in the GUI.
         /// </summary>
         /// <param name="url">
         /// The url.
         /// </param>
         /// <returns>
-        /// The <see cref="Task"/>.
+        /// The <see cref="Task"/> to get the index.
         /// </returns>
         public async Task<int> Request(Url url)
         {
             var hash = url.Host.GetHashCode().ToString("X");
-            var filename = "./cache/" + hash + ".png";
 
             // check if favicon is already in memory
             if (this._loadedFavicons.ContainsKey(hash)) return this._loadedFavicons[hash];
 
             // make sure dir exists (will not create if not there)
             Directory.CreateDirectory("cache");
+            var filename = "./cache/" + hash + ".png";
 
             // check for file and either load it or fetch new favicon
             if (File.Exists(filename))
@@ -82,7 +84,7 @@
             }
             else
             {
-                var favicon = await HttpRequest.GetFavicon(url);
+                var favicon = await HttpRequest.GetFaviconAsync(url);
                 favicon.Save(filename);
                 this.Favicons.Images.Add(favicon);
             }

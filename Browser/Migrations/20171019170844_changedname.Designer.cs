@@ -61,7 +61,7 @@ namespace Browser.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Addon");
+                    b.Property<string>("Path");
 
                     b.Property<string>("Host");
 

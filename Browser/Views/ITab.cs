@@ -7,10 +7,33 @@ namespace Browser.Views
     using global::Browser.Requests;
 
     /// <summary>
-    ///     The interface for interacting with a tab in the browser.
+    /// The interface for interacting with a tab in the browser.
     /// </summary>
     public interface ITab
     {
+        int FaviconIndex { set; }
+
+        bool Loading { set; }
+
+        string Name { get; set; }
+
+        void CanGoBack(bool value);
+
+        void CanGoForward(bool value);
+
+        void CanReload(bool canReload);
+
+        void Display(HttpResponse response, string title);
+
+        void Display(string title);
+
+        void Display(HttpResponse httpResponse);
+
+        /// <summary>
+        /// The show.
+        /// </summary>
+        void Show();
+        
         event EventHandler AddFavorite;
 
         event EventHandler Back;
@@ -24,41 +47,38 @@ namespace Browser.Views
         event EventHandler RenderPage;
 
         event UrlUpdateEventHandler Submit;
-
-        int FaviconIndex { set; }
-
-        bool Loading { get; set; }
-
-        string Name { get; set; }
-
-        void CanGoBack(bool value);
-
-        void CanGoForward(bool value);
-
-        void CanReload(bool canReload);
-
-        bool Contains(Point eLocation);
-
-        void Display(HttpResponse response, string title);
-
-        int GetIndex();
     }
 
+    /// <summary>
+    /// The url update event handler.
+    /// </summary>
+    /// <param name="sender">
+    /// The sender.
+    /// </param>
+    /// <param name="e">
+    /// The e.
+    /// </param>
     public delegate void UrlUpdateEventHandler(object sender, UrlUpdateEventArgs e);
 
-    public class UrlUpdateEventArgs : KeyEventArgs
+    /// <summary>
+    /// The url update event args.
+    /// </summary>
+    public class UrlUpdateEventArgs
     {
-        public Url Url;
-
-        public UrlUpdateEventArgs(Keys keyData, Url url)
-            : base(keyData)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UrlUpdateEventArgs"/> class.
+        /// </summary>
+        /// <param name="url">
+        /// The url.
+        /// </param>
+        public UrlUpdateEventArgs(Url url)
         {
             this.Url = url;
         }
 
-        public static UrlUpdateEventArgs FromKeyEventArgs(KeyEventArgs e, Url url)
-        {
-            return new UrlUpdateEventArgs(e.KeyData, url);
-        }
+        /// <summary>
+        /// Gets the url.
+        /// </summary>
+        public Url Url { get; }
     }
 }

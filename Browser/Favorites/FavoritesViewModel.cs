@@ -6,11 +6,11 @@
     using System.Threading.Tasks;
 
     using Browser.Annotations;
-    using Browser.Cache;
+    using Browser.Favicon;
     using Browser.Favorites;
     using Browser.Requests;
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="INotifyPropertyChanged" />
     /// <summary>
     /// The history view model.
     /// </summary>
@@ -43,7 +43,7 @@
         }
 
         /// <summary>
-        /// The _history location.
+        /// The _history Location.
         /// </summary>
         private FavoritesLocation _favoritesLocation;
 
@@ -60,13 +60,13 @@
         /// <summary>
         /// The _favicon lookup.
         /// </summary>
-        private IFaviconCache _faviconLookup;
+        private IFavicon _faviconLookup;
 
         /// <summary>
-        /// The from history location.
+        /// The from history Location.
         /// </summary>
         /// <param name="location">
-        /// The location.
+        /// The Location.
         /// </param>
         /// <param name="faviconLookup">
         /// The favicon Lookup.
@@ -74,7 +74,7 @@
         /// <returns>
         /// The <see cref="HistoryViewModel"/>.
         /// </returns>
-        public static FavoritesViewModel FromFavoritesLocation(FavoritesLocation location, IFaviconCache faviconLookup)
+        public static FavoritesViewModel FromFavoritesLocation(FavoritesLocation location, IFavicon faviconLookup)
         {
             FavoritesViewModel hvm = new FavoritesViewModel()
             {
@@ -89,11 +89,12 @@
             return hvm;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// The get favicon id.
         /// </summary>
         /// <returns>
-        /// The <see cref="int"/>.
+        /// The <see cref="T:System.Int32" />.
         /// </returns>
         public async Task<int> GetFaviconId()
         {

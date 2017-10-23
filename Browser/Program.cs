@@ -3,14 +3,15 @@
     using System;
     using System.Windows.Forms;
 
-    using Browser.Cache;
     using Browser.Config;
+    using Browser.Favicon;
     using Browser.Favorites;
     using Browser.History;
     using Browser.Presenters;
     using Browser.Views;
 
     using SimpleInjector;
+    using SimpleInjector.Diagnostics;
     using SimpleInjector.Lifestyles;
 
     /// <summary>
@@ -31,16 +32,14 @@
             container = new Container();
             container.Options.DefaultScopedLifestyle = new ThreadScopedLifestyle();
 
-            container.Register<IHistory, History.History>(Lifestyle.Singleton);
-            container.Register<IFavorites, Favorites.Favorites>(Lifestyle.Singleton);
+            container.Register<IHistory, History.SqliteHistory>(Lifestyle.Singleton);
+            container.Register<IFavorites, Favorites.SqliteFavorites>(Lifestyle.Singleton);
             container.Register<IConfig, YamlConfig>(Lifestyle.Singleton);
-            container.Register<IFaviconCache, FaviconCache>(Lifestyle.Singleton);
-
+            container.Register<IFavicon, FaviconCache>(Lifestyle.Singleton);
+            container.RegisterSingleton<Func<ITab, IFavorites, IConfig, IFavicon, IHistory, ITabHistory, TabPresenter>>((tab, fav, conf, cache, ghist, thist) => new TabPresenter(tab, fav, conf, cache, ghist, thist));
             container.Register<IBrowser, Browser>();
 
-            container.Register<BrowserPresenter>(); // IBrowser, IHistory, IFavorites
-
-            // container.Verify();
+            container.Register<BrowserPresenter<TabPresenter>>();
         }
 
         /// <summary>
@@ -54,7 +53,7 @@
 
             BootStrap();
 
-            Application.Run(container.GetInstance<BrowserPresenter>().GetForm());
+            Application.Run(container.GetInstance<BrowserPresenter<TabPresenter>>().GetForm());
         }
     }
 }

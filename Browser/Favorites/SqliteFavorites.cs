@@ -4,8 +4,8 @@
     using System.ComponentModel;
     using System.Linq;
 
-    using Browser.Cache;
     using Browser.Config;
+    using Browser.Favicon;
     using Browser.History;
     using Browser.Requests;
 
@@ -15,8 +15,13 @@
     /// <summary>
     /// The favorites.
     /// </summary>
-    public class Favorites : IFavorites
+    public class SqliteFavorites : IFavorites
     {
+        /// <summary>
+        /// The _favicon cache.
+        /// </summary>
+        private readonly IFavicon _faviconCache;
+
         /// <summary>
         /// The _favorites.
         /// </summary>
@@ -31,14 +36,9 @@
         /// The configuration file.
         /// </summary>
         private IConfig _config;
-
+        
         /// <summary>
-        /// The _favicon cache.
-        /// </summary>
-        private readonly IFaviconCache _faviconCache;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Favorites"/> class.
+        /// Initializes a new instance of the <see cref="SqliteFavorites"/> class.
         /// </summary>
         /// <param name="config">
         /// The config file.
@@ -46,12 +46,12 @@
         /// <param name="cache">
         /// The cache.
         /// </param>
-        public Favorites(IConfig config, IFaviconCache cache)
+        public SqliteFavorites(IConfig config, IFavicon cache)
         {
             this._config = config;
             this._faviconCache = cache;
             this.Load();
-            this.OnFavoritesUpdated += this.UpdateFavorites;
+            this.OnFavoritesAddOrUpdate += this.UpdateFavorites;
         }
 
         /// <summary>
@@ -66,19 +66,19 @@
         private void UpdateFavorites(object sender, FavoritesUpdateEventArgs args)
         {
             // update favorites
-            this._favorites[args.location.Id] = args.location;
+            this._favorites[args.Location.Id] = args.Location;
 
             // update viewmodel
-            var toUpdate = this._favoritesViewModels.SingleOrDefault(model => model.Url == args.location.Url.ToString());
+            var toUpdate = this._favoritesViewModels.SingleOrDefault(model => model.Url == args.Location.Url.ToString());
 
             if (toUpdate == null)
             {
-                this._favoritesViewModels.Add(FavoritesViewModel.FromFavoritesLocation(args.location, this._faviconCache));
+                this._favoritesViewModels.Add(FavoritesViewModel.FromFavoritesLocation(args.Location, this._faviconCache));
             }
             else
             {
-                toUpdate.Name = args.location.Name;
-                toUpdate.Url = args.location.Url.ToString();
+                toUpdate.Name = args.Location.Name;
+                toUpdate.Url = args.Location.Url.ToString();
             }
         }
 
@@ -120,7 +120,7 @@
             }
             
             // push change to lists
-            this.OnFavoritesUpdated?.Invoke(this, new FavoritesUpdateEventArgs(loc));
+            this.OnFavoritesAddOrUpdate?.Invoke(this, new FavoritesUpdateEventArgs(loc));
             return loc;
         }
 
@@ -169,19 +169,19 @@
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="getUpdate">
+        /// <param name="update">
         /// The get update.
         /// </param>
-        public async void UpdateById(int id, FavoritesLocation getUpdate)
+        public async void UpdateById(int id, FavoritesLocation update)
         {
             using (var db = new DataContext())
             {
                 var updated = await db.Favorites.SingleAsync(fav => fav.Id == id);
-                updated.Url = getUpdate.Url;
-                updated.Name = getUpdate.Name;
+                updated.Url = update.Url;
+                updated.Name = update.Name;
                 await db.SaveChangesAsync();
 
-                this.OnFavoritesUpdated?.Invoke(this, new FavoritesUpdateEventArgs(updated));
+                this.OnFavoritesAddOrUpdate?.Invoke(this, new FavoritesUpdateEventArgs(updated));
             }
 
         }
@@ -189,7 +189,7 @@
         /// <summary>
         /// The favorites updated.
         /// </summary>
-        public event FavoritesUpdateEventHandler OnFavoritesUpdated;
+        public event FavoritesUpdateEventHandler OnFavoritesAddOrUpdate;
 
         /// <inheritdoc />
         /// <summary>

@@ -7,10 +7,13 @@
 
     /// <inheritdoc />
     /// <summary>
-    /// The location.
+    /// The Location.
     /// </summary>
     public class Location : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The _favicon id.
+        /// </summary>
         private int _faviconId;
 
         /// <summary>

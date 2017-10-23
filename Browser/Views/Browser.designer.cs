@@ -47,13 +47,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.goHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newIncognitoTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previousTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setAsHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FavoritesRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -170,7 +170,6 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newTabToolStripMenuItem,
             this.newWindowToolStripMenuItem,
-            this.goHomeToolStripMenuItem,
             this.closeTabToolStripMenuItem,
             this.quitToolStripMenuItem,
             this.newIncognitoTabToolStripMenuItem});
@@ -188,12 +187,6 @@
             this.newWindowToolStripMenuItem.Name = "newWindowToolStripMenuItem";
             resources.ApplyResources(this.newWindowToolStripMenuItem, "newWindowToolStripMenuItem");
             this.newWindowToolStripMenuItem.Click += new System.EventHandler(this.OnNewWindowButtonPressed);
-            // 
-            // goHomeToolStripMenuItem
-            // 
-            resources.ApplyResources(this.goHomeToolStripMenuItem, "goHomeToolStripMenuItem");
-            this.goHomeToolStripMenuItem.Name = "goHomeToolStripMenuItem";
-            this.goHomeToolStripMenuItem.Click += new System.EventHandler(this.OnGoHomeButtonPressed);
             // 
             // closeTabToolStripMenuItem
             // 
@@ -218,6 +211,7 @@
             this.windowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nextTabToolStripMenuItem,
             this.previousTabToolStripMenuItem,
+            this.goHomeToolStripMenuItem,
             this.setAsHomeToolStripMenuItem,
             this.reloadTabToolStripMenuItem});
             this.windowToolStripMenuItem.Name = "windowToolStripMenuItem";
@@ -234,6 +228,12 @@
             this.previousTabToolStripMenuItem.Name = "previousTabToolStripMenuItem";
             resources.ApplyResources(this.previousTabToolStripMenuItem, "previousTabToolStripMenuItem");
             this.previousTabToolStripMenuItem.Click += new System.EventHandler(this.OnPrevTabButtonPressed);
+            // 
+            // goHomeToolStripMenuItem
+            // 
+            resources.ApplyResources(this.goHomeToolStripMenuItem, "goHomeToolStripMenuItem");
+            this.goHomeToolStripMenuItem.Name = "goHomeToolStripMenuItem";
+            this.goHomeToolStripMenuItem.Click += new System.EventHandler(this.OnGoHomeButtonPressed);
             // 
             // setAsHomeToolStripMenuItem
             // 
@@ -301,7 +301,6 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.MainMenu;
             this.Name = "Browser";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnWindowClosed);
             this.SideBar.ResumeLayout(false);
             this.FavoritesTab.ResumeLayout(false);
             this.HistoryTab.ResumeLayout(false);
