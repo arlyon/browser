@@ -12,7 +12,7 @@
 
     /// <inheritdoc cref="INotifyPropertyChanged" />
     /// <summary>
-    /// The history view model.
+    /// The Favorites view model.
     /// </summary>
     public class FavoritesViewModel : INotifyPropertyChanged, IHasFavicon
     {
@@ -30,7 +30,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the url.
+        /// Gets or sets the url string.
         /// </summary>
         public string Url
         {
@@ -102,7 +102,7 @@
         }
 
         /// <summary>
-        /// The get url.
+        /// Gets the Url
         /// </summary>
         /// <returns>
         /// The <see cref="Url"/>.
@@ -113,7 +113,7 @@
         }
 
         /// <summary>
-        /// The update view model.
+        /// Update's the view model.
         /// </summary>
         /// <param name="sender">
         /// The sender.
@@ -138,18 +138,19 @@
         }
 
         /// <summary>
-        /// The property changed.
+        /// The property changed event.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// The on property changed.
+        /// The on property changed function which is called in the properties
+        /// of the class to notify changes to listeners.
         /// </summary>
         /// <param name="propertyName">
         /// The property name.
         /// </param>
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

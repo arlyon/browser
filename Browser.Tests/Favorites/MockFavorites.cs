@@ -109,7 +109,10 @@
             var viewmodel = this._viewModel.ToList().Single(view => view.Url == url.ToString());
             viewmodel.Name = update.Name;
             viewmodel.Url = update.Url.ToString();
-            this.OnFavoritesAddOrUpdate?.Invoke(this, new FavoritesUpdateEventArgs(update));
+
+            var loc = this._idLookup.Single(view => view.Value.Url == url);
+            loc.Value.Name = update.Name;
+            loc.Value.Url = update.Url;
         }
 
         /// <summary>

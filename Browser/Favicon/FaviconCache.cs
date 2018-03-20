@@ -51,21 +51,10 @@
             this._loadedFavicons = new Dictionary<string, int>();
         }
 
-        /// <summary>
-        /// Gets the lfavicon <see cref="ImageList"/>.
-        /// </summary>
+        /// <inheritdoc />
         public ImageList Favicons { get; }
 
-        /// <summary>
-        /// Gets the favicon from the given url, caches it, adds it to the
-        /// image list in memory, and returns the index for use in the GUI.
-        /// </summary>
-        /// <param name="url">
-        /// The url.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/> to get the index.
-        /// </returns>
+        /// <inheritdoc />
         public async Task<int> Request(Url url)
         {
             var hash = url.Host.GetHashCode().ToString("X");

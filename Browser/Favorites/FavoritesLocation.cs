@@ -17,12 +17,12 @@
         /// <summary>
         /// The name.
         /// </summary>
-        private string name;
+        private string _name;
 
         /// <summary>
         /// The url.
         /// </summary>
-        private Url url;
+        private Url _url;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class.
@@ -66,40 +66,42 @@
         /// </summary>
         public string Name
         {
-            get => this.name;
+            get => this._name;
             set
             {
-                this.name = value;
+                this._name = value;
                 this.OnPropertyChanged();
             }
         }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the Url.
         /// </summary>
         public Url Url
         {
-            get => this.url;
+            get => this._url;
             set
             {
-                this.url = value;
+                this._url = value;
                 this.OnPropertyChanged();
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// The property changed.
+        /// The property changed event.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// The on property changed.
+        /// The on property changed function which is called in the properties
+        /// of the class to notify changes to listeners.
         /// </summary>
         /// <param name="propertyName">
         /// The property name.
         /// </param>
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

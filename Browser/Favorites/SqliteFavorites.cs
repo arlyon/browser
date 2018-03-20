@@ -13,22 +13,22 @@
 
     /// <inheritdoc />
     /// <summary>
-    /// The favorites.
+    /// The favorites sqlite database implementation.
     /// </summary>
     public class SqliteFavorites : IFavorites
     {
         /// <summary>
-        /// The _favicon cache.
+        /// The favicon cache.
         /// </summary>
         private readonly IFavicon _faviconCache;
 
         /// <summary>
-        /// The _favorites.
+        /// The favorites dictionary.
         /// </summary>
         private Dictionary<int, FavoritesLocation> _favorites;
 
         /// <summary>
-        /// The _favorites view models.
+        /// The favorites view models.
         /// </summary>
         private BindingList<FavoritesViewModel> _favoritesViewModels;
 
@@ -55,7 +55,7 @@
         }
 
         /// <summary>
-        /// The update favorites.
+        /// Updates the item in memory with the same id with new data.
         /// </summary>
         /// <param name="sender">
         /// The sender.
@@ -83,7 +83,7 @@
         }
 
         /// <summary>
-        /// The load.
+        /// Loads all the data from the database and into memory.
         /// </summary>
         private void Load()
         {
@@ -97,7 +97,7 @@
         }
 
         /// <summary>
-        /// The add.
+        /// Adds a url to the favorites list and into the database.
         /// </summary>
         /// <param name="url">
         /// The url.
@@ -126,10 +126,10 @@
 
         /// <inheritdoc />
         /// <summary>
-        /// Gets the favorites.
+        /// Gets the favorites view model.
         /// </summary>
         /// <returns>
-        /// The <see cref="T:System.Collections.Generic.List`1" />.
+        /// The <see cref="List{T}" />.
         /// </returns>
         public BindingList<FavoritesViewModel> GetViewModel()
         {
@@ -137,7 +137,7 @@
         }
 
         /// <summary>
-        /// The delete by id.
+        /// Deletes a favorites entry by its ID.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -164,7 +164,7 @@
         }
 
         /// <summary>
-        /// The update by id.
+        /// Changes the entry in the database and calls the event to update in memory.
         /// </summary>
         /// <param name="id">
         /// The id.
@@ -187,13 +187,13 @@
         }
 
         /// <summary>
-        /// The favorites updated.
+        /// The favorites updated event.
         /// </summary>
         public event FavoritesUpdateEventHandler OnFavoritesAddOrUpdate;
 
         /// <inheritdoc />
         /// <summary>
-        /// The get or create.
+        /// Gets or creates a favorites location.
         /// </summary>
         /// <param name="locUrl">
         /// The loc url.

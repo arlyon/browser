@@ -1,8 +1,8 @@
 ﻿namespace Browser.Presenters
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Forms;
 
     using Browser.Config;
@@ -16,9 +16,9 @@
     /// The primary class for the browser. Handles the tabs, history and favorites.
     /// </summary>
     /// <typeparam name="T">
-    /// The type of tab to create.
+    /// The type of tab.
     /// </typeparam>
-    public class BrowserPresenter<T> where T : ITabPresenter
+    public class BrowserPresenter<T> : IEnumerable<T> where T : ITabPresenter
     {
         /// <summary>
         /// The browser view.
@@ -71,6 +71,17 @@
             get => this.currentTabIndex;
             set => this.currentTabIndex = value % this._tabs.Count;
         }
+
+        /// <summary>
+        /// Returns the <see cref="T"/> at the specified index.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        private T this[int index] => this._tabs[index];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrowserPresenter{T}"/> class. 
@@ -174,12 +185,12 @@
                 this._config,
                 this._favicons,
                 this._newTabFactory);
-
+            
             // switch to the next tab
-            this._browser.NextTab += (s, e) => this.SwitchToTab(++this.CurrentTabIndex);
+            this._browser.NextTab += (s, e) => { this.CurrentTabIndex += 1; this.SwitchToTab(this.CurrentTabIndex); };
 
             // switch to the previous tab
-            this._browser.PrevTab += (s, e) => this.SwitchToTab(--this.CurrentTabIndex);
+            this._browser.PrevTab += (s, e) => { this.CurrentTabIndex -= 1; this.SwitchToTab(this.CurrentTabIndex); };
 
             // push the url from the clicked viewmodel onto the currenly opened tab
             this._browser.HistoryListOpen += (s, e) =>
@@ -266,7 +277,7 @@
             var index = this._tabs.FindIndex(p => p.Name == guid);
             
             // remove the tab at the index
-            this._browser.RemoveTab(this._tabs[index].Name);
+            this._browser.RemoveTab(this[index].Name);
 
             // remove the tab in the tab list
             this._tabs.RemoveAt(index);
@@ -346,7 +357,7 @@
         /// <param name="index">The index of the tab.</param>
         private void SwitchToTab(int index)
         {
-            this.SwitchToTab(this._tabs[index].Name);
+            this.SwitchToTab(this[index].Name);
         }
 
         /// <summary>
@@ -360,6 +371,28 @@
 
             this.CurrentTabIndex = index; // update the tabindex
             this._browser.SelectTab(guid); // update the tab index on the ui
+        }
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerator"/>.
+        /// </returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this._tabs.GetEnumerator();
+        }
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="IEnumerator"/>.
+        /// </returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 

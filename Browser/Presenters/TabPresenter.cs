@@ -24,7 +24,7 @@
         private readonly IConfig _config;
 
         /// <summary>
-        /// The _favicons.
+        /// The favicons cache.
         /// </summary>
         private readonly IFavicon _favicons;
 
@@ -34,22 +34,22 @@
         private readonly IFavorites _favorites;
 
         /// <summary>
-        /// The _tab.
+        /// The tab.
         /// </summary>
         private readonly ITab _tab;
 
         /// <summary>
-        /// Gets the tab history.
+        /// The tab history.
         /// </summary>
         private readonly ITabHistory _tabHistory;
 
         /// <summary>
-        /// The _current response.
+        /// The current response.
         /// </summary>
         private HttpResponse _currentResponse;
 
         /// <summary>
-        /// The _name.
+        /// The name.
         /// </summary>
         private string _name;
 
@@ -144,7 +144,7 @@
         }
 
         /// <summary>
-        /// The reload.
+        /// Reloads the page.
         /// </summary>
         public void Reload()
         {
@@ -152,7 +152,7 @@
         }
 
         /// <summary>
-        /// Returns the url that the page is currently visiting.
+        /// Returns the url that the page is currently on.
         /// </summary>
         /// <returns>
         /// The <see cref="Url"/>.
@@ -183,7 +183,7 @@
         }
 
         /// <summary>
-        /// The make and display request.
+        /// Makes the request and displays the result.
         /// </summary>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -215,7 +215,7 @@
         }
 
         /// <summary>
-        /// The handle and display error.
+        /// Handles any errors and displays the result.
         /// </summary>
         /// <param name="e">
         /// The e.

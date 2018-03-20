@@ -1,0 +1,3552 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Browser</name>
+    </assembly>
+    <members>
+        <member name="T:Browser.Favicon.FaviconCache">
+            <inheritdoc />
+            <summary>
+            A cache used to store favicons for the favorites bar and tab menu.
+            When an image is fetched it is stored in the cache folder, by the
+            hash of the hostname.
+            </summary>
+        </member>
+        <member name="F:Browser.Favicon.FaviconCache._loadedFavicons">
+            <summary>
+            The loaded favicons.
+            </summary>
+        </member>
+        <member name="M:Browser.Favicon.FaviconCache.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Favicon.FaviconCache"/> class.
+            </summary>
+        </member>
+        <member name="P:Browser.Favicon.FaviconCache.Favicons">
+            <inheritdoc />
+        </member>
+        <member name="M:Browser.Favicon.FaviconCache.Request(Browser.Requests.Url)">
+            <inheritdoc />
+        </member>
+        <member name="T:Browser.Favicon.IFavicon">
+            <summary>
+            The Favicon interface.
+            </summary>
+        </member>
+        <member name="P:Browser.Favicon.IFavicon.Favicons">
+            <summary>
+            Gets the favicon <see cref="T:System.Windows.Forms.ImageList" />.
+            </summary>
+        </member>
+        <member name="M:Browser.Favicon.IFavicon.Request(Browser.Requests.Url)">
+            <summary>
+            Gets the favicon from the given url, caches it, adds it to the
+            image list in memory, and returns the index for use in the GUI.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/> to get the index.
+            </returns>
+        </member>
+        <member name="T:Browser.Favicon.IHasFavicon">
+            <summary>
+            Implemented by viewmodels that have a favicon associated with them.
+            </summary>
+        </member>
+        <member name="M:Browser.Favicon.IHasFavicon.GetFaviconId">
+            <summary>
+            Gets the favicon ID for the imagelist that it is managing.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.Config.IConfig">
+            <inheritdoc />
+            <summary>
+            The Config interface.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.IConfig.DatabaseName">
+            <summary>
+            Gets the database name.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.IConfig.Home">
+            <summary>
+            Gets or sets the home url.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.IConfig.HistoryTimeSpan">
+            <summary>
+            Gets or sets the history time span.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.IConfig.OverrideAndLoadAllHistory">
+            <summary>
+            Gets or sets a value indicating whether load all history.
+            </summary>
+        </member>
+        <member name="T:Browser.Config.YamlConfig">
+            <inheritdoc cref="T:Browser.Config.IConfig" />
+            <summary>
+            The yaml config.
+            </summary>
+        </member>
+        <member name="F:Browser.Config.YamlConfig._home">
+            <summary>
+            The home address.
+            </summary>
+        </member>
+        <member name="F:Browser.Config.YamlConfig._triggerSave">
+            <summary>
+            Determines whether the property update event handler should save.
+            </summary>
+        </member>
+        <member name="M:Browser.Config.YamlConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Config.YamlConfig"/> class. 
+            </summary>
+        </member>
+        <member name="E:Browser.Config.YamlConfig.PropertyChanged">
+            <inheritdoc />
+            <summary>
+            The property changed.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.YamlConfig.DatabaseName">
+            <inheritdoc />
+            <summary>
+            Gets the database.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.YamlConfig.Home">
+            <inheritdoc />
+            <summary>
+            Gets or sets the home url.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.YamlConfig.HistoryTimeSpan">
+            <inheritdoc />
+            <summary>
+            Gets or sets the history time span.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.YamlConfig.OverrideAndLoadAllHistory">
+            <inheritdoc />
+            <summary>
+            Gets or sets a value indicating whether to load all history.
+            </summary>
+        </member>
+        <member name="P:Browser.Config.YamlConfig.HomeUrl">
+            <summary>
+            Gets or sets the serializable version of homeurl which is kept as a string for easy modification.
+            </summary>
+        </member>
+        <member name="M:Browser.Config.YamlConfig.LoadFromDisk">
+            <summary>
+            Loads the config file from disk.
+            </summary>
+        </member>
+        <member name="M:Browser.Config.YamlConfig.Save">
+            <summary>
+            Saves the config file to disk.
+            </summary>
+        </member>
+        <member name="M:Browser.Config.YamlConfig.OnPropertyChanged(System.String)">
+            <summary>
+            Called when properties change to inform any listening event handlers.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="M:Browser.Config.YamlConfig.GenerateDefault">
+            <summary>
+            Generates a default configuration file.
+            </summary>
+        </member>
+        <member name="M:Browser.Config.YamlConfig.Save(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            The save event.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="T:Browser.DataContext">
+            <summary>
+            The data context.
+            </summary>
+        </member>
+        <member name="P:Browser.DataContext.History">
+            <summary>
+            Gets or sets the history.
+            </summary>
+        </member>
+        <member name="P:Browser.DataContext.Favorites">
+            <summary>
+            Gets or sets the favorites.
+            </summary>
+        </member>
+        <member name="P:Browser.DataContext.Urls">
+            <summary>
+            Gets or sets the urls.
+            </summary>
+        </member>
+        <member name="M:Browser.DataContext.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.DataContext"/> class.
+            </summary>
+        </member>
+        <member name="M:Browser.DataContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <summary>
+            Sets the database in the OnConfiguring stage to use sqlite.
+            </summary>
+            <param name="optionsBuilder">
+            The options builder.
+            </param>
+        </member>
+        <member name="M:Browser.DataContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Run when the model is being build to set the Primary Keys.
+            </summary>
+            <param name="modelBuilder">
+            The model builder.
+            </param>
+        </member>
+        <member name="T:Browser.History.FavoritesViewModel">
+            <inheritdoc cref="T:System.ComponentModel.INotifyPropertyChanged" />
+            <summary>
+            The Favorites view model.
+            </summary>
+        </member>
+        <member name="P:Browser.History.FavoritesViewModel.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Browser.History.FavoritesViewModel.Url">
+            <summary>
+            Gets or sets the url string.
+            </summary>
+        </member>
+        <member name="F:Browser.History.FavoritesViewModel._favoritesLocation">
+            <summary>
+            The _history Location.
+            </summary>
+        </member>
+        <member name="F:Browser.History.FavoritesViewModel.name">
+            <summary>
+            The name.
+            </summary>
+        </member>
+        <member name="F:Browser.History.FavoritesViewModel.url">
+            <summary>
+            The url.
+            </summary>
+        </member>
+        <member name="F:Browser.History.FavoritesViewModel._faviconLookup">
+            <summary>
+            The _favicon lookup.
+            </summary>
+        </member>
+        <member name="M:Browser.History.FavoritesViewModel.FromFavoritesLocation(Browser.Favorites.FavoritesLocation,Browser.Favicon.IFavicon)">
+            <summary>
+            The from history Location.
+            </summary>
+            <param name="location">
+            The Location.
+            </param>
+            <param name="faviconLookup">
+            The favicon Lookup.
+            </param>
+            <returns>
+            The <see cref="T:Browser.History.HistoryViewModel"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.History.FavoritesViewModel.GetFaviconId">
+            <inheritdoc />
+            <summary>
+            The get favicon id.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32" />.
+            </returns>
+        </member>
+        <member name="M:Browser.History.FavoritesViewModel.GetUrl">
+            <summary>
+            Gets the Url
+            </summary>
+            <returns>
+            The <see cref="P:Browser.History.FavoritesViewModel.Url"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.History.FavoritesViewModel.UpdateViewModel(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Update's the view model.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.History.FavoritesViewModel.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Browser.History.FavoritesViewModel"/> class from being created.
+            </summary>
+        </member>
+        <member name="E:Browser.History.FavoritesViewModel.PropertyChanged">
+            <summary>
+            The property changed event.
+            </summary>
+        </member>
+        <member name="M:Browser.History.FavoritesViewModel.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed function which is called in the properties
+            of the class to notify changes to listeners.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="T:Browser.History.SqliteHistory">
+            <summary>
+            The history class.
+            </summary>
+        </member>
+        <member name="F:Browser.History.SqliteHistory._config">
+            <summary>
+            The configuration file.
+            </summary>
+        </member>
+        <member name="F:Browser.History.SqliteHistory._faviconCache">
+            <summary>
+            The _favicon cache.
+            </summary>
+        </member>
+        <member name="F:Browser.History.SqliteHistory._history">
+            <summary>
+            The History.
+            </summary>
+        </member>
+        <member name="F:Browser.History.SqliteHistory._historyViewModel">
+            <summary>
+            The History view model.
+            </summary>
+        </member>
+        <member name="M:Browser.History.SqliteHistory.#ctor(Browser.Config.IConfig,Browser.Favicon.IFavicon)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.SqliteHistory"/> class. 
+            </summary>
+            <param name="config">
+            The config.
+            </param>
+            <param name="cache">
+            The cache.
+            </param>
+        </member>
+        <member name="M:Browser.History.SqliteHistory.AddToHistory(System.Object,Browser.History.HistoryPushEventArgs)">
+            <summary>
+            The add to history.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="M:Browser.History.SqliteHistory.UpdateTitle(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            The save changes.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="E:Browser.History.SqliteHistory.HistoryUpdated">
+            <inheritdoc />
+            <summary>
+            The history updated event.
+            </summary>
+        </member>
+        <member name="M:Browser.History.SqliteHistory.Push(Browser.History.HistoryLocation)">
+            <inheritdoc />
+            <summary>
+            Pushes a new item to history and to the database.
+            </summary>
+            <param name="historyLocation">
+            The historyLocation.
+            </param>
+        </member>
+        <member name="M:Browser.History.SqliteHistory.GetViewModel">
+            <summary>
+            The get.
+            </summary>
+            <returns>
+            The <see cref="!:LinkedList"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.History.SqliteHistory.Load">
+            <summary>
+            The load function.
+            </summary>
+        </member>
+        <member name="T:Browser.History.HistoryLocation">
+            <summary>
+            The history entry.
+            </summary>
+        </member>
+        <member name="F:Browser.History.HistoryLocation.url">
+            <summary>
+            The url.
+            </summary>
+        </member>
+        <member name="F:Browser.History.HistoryLocation.title">
+            <summary>
+            The title.
+            </summary>
+        </member>
+        <member name="F:Browser.History.HistoryLocation.date">
+            <summary>
+            The date.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryLocation.#ctor(Browser.Requests.Url)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.HistoryLocation"/> class.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+        </member>
+        <member name="M:Browser.History.HistoryLocation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.HistoryLocation"/> class.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryLocation.#ctor(Browser.History.Location)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.HistoryLocation"/> class.
+            </summary>
+            <param name="l">
+            The l.
+            </param>
+        </member>
+        <member name="P:Browser.History.HistoryLocation.Date">
+            <summary>
+            Gets or sets the date.
+            </summary>
+        </member>
+        <member name="P:Browser.History.HistoryLocation.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+        </member>
+        <member name="P:Browser.History.HistoryLocation.Url">
+            <summary>
+            Gets or sets the url.
+            </summary>
+        </member>
+        <member name="E:Browser.History.HistoryLocation.PropertyChanged">
+            <summary>
+            The property changed.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryLocation.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="T:Browser.History.HistoryViewModel">
+            <summary>
+            The history view model.
+            </summary>
+        </member>
+        <member name="P:Browser.History.HistoryViewModel.Name">
+            <summary>
+            Gets the name.
+            </summary>
+        </member>
+        <member name="P:Browser.History.HistoryViewModel.Date">
+            <summary>
+            Gets the date.
+            </summary>
+        </member>
+        <member name="F:Browser.History.HistoryViewModel._historyLocation">
+            <summary>
+            The _history Location.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryViewModel.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Browser.History.HistoryViewModel"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryViewModel.FromHistoryLocation(Browser.History.HistoryLocation,Browser.Favicon.IFavicon)">
+            <summary>
+            The from history Location.
+            </summary>
+            <param name="location">
+            The Location.
+            </param>
+            <param name="faviconLookup">
+            The favicon Lookup.
+            </param>
+            <returns>
+            The <see cref="T:Browser.History.HistoryViewModel"/>.
+            </returns>
+        </member>
+        <member name="F:Browser.History.HistoryViewModel._faviconLookup">
+            <summary>
+            Gets or sets the _favicon lookup.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryViewModel.GetFaviconId">
+            <summary>
+            The get favicon id.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.History.HistoryViewModel.GetUrl">
+            <summary>
+            The get url.
+            </summary>
+            <returns>
+            The <see cref="T:Browser.Requests.Url"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.History.HistoryViewModel.UpdateViewModel(System.Object,System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            The update view model.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="E:Browser.History.HistoryViewModel.PropertyChanged">
+            <summary>
+            The property changed.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryViewModel.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="T:Browser.History.HistoryPushEventHandler">
+            <summary>
+            The history push event handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="T:Browser.History.IHistory">
+            <summary>
+            The history interface.
+            </summary>
+        </member>
+        <member name="E:Browser.History.IHistory.HistoryUpdated">
+            <summary>
+            The history updated.
+            </summary>
+        </member>
+        <member name="M:Browser.History.IHistory.Push(Browser.History.HistoryLocation)">
+            <summary>
+            The push.
+            </summary>
+            <param name="historyLocation">
+            The historyLocation.
+            </param>
+        </member>
+        <member name="M:Browser.History.IHistory.GetViewModel">
+            <summary>
+            Gets the history list.
+            </summary>
+            <returns>
+            The <see cref="!:LinkedList"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.History.HistoryPushEventArgs">
+            <inheritdoc />
+            <summary>
+            The history push event args.
+            </summary>
+        </member>
+        <member name="M:Browser.History.HistoryPushEventArgs.#ctor(Browser.History.HistoryLocation)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.HistoryPushEventArgs" /> class.
+            </summary>
+            <param name="history">
+                The entire history.
+            </param>
+        </member>
+        <member name="P:Browser.History.HistoryPushEventArgs.Change">
+            <summary>
+            Gets the new historyLocation.
+            </summary>
+        </member>
+        <member name="T:Browser.History.ChangeType">
+            <summary>
+                The type of historyLocation change.
+            </summary>
+        </member>
+        <member name="F:Browser.History.ChangeType.Forward">
+            <summary>
+            The current historyLocation changed due to navigating forward.
+            </summary>
+        </member>
+        <member name="F:Browser.History.ChangeType.Backward">
+            <summary>
+            The current historyLocation changed due to navigating back.
+            </summary>
+        </member>
+        <member name="F:Browser.History.ChangeType.Push">
+            <summary>
+            The current historyLocation changed due to navigating to a new page.
+            </summary>
+        </member>
+        <member name="T:Browser.History.ITabHistory">
+            <summary>
+            The _tabHistory interface.
+            </summary>
+        </member>
+        <member name="E:Browser.History.ITabHistory.OnCurrentLocationChange">
+            <summary>
+            The on current historyLocation change.
+            </summary>
+        </member>
+        <member name="M:Browser.History.ITabHistory.Back">
+            <summary>
+            Moves the history back a step.
+            </summary>
+            <returns>
+            The <see cref="T:Browser.History.HistoryLocation"/> previous historyLocation.
+            </returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.CanAddToFavorites">
+            <summary>
+            Checks whether the page can be added to favorites.
+            </summary>
+            <returns>Whether the page can be added to favorites.</returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.CanGoBackward">
+            <summary>
+            Checks if it is possible to go back in history.
+            </summary>
+            <returns>
+            Whether it is possible to go back in history.
+            </returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.CanGoForward">
+            <summary>
+                Checks if it is possible to go forwards in history.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.CanReload">
+            <summary>
+                Checks whether the page can be reloaded.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.Current">
+            <summary>
+                Returns the current historyLocation in history.
+            </summary>
+            <returns>The current historyLocation is history.</returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.Forward">
+            <summary>
+                Goes forward a step in the history chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.Push(Browser.Requests.Url)">
+            <summary>
+                Severs any future elements from the tab
+                history and pushes a new element to it.
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.ITabHistory.UpdateTitle(System.String)">
+            <summary>
+                Updates the title of the current historyLocation with the proper title for the page.
+            </summary>
+            <param name="pageTitle"></param>
+        </member>
+        <member name="T:Browser.History.CurrentLocationChangeHandler">
+            <summary>
+            The current Location change handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="T:Browser.History.CurrentLocationChangeArgs">
+            <inheritdoc />
+            <summary>
+                The event args passed when the historyLocation changes.
+            </summary>
+        </member>
+        <member name="M:Browser.History.CurrentLocationChangeArgs.#ctor(Browser.History.ChangeType,Browser.History.HistoryLocation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.CurrentLocationChangeArgs"/> class.
+            </summary>
+            <param name="type">
+            The type.
+            </param>
+            <param name="location">
+            The location.
+            </param>
+        </member>
+        <member name="P:Browser.History.CurrentLocationChangeArgs.ChangeType">
+            <summary>
+            Gets the change type.
+            </summary>
+        </member>
+        <member name="P:Browser.History.CurrentLocationChangeArgs.HistoryLocation">
+            <summary>
+            Gets the history location.
+            </summary>
+        </member>
+        <member name="T:Browser.History.Location">
+            <inheritdoc />
+            <summary>
+            The Location.
+            </summary>
+        </member>
+        <member name="F:Browser.History.Location._faviconId">
+            <summary>
+            The _favicon id.
+            </summary>
+        </member>
+        <member name="F:Browser.History.Location._title">
+            <summary>
+            The title.
+            </summary>
+        </member>
+        <member name="F:Browser.History.Location._url">
+            <summary>
+            The url.
+            </summary>
+        </member>
+        <member name="M:Browser.History.Location.#ctor(System.String,Browser.Requests.Url)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.Location"/> class.
+            </summary>
+            <param name="title">
+            The title.
+            </param>
+            <param name="url">
+            The url.
+            </param>
+        </member>
+        <member name="M:Browser.History.Location.#ctor(Browser.Requests.Url)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.Location"/> class.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+        </member>
+        <member name="M:Browser.History.Location.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.Location"/> class.
+            </summary>
+        </member>
+        <member name="E:Browser.History.Location.PropertyChanged">
+            <summary>
+            The property changed.
+            </summary>
+        </member>
+        <member name="P:Browser.History.Location.DisplayText">
+            <summary>
+            The display text.
+            </summary>
+        </member>
+        <member name="P:Browser.History.Location.FaviconId">
+            <summary>
+            Gets or sets the favicon id.
+            </summary>
+        </member>
+        <member name="P:Browser.History.Location.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+        </member>
+        <member name="P:Browser.History.Location.Url">
+            <summary>
+            Gets or sets the url.
+            </summary>
+        </member>
+        <member name="M:Browser.History.Location.OnPropertyChanged(System.String)">
+            <summary>
+            Called when any properties change to notify listening event handlers.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="T:Browser.History.TabHistory">
+            <summary>
+            The history for a single tab.
+            </summary>
+        </member>
+        <member name="F:Browser.History.TabHistory._historyChain">
+            <summary>
+            The history chain.
+            </summary>
+        </member>
+        <member name="F:Browser.History.TabHistory._currentPage">
+            <summary>
+            The current page.
+            </summary>
+        </member>
+        <member name="M:Browser.History.TabHistory.#ctor(Browser.History.IHistory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.TabHistory"/> class.
+            </summary>
+            <param name="history">
+            The history.
+            </param>
+        </member>
+        <member name="M:Browser.History.TabHistory.#ctor(System.Collections.Generic.LinkedList{Browser.History.HistoryLocation},Browser.History.IHistory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.History.TabHistory"/> class.
+            </summary>
+            <param name="historyChain">
+            Create a tab history with an already existing chain.
+            </param>
+            <param name="history">
+            The history.
+            </param>
+        </member>
+        <member name="E:Browser.History.TabHistory.OnCurrentLocationChange">
+            <inheritdoc />
+            <summary>
+                Called when the current historyLocation in history changes.
+            </summary>
+        </member>
+        <member name="P:Browser.History.TabHistory.GlobalHistory">
+            <summary>
+            Gets or sets the Global History
+            </summary>
+        </member>
+        <member name="M:Browser.History.TabHistory.Back">
+            <inheritdoc />
+            <summary>
+                Goes backwards a step in the history chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.CanAddToFavorites">
+            <inheritdoc />
+            <summary>
+                Checks whether the page can be added to favorites (ie there is a loaded historyLocation).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.CanGoBackward">
+            <inheritdoc />
+            <summary>
+                Checks if it is possible to go back in history.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.CanGoForward">
+            <inheritdoc />
+            <summary>
+                Checks if it is possible to go forwards in history.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.CanReload">
+            <inheritdoc />
+            <summary>
+                Checks if it is possible to reload the page.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.Current">
+            <inheritdoc />
+            <summary>
+                Returns the current historyLocation in history.
+            </summary>
+            <returns>The current historyLocation is history.</returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.Forward">
+            <inheritdoc />
+            <summary>
+            Goes forward a step in the history chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.Push(Browser.Requests.Url)">
+            <inheritdoc />
+            <summary>
+                Severs any future elements from the chain
+                and pushes a new element to the tab history
+                as well as the global <see cref="T:Browser.History.SqliteHistory" />.
+            </summary>
+            <param name="url">The <see cref="T:Browser.Requests.Url" /> to navigate to.</param>
+            <returns>The new historyLocation.</returns>
+        </member>
+        <member name="M:Browser.History.TabHistory.UpdateTitle(System.String)">
+            <summary>
+            The update title.
+            </summary>
+            <param name="pageTitle">
+            The page title.
+            </param>
+        </member>
+        <member name="T:Browser.Favorites.SqliteFavorites">
+            <inheritdoc />
+            <summary>
+            The favorites sqlite database implementation.
+            </summary>
+        </member>
+        <member name="F:Browser.Favorites.SqliteFavorites._faviconCache">
+            <summary>
+            The favicon cache.
+            </summary>
+        </member>
+        <member name="F:Browser.Favorites.SqliteFavorites._favorites">
+            <summary>
+            The favorites dictionary.
+            </summary>
+        </member>
+        <member name="F:Browser.Favorites.SqliteFavorites._favoritesViewModels">
+            <summary>
+            The favorites view models.
+            </summary>
+        </member>
+        <member name="F:Browser.Favorites.SqliteFavorites._config">
+            <summary>
+            The configuration file.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.#ctor(Browser.Config.IConfig,Browser.Favicon.IFavicon)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Favorites.SqliteFavorites"/> class.
+            </summary>
+            <param name="config">
+            The config file.
+            </param>
+            <param name="cache">
+            The cache.
+            </param>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.UpdateFavorites(System.Object,Browser.Favorites.FavoritesUpdateEventArgs)">
+            <summary>
+            Updates the item in memory with the same id with new data.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.Load">
+            <summary>
+            Loads all the data from the database and into memory.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.Add(Browser.Requests.Url)">
+            <summary>
+            Adds a url to the favorites list and into the database.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+            <returns>
+            The <see cref="T:Browser.Favorites.FavoritesLocation"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.GetViewModel">
+            <inheritdoc />
+            <summary>
+            Gets the favorites view model.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.Generic.List`1" />.
+            </returns>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.DeleteById(System.Int32)">
+            <summary>
+            Deletes a favorites entry by its ID.
+            </summary>
+            <param name="id">
+            The id.
+            </param>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.UpdateById(System.Int32,Browser.Favorites.FavoritesLocation)">
+            <summary>
+            Changes the entry in the database and calls the event to update in memory.
+            </summary>
+            <param name="id">
+            The id.
+            </param>
+            <param name="update">
+            The get update.
+            </param>
+        </member>
+        <member name="E:Browser.Favorites.SqliteFavorites.OnFavoritesAddOrUpdate">
+            <summary>
+            The favorites updated event.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.SqliteFavorites.GetOrCreate(Browser.Requests.Url)">
+            <inheritdoc />
+            <summary>
+            Gets or creates a favorites location.
+            </summary>
+            <param name="locUrl">
+            The loc url.
+            </param>
+            <returns>
+            The <see cref="T:Browser.Favorites.FavoritesLocation" />.
+            </returns>
+        </member>
+        <member name="T:Browser.Favorites.FavoritesLocation">
+            <inheritdoc />
+            <summary>
+            The favorites entry.
+            </summary>
+        </member>
+        <member name="F:Browser.Favorites.FavoritesLocation._name">
+            <summary>
+            The name.
+            </summary>
+        </member>
+        <member name="F:Browser.Favorites.FavoritesLocation._url">
+            <summary>
+            The url.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.FavoritesLocation.#ctor(Browser.Requests.Url)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+        </member>
+        <member name="M:Browser.Favorites.FavoritesLocation.#ctor(Browser.History.Location)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class. 
+            </summary>
+            <param name="l">
+            The l.
+            </param>
+        </member>
+        <member name="M:Browser.Favorites.FavoritesLocation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesLocation" /> class.
+            </summary>
+        </member>
+        <member name="P:Browser.Favorites.FavoritesLocation.Id">
+            <summary>
+            Gets or sets the id.
+            </summary>
+        </member>
+        <member name="P:Browser.Favorites.FavoritesLocation.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Browser.Favorites.FavoritesLocation.Url">
+            <summary>
+            Gets or sets the Url.
+            </summary>
+        </member>
+        <member name="E:Browser.Favorites.FavoritesLocation.PropertyChanged">
+            <inheritdoc />
+            <summary>
+            The property changed event.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.FavoritesLocation.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed function which is called in the properties
+            of the class to notify changes to listeners.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="T:Browser.Favorites.IFavorites">
+            <summary>
+            The Favorites interface.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.IFavorites.GetOrCreate(Browser.Requests.Url)">
+            <summary>
+            Gets or creates a new favorites location.
+            </summary>
+            <param name="url">
+            The url to get or create.
+            </param>
+            <returns>
+            The <see cref="T:Browser.Favorites.FavoritesLocation"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Favorites.IFavorites.GetViewModel">
+            <summary>
+            Gets a <see cref="T:System.ComponentModel.BindingList`1"/> with the viewmodels for the favorites.
+            </summary>
+            <returns>
+            The <see cref="T:System.ComponentModel.BindingList`1"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Favorites.IFavorites.DeleteById(System.Int32)">
+            <summary>
+            The delete by id method.
+            </summary>
+            <param name="id">
+            The id to delete.
+            </param>
+        </member>
+        <member name="M:Browser.Favorites.IFavorites.UpdateById(System.Int32,Browser.Favorites.FavoritesLocation)">
+            <summary>
+            The update by id method.
+            </summary>
+            <param name="id">
+            The id to update.
+            </param>
+            <param name="update">
+            The new location date to update.
+            </param>
+        </member>
+        <member name="E:Browser.Favorites.IFavorites.OnFavoritesAddOrUpdate">
+            <summary>
+            The favorites updated event.
+            </summary>
+            <remarks>
+            Called when a new <see cref="T:Browser.Favorites.FavoritesLocation"/> is
+            added to the favorites or when a favorites location is
+            updated with new data.
+            </remarks>
+        </member>
+        <member name="T:Browser.Favorites.FavoritesUpdateEventHandler">
+            <summary>
+            The favorites update event handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="T:Browser.Favorites.FavoritesUpdateEventArgs">
+            <summary>
+            The favorites update event args.
+            </summary>
+        </member>
+        <member name="M:Browser.Favorites.FavoritesUpdateEventArgs.#ctor(Browser.Favorites.FavoritesLocation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Favorites.FavoritesUpdateEventArgs"/> class.
+            </summary>
+            <param name="location">
+            The location.
+            </param>
+        </member>
+        <member name="P:Browser.Favorites.FavoritesUpdateEventArgs.Location">
+            <summary>
+            Gets the Location.
+            </summary>
+        </member>
+        <member name="T:Browser.Presenters.EditFavoritesPresenter">
+            <summary>
+            The favorites presenter.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.EditFavoritesPresenter.#ctor(Browser.Views.IEditFavorites,Browser.Requests.Url,Browser.Favorites.IFavorites)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Presenters.EditFavoritesPresenter"/> class.
+            </summary>
+            <param name="window">
+            The <see cref="T:Browser.Views.IEditFavorites"/> window.
+            </param>
+            <param name="url">
+            The url.
+            </param>
+            <param name="favorites">
+            The favorites.
+            </param>
+            <remarks>
+            If the Location exists in the favorites menu, it lets you edit the already
+            existing one otherise it will create a new entry.
+            </remarks>
+        </member>
+        <member name="T:Browser.Presenters.ITabPresenter">
+            <summary>
+            The TabPresenter interface.
+            </summary>
+        </member>
+        <member name="P:Browser.Presenters.ITabPresenter.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.ITabPresenter.Push(Browser.Requests.Url)">
+            <summary>
+            Pushes a url, or alternatively a google search to the tab history which then triggers a page load.
+            </summary>
+            <param name="url">The url to push.</param>
+        </member>
+        <member name="M:Browser.Presenters.ITabPresenter.Reload">
+            <summary>
+            Instructs the presenter to reload the tab.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.ITabPresenter.Url">
+            <summary>
+            Returns the url that the page is currently visiting.
+            </summary>
+            <returns>
+            The <see cref="M:Browser.Presenters.TabPresenter.Url"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.Presenters.BrowserPresenter`1">
+            <summary>
+            The primary class for the browser. Handles the tabs, history and favorites.
+            </summary>
+            <typeparam name="T">
+            The type of tab.
+            </typeparam>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._browser">
+            <summary>
+            The browser view.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._config">
+            <summary>
+            The configuration.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._favicons">
+            <summary>
+            The favicon cache.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._favorites">
+            <summary>
+            The favorites manager.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._history">
+            <summary>
+            The history manager.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._newTabFactory">
+            <summary>
+            Uses a factory method to create a tab of a specific concrete implementation.
+            </summary>
+            <returns>
+            The <see cref="T:Browser.Presenters.ITabPresenter"/>.
+            </returns>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1._tabs">
+            <summary>
+            The tabs.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.BrowserPresenter`1.currentTabIndex">
+            <summary>
+            The current tab index.
+            </summary>
+        </member>
+        <member name="P:Browser.Presenters.BrowserPresenter`1.CurrentTabIndex">
+            <summary>
+            Gets or sets the current tab index.
+            </summary>
+        </member>
+        <member name="P:Browser.Presenters.BrowserPresenter`1.Item(System.Int32)">
+            <summary>
+            Returns the <see cref="!:T"/> at the specified index.
+            </summary>
+            <param name="index">
+            The index.
+            </param>
+            <returns>
+            The <see cref="!:T"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.#ctor(Browser.Views.IBrowser,Browser.History.IHistory,Browser.Favorites.IFavorites,Browser.Config.IConfig,Browser.Favicon.IFavicon,System.Func{Browser.Views.ITab,Browser.Favorites.IFavorites,Browser.Config.IConfig,Browser.Favicon.IFavicon,Browser.History.IHistory,Browser.History.ITabHistory,`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Presenters.BrowserPresenter`1"/> class. 
+            </summary>
+            <param name="browser">
+            The browser form.
+            </param>
+            <param name="history">
+            The history model.
+            </param>
+            <param name="favorites">
+            The favorites model.
+            </param>
+            <param name="config">
+            The config model.
+            </param>
+            <param name="favicons">
+            The favicon caching engine.
+            </param>
+            <param name="newTabFactory">
+            The factory method for the tabs.
+            </param>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.RegisterEventHandlers">
+            <summary>
+            Registers all the event handlers.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.SaveFavoriteFromHistory(System.Object,Browser.Views.HistoryClickEventArgs)">
+            <summary>
+            The save favorite from history.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.EditFavoritesEntry(System.Object,Browser.Views.FavoritesClickEventArgs)">
+            <summary>
+            The edit favorites entry.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.BindData">
+            <summary>
+            The bind data function.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.GetForm">
+            <summary>
+            Returns the form associated with the presenter,
+            or throws an error if there isn't one.
+            </summary>
+            <remarks>
+            Only used in the Main function to instantiate
+            the form that is associated with the presenter.
+            </remarks>
+            <exception cref="T:Browser.Presenters.InvalidViewException">
+            The Presenter's view is not a WinForms form.
+            </exception>
+            <returns>
+            The <see cref="T:System.Windows.Forms.Form"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.CloseTab(System.String)">
+            <summary>
+            Closes the tab matching the specified guid.
+            </summary>
+            <param name="guid">The GUID of the tab.</param>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.NewIncognitoTab">
+            <summary>
+            Creates a new incognito tab.
+            </summary>
+            <returns>
+            The <see cref="T:Browser.Presenters.ITabPresenter"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.NewTab(Browser.Requests.Url)">
+            <summary>
+            Creates a new tab, and immediately navigates to
+            the specified <see cref="T:Browser.Requests.Url"/>.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+            <returns>
+            The <see cref="T:Browser.Presenters.ITabPresenter"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.NewTab">
+            <summary>
+            Creates a new tab.
+            </summary>
+            <returns>
+            The <see cref="T:Browser.Presenters.ITabPresenter"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.NewTab(Browser.History.IHistory)">
+            <summary>
+            Creates a new tab, pushing history to the given IHistory object.
+            </summary>
+            <param name="history">
+            The history.
+            </param>
+            <returns>
+            The <see cref="T:Browser.Presenters.ITabPresenter"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.SwitchToTab(System.Int32)">
+            <summary>
+            Switches to the specified tab.
+            </summary>
+            <param name="index">The index of the tab.</param>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.SwitchToTab(System.String)">
+            <summary>
+            Switches to the tab identified by the guid.
+            </summary>
+            <param name="guid">The guid of the specified tab.</param>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.GetEnumerator">
+            <summary>
+            The get enumerator.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.IEnumerator"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.BrowserPresenter`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            The get enumerator.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.IEnumerator"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.Presenters.InvalidViewException">
+            <inheritdoc />
+            <summary>
+            The invalid view exception.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.InvalidViewException.#ctor(System.String)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Presenters.InvalidViewException" /> class.
+            </summary>
+            <param name="message">
+            The message.
+            </param>
+        </member>
+        <member name="M:Browser.Presenters.InvalidViewException.#ctor(System.String,System.Exception)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Presenters.InvalidViewException" /> class.
+            </summary>
+            <param name="message">
+            The message.
+            </param>
+            <param name="innerException">
+            The inner exception.
+            </param>
+        </member>
+        <member name="T:Browser.Presenters.TabPresenter">
+            <summary>
+            The tab presenter.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._config">
+            <summary>
+            The config.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._favicons">
+            <summary>
+            The _favicons.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._favorites">
+            <summary>
+            The favorites.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._tab">
+            <summary>
+            The _tab.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._tabHistory">
+            <summary>
+            Gets the tab history.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._currentResponse">
+            <summary>
+            The _current response.
+            </summary>
+        </member>
+        <member name="F:Browser.Presenters.TabPresenter._name">
+            <summary>
+            The _name.
+            </summary>
+        </member>
+        <member name="P:Browser.Presenters.TabPresenter.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.#ctor(Browser.Views.ITab,Browser.Favorites.IFavorites,Browser.Config.IConfig,Browser.Favicon.IFavicon,Browser.History.IHistory,Browser.History.ITabHistory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Presenters.TabPresenter"/> class.
+            </summary>
+            <param name="tab">
+            The tab.
+            </param>
+            <param name="favorites">
+            The favorites.
+            </param>
+            <param name="config">
+            The config.
+            </param>
+            <param name="favicons">
+            The favicons.
+            </param>
+            <param name="history">
+            The history.
+            </param>
+            <param name="tabHistory">
+            The tab History.
+            </param>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.RegisterEventListeners">
+            <summary>
+            Sets up all the event listeners.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.Push(Browser.Requests.Url)">
+            <summary>
+            Pushes a url, or alternatively a google search to the tab history which then triggers a page load.
+            </summary>
+            <param name="url">The url to push.</param>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.Reload">
+            <summary>
+            The reload.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.Url">
+            <summary>
+            Returns the url that the page is currently visiting.
+            </summary>
+            <returns>
+            The <see cref="M:Browser.Presenters.TabPresenter.Url"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.LoadCurrentPage">
+            <summary>
+            Loads the current historyLocation in the tab's history.
+            </summary>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.MakeAndDisplayRequest">
+            <summary>
+            The make and display request.
+            </summary>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Presenters.TabPresenter.HandleAndDisplayError(System.Exception)">
+            <summary>
+            The handle and display error.
+            </summary>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="T:Browser.Annotations.CanBeNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could be <c>null</c> sometimes,
+            so the check for <c>null</c> is necessary before its usage.
+            </summary>
+            <example><code>
+            [CanBeNull] object Test() => null;
+            
+            void UseTest() {
+              var p = Test();
+              var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.NotNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could never be <c>null</c>.
+            </summary>
+            <example><code>
+            [NotNull] object Foo() {
+              return null; // Warning: Possible 'null' assignment
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.ItemNotNullAttribute">
+            <summary>
+            Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
+            and Lazy classes to indicate that the value of a collection item, of the Task.Result property
+            or of the Lazy.Value property can never be null.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.ItemCanBeNullAttribute">
+            <summary>
+            Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task
+            and Lazy classes to indicate that the value of a collection item, of the Task.Result property
+            or of the Lazy.Value property can be null.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.StringFormatMethodAttribute">
+            <summary>
+            Indicates that the marked method builds string by format pattern and (optional) arguments.
+            Parameter, which contains format string, should be given in constructor. The format string
+            should be in <see cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>-like form.
+            </summary>
+            <example><code>
+            [StringFormatMethod("message")]
+            void ShowError(string message, params object[] args) { /* do something */ }
+            
+            void Foo() {
+              ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
+            }
+            </code></example>
+        </member>
+        <member name="M:Browser.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+            <param name="formatParameterName">
+            Specifies which parameter of an annotated method should be treated as format-string
+            </param>
+        </member>
+        <member name="T:Browser.Annotations.ValueProviderAttribute">
+            <summary>
+            For a parameter that is expected to be one of the limited set of values.
+            Specify fields of which type should be used as values for this parameter.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.InvokerParameterNameAttribute">
+            <summary>
+            Indicates that the function argument should be string literal and match one
+            of the parameters of the caller function. For example, ReSharper annotates
+            the parameter of <see cref="T:System.ArgumentNullException"/>.
+            </summary>
+            <example><code>
+            void Foo(string param) {
+              if (param == null)
+                throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.NotifyPropertyChangedInvocatorAttribute">
+             <summary>
+             Indicates that the method is contained in a type that implements
+             <c>System.ComponentModel.INotifyPropertyChanged</c> interface and this method
+             is used to notify that some property value changed.
+             </summary>
+             <remarks>
+             The method should be non-static and conform to one of the supported signatures:
+             <list>
+             <item><c>NotifyChanged(string)</c></item>
+             <item><c>NotifyChanged(params string[])</c></item>
+             <item><c>NotifyChanged{T}(Expression{Func{T}})</c></item>
+             <item><c>NotifyChanged{T,U}(Expression{Func{T,U}})</c></item>
+             <item><c>SetProperty{T}(ref T, T, string)</c></item>
+             </list>
+             </remarks>
+             <example><code>
+             public class Foo : INotifyPropertyChanged {
+               public event PropertyChangedEventHandler PropertyChanged;
+             
+               [NotifyPropertyChangedInvocator]
+               protected virtual void NotifyChanged(string propertyName) { ... }
+            
+               string _name;
+             
+               public string Name {
+                 get { return _name; }
+                 set { _name = value; NotifyChanged("LastName"); /* Warning */ }
+               }
+             }
+             </code>
+             Examples of generated notifications:
+             <list>
+             <item><c>NotifyChanged("Property")</c></item>
+             <item><c>NotifyChanged(() =&gt; Property)</c></item>
+             <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
+             <item><c>SetProperty(ref myField, value, "Property")</c></item>
+             </list>
+             </example>
+        </member>
+        <member name="T:Browser.Annotations.ContractAnnotationAttribute">
+            <summary>
+            Describes dependency between method input and output.
+            </summary>
+            <syntax>
+            <p>Function Definition Table syntax:</p>
+            <list>
+            <item>FDT      ::= FDTRow [;FDTRow]*</item>
+            <item>FDTRow   ::= Input =&gt; Output | Output &lt;= Input</item>
+            <item>Input    ::= ParameterName: Value [, Input]*</item>
+            <item>Output   ::= [ParameterName: Value]* {halt|stop|void|nothing|Value}</item>
+            <item>Value    ::= true | false | null | notnull | canbenull</item>
+            </list>
+            If method has single input parameter, it's name could be omitted.<br/>
+            Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same) for method output
+            means that the methos doesn't return normally (throws or terminates the process).<br/>
+            Value <c>canbenull</c> is only applicable for output parameters.<br/>
+            You can use multiple <c>[ContractAnnotation]</c> for each FDT row, or use single attribute
+            with rows separated by semicolon. There is no notion of order rows, all rows are checked
+            for applicability and applied per each program state tracked by R# analysis.<br/>
+            </syntax>
+            <examples><list>
+            <item><code>
+            [ContractAnnotation("=&gt; halt")]
+            public void TerminationMethod()
+            </code></item>
+            <item><code>
+            [ContractAnnotation("halt &lt;= condition: false")]
+            public void Assert(bool condition, string text) // regular assertion method
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null =&gt; true")]
+            public bool IsNullOrEmpty(string s) // string.IsNullOrEmpty()
+            </code></item>
+            <item><code>
+            // A method that returns null if the parameter is null,
+            // and not null if the parameter is not null
+            [ContractAnnotation("null =&gt; null; notnull =&gt; notnull")]
+            public object Transform(object data) 
+            </code></item>
+            <item><code>
+            [ContractAnnotation("=&gt; true, result: notnull; =&gt; false, result: null")]
+            public bool TryParse(string s, out Person result)
+            </code></item>
+            </list></examples>
+        </member>
+        <member name="T:Browser.Annotations.LocalizationRequiredAttribute">
+            <summary>
+            Indicates that marked element should be localized or not.
+            </summary>
+            <example><code>
+            [LocalizationRequiredAttribute(true)]
+            class Foo {
+              string str = "my string"; // Warning: Localizable string
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.CannotApplyEqualityOperatorAttribute">
+            <summary>
+            Indicates that the value of the marked type (or its derivatives)
+            cannot be compared using '==' or '!=' operators and <c>Equals()</c>
+            should be used instead. However, using '==' or '!=' for comparison
+            with <c>null</c> is always permitted.
+            </summary>
+            <example><code>
+            [CannotApplyEqualityOperator]
+            class NoEquality { }
+            
+            class UsesNoEquality {
+              void Test() {
+                var ca1 = new NoEquality();
+                var ca2 = new NoEquality();
+                if (ca1 != null) { // OK
+                  bool condition = ca1 == ca2; // Warning
+                }
+              }
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.BaseTypeRequiredAttribute">
+            <summary>
+            When applied to a target attribute, specifies a requirement for any type marked
+            with the target attribute to implement or inherit specific type or types.
+            </summary>
+            <example><code>
+            [BaseTypeRequired(typeof(IComponent)] // Specify requirement
+            class ComponentAttribute : Attribute { }
+            
+            [Component] // ComponentAttribute requires implementing IComponent interface
+            class MyComponent : IComponent { }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.UsedImplicitlyAttribute">
+            <summary>
+            Indicates that the marked symbol is used implicitly (e.g. via reflection, in external library),
+            so this symbol will not be marked as unused (as well as by other usage inspections).
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.MeansImplicitUseAttribute">
+            <summary>
+            Should be used on attributes and causes ReSharper to not mark symbols marked with such attributes
+            as unused (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="F:Browser.Annotations.ImplicitUseKindFlags.Access">
+            <summary>Only entity marked with attribute considered used.</summary>
+        </member>
+        <member name="F:Browser.Annotations.ImplicitUseKindFlags.Assign">
+            <summary>Indicates implicit assignment to a member.</summary>
+        </member>
+        <member name="F:Browser.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
+            <summary>
+            Indicates implicit instantiation of a type with fixed constructor signature.
+            That means any unused constructor parameters won't be reported as such.
+            </summary>
+        </member>
+        <member name="F:Browser.Annotations.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
+            <summary>Indicates implicit instantiation of a type.</summary>
+        </member>
+        <member name="T:Browser.Annotations.ImplicitUseTargetFlags">
+            <summary>
+            Specify what is considered used implicitly when marked
+            with <see cref="T:Browser.Annotations.MeansImplicitUseAttribute"/> or <see cref="T:Browser.Annotations.UsedImplicitlyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:Browser.Annotations.ImplicitUseTargetFlags.Members">
+            <summary>Members of entity marked with attribute are considered used.</summary>
+        </member>
+        <member name="F:Browser.Annotations.ImplicitUseTargetFlags.WithMembers">
+            <summary>Entity marked with attribute and all its members considered used.</summary>
+        </member>
+        <member name="T:Browser.Annotations.PublicAPIAttribute">
+            <summary>
+            This attribute is intended to mark publicly available API
+            which should not be removed and so is treated as used.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.InstantHandleAttribute">
+            <summary>
+            Tells code analysis engine if the parameter is completely handled when the invoked method is on stack.
+            If the parameter is a delegate, indicates that delegate is executed while the method is executed.
+            If the parameter is an enumerable, indicates that it is enumerated while the method is executed.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.PureAttribute">
+            <summary>
+            Indicates that a method does not make any observable state changes.
+            The same as <c>System.Diagnostics.Contracts.PureAttribute</c>.
+            </summary>
+            <example><code>
+            [Pure] int Multiply(int x, int y) => x * y;
+            
+            void M() {
+              Multiply(123, 42); // Waring: Return value of pure method is not used
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.MustUseReturnValueAttribute">
+            <summary>
+            Indicates that the return value of method invocation must be used.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.ProvidesContextAttribute">
+            <summary>
+            Indicates the type member or parameter of some type, that should be used instead of all other ways
+            to get the value that type. This annotation is useful when you have some "context" value evaluated
+            and stored somewhere, meaning that all other ways to get this value must be consolidated with existing one.
+            </summary>
+            <example><code>
+            class Foo {
+              [ProvidesContext] IBarService _barService = ...;
+            
+              void ProcessNode(INode node) {
+                DoSomething(node, node.GetGlobalServices().Bar);
+                //              ^ Warning: use value of '_barService' field
+              }
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.PathReferenceAttribute">
+            <summary>
+            Indicates that a parameter is a path to a file or a folder within a web project.
+            Path can be relative or absolute, starting from web root (~).
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.SourceTemplateAttribute">
+            <summary>
+            An extension method marked with this attribute is processed by ReSharper code completion
+            as a 'Source Template'. When extension method is completed over some expression, it's source code
+            is automatically expanded like a template at call site.
+            </summary>
+            <remarks>
+            Template method body can contain valid source code and/or special comments starting with '$'.
+            Text inside these comments is added as source code when the template is applied. Template parameters
+            can be used either as additional method parameters or as identifiers wrapped in two '$' signs.
+            Use the <see cref="T:Browser.Annotations.MacroAttribute"/> attribute to specify macros for parameters.
+            </remarks>
+            <example>
+            In this example, the 'forEach' method is a source template available over all values
+            of enumerable types, producing ordinary C# 'foreach' statement and placing caret inside block:
+            <code>
+            [SourceTemplate]
+            public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; xs) {
+              foreach (var x in xs) {
+                 //$ $END$
+              }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:Browser.Annotations.MacroAttribute">
+            <summary>
+            Allows specifying a macro for a parameter of a <see cref="T:Browser.Annotations.SourceTemplateAttribute">source template</see>.
+            </summary>
+            <remarks>
+            You can apply the attribute on the whole method or on any of its additional parameters. The macro expression
+            is defined in the <see cref="P:Browser.Annotations.MacroAttribute.Expression"/> property. When applied on a method, the target
+            template parameter is defined in the <see cref="P:Browser.Annotations.MacroAttribute.Target"/> property. To apply the macro silently
+            for the parameter, set the <see cref="P:Browser.Annotations.MacroAttribute.Editable"/> property value = -1.
+            </remarks>
+            <example>
+            Applying the attribute on a source template method:
+            <code>
+            [SourceTemplate, Macro(Target = "item", Expression = "suggestVariableName()")]
+            public static void forEach&lt;T&gt;(this IEnumerable&lt;T&gt; collection) {
+              foreach (var item in collection) {
+                //$ $END$
+              }
+            }
+            </code>
+            Applying the attribute on a template method parameter:
+            <code>
+            [SourceTemplate]
+            public static void something(this Entity x, [Macro(Expression = "guid()", Editable = -1)] string newguid) {
+              /*$ var $x$Id = "$newguid$" + x.ToString();
+              x.DoSomething($x$Id); */
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Browser.Annotations.MacroAttribute.Expression">
+            <summary>
+            Allows specifying a macro that will be executed for a <see cref="T:Browser.Annotations.SourceTemplateAttribute">source template</see>
+            parameter when the template is expanded.
+            </summary>
+        </member>
+        <member name="P:Browser.Annotations.MacroAttribute.Editable">
+            <summary>
+            Allows specifying which occurrence of the target parameter becomes editable when the template is deployed.
+            </summary>
+            <remarks>
+            If the target parameter is used several times in the template, only one occurrence becomes editable;
+            other occurrences are changed synchronously. To specify the zero-based index of the editable occurrence,
+            use values >= 0. To make the parameter non-editable when the template is expanded, use -1.
+            </remarks>>
+        </member>
+        <member name="P:Browser.Annotations.MacroAttribute.Target">
+            <summary>
+            Identifies the target parameter of a <see cref="T:Browser.Annotations.SourceTemplateAttribute">source template</see> if the
+            <see cref="T:Browser.Annotations.MacroAttribute"/> is applied on a template method.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcActionAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC action. If applied to a method, the MVC action name is calculated
+            implicitly from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcAreaAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC area.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcControllerAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is
+            an MVC controller. If applied to a method, the MVC controller name is calculated
+            implicitly from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcMasterAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC Master. Use this attribute
+            for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcModelTypeAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC model type. Use this attribute
+            for custom wrappers similar to <c>System.Web.Mvc.Controller.View(String, Object)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcPartialViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter is an MVC
+            partial view. If applied to a method, the MVC partial view name is calculated implicitly
+            from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcSuppressViewErrorAttribute">
+            <summary>
+            ASP.NET MVC attribute. Allows disabling inspections for MVC views within a class or a method.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcDisplayTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcEditorTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
+            Use this attribute for custom wrappers similar to
+            <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC view component. If applied to a method, the MVC view name is calculated implicitly
+            from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(Object)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcViewComponentAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC view component name.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcViewComponentViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC view component view. If applied to a method, the MVC view component view name is default.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AspMvcActionSelectorAttribute">
+            <summary>
+            ASP.NET MVC attribute. When applied to a parameter of an attribute,
+            indicates that this parameter is an MVC action name.
+            </summary>
+            <example><code>
+            [ActionName("Foo")]
+            public ActionResult Login(string returnUrl) {
+              ViewBag.ReturnUrl = Url.Action("Foo"); // OK
+              return RedirectToAction("Bar"); // Error: Cannot resolve action
+            }
+            </code></example>
+        </member>
+        <member name="T:Browser.Annotations.RazorSectionAttribute">
+            <summary>
+            Razor attribute. Indicates that a parameter or a method is a Razor section.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.CollectionAccessAttribute">
+            <summary>
+            Indicates how method, constructor invocation or property access
+            over collection type affects content of the collection.
+            </summary>
+        </member>
+        <member name="F:Browser.Annotations.CollectionAccessType.None">
+            <summary>Method does not use or modify content of the collection.</summary>
+        </member>
+        <member name="F:Browser.Annotations.CollectionAccessType.Read">
+            <summary>Method only reads content of the collection but does not modify it.</summary>
+        </member>
+        <member name="F:Browser.Annotations.CollectionAccessType.ModifyExistingContent">
+            <summary>Method can change content of the collection but does not add new elements.</summary>
+        </member>
+        <member name="F:Browser.Annotations.CollectionAccessType.UpdatedContent">
+            <summary>Method can add new elements to the collection.</summary>
+        </member>
+        <member name="T:Browser.Annotations.AssertionMethodAttribute">
+            <summary>
+            Indicates that the marked method is assertion method, i.e. it halts control flow if
+            one of the conditions is satisfied. To set the condition, mark one of the parameters with 
+            <see cref="T:Browser.Annotations.AssertionConditionAttribute"/> attribute.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AssertionConditionAttribute">
+            <summary>
+            Indicates the condition parameter of the assertion method. The method itself should be
+            marked by <see cref="T:Browser.Annotations.AssertionMethodAttribute"/> attribute. The mandatory argument of
+            the attribute is the assertion type.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.AssertionConditionType">
+            <summary>
+            Specifies assertion type. If the assertion method argument satisfies the condition,
+            then the execution continues. Otherwise, execution is assumed to be halted.
+            </summary>
+        </member>
+        <member name="F:Browser.Annotations.AssertionConditionType.IS_TRUE">
+            <summary>Marked parameter should be evaluated to true.</summary>
+        </member>
+        <member name="F:Browser.Annotations.AssertionConditionType.IS_FALSE">
+            <summary>Marked parameter should be evaluated to false.</summary>
+        </member>
+        <member name="F:Browser.Annotations.AssertionConditionType.IS_NULL">
+            <summary>Marked parameter should be evaluated to null value.</summary>
+        </member>
+        <member name="F:Browser.Annotations.AssertionConditionType.IS_NOT_NULL">
+            <summary>Marked parameter should be evaluated to not null value.</summary>
+        </member>
+        <member name="T:Browser.Annotations.TerminatesProgramAttribute">
+            <summary>
+            Indicates that the marked method unconditionally terminates control flow execution.
+            For example, it could unconditionally throw exception.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.LinqTunnelAttribute">
+            <summary>
+            Indicates that method is pure LINQ method, with postponed enumeration (like Enumerable.Select,
+            .Where). This annotation allows inference of [InstantHandle] annotation for parameters
+            of delegate type by analyzing LINQ method chains.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.NoEnumerationAttribute">
+            <summary>
+            Indicates that IEnumerable, passed as parameter, is not enumerated.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.RegexPatternAttribute">
+            <summary>
+            Indicates that parameter is regular expression pattern.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.NoReorderAttribute">
+            <summary>
+            Prevents the Member Reordering feature from tossing members of the marked class.
+            </summary>
+            <remarks>
+            The attribute must be mentioned in your member reordering patterns
+            </remarks>
+        </member>
+        <member name="T:Browser.Annotations.XamlItemsControlAttribute">
+            <summary>
+            XAML attribute. Indicates the type that has <c>ItemsSource</c> property and should be treated
+            as <c>ItemsControl</c>-derived type, to enable inner items <c>DataContext</c> type resolve.
+            </summary>
+        </member>
+        <member name="T:Browser.Annotations.XamlItemBindingOfItemsControlAttribute">
+            <summary>
+            XAML attribute. Indicates the property of some <c>BindingBase</c>-derived type, that
+            is used to bind some item of <c>ItemsControl</c>-derived type. This annotation will
+            enable the <c>DataContext</c> type resolve for XAML bindings for such properties.
+            </summary>
+            <remarks>
+            Property should have the tree ancestor of the <c>ItemsControl</c> type or
+            marked with the <see cref="T:Browser.Annotations.XamlItemsControlAttribute"/> attribute.
+            </remarks>
+        </member>
+        <member name="T:Browser.Requests.InvalidUrlException">
+            <summary>
+            The invalid url exception, thrown when an invalid url 
+            is used in a class that needs a valid one.
+            </summary>
+        </member>
+        <member name="M:Browser.Requests.InvalidUrlException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Requests.InvalidUrlException"/> class.
+            </summary>
+            <param name="message">
+            The message.
+            </param>
+        </member>
+        <member name="M:Browser.Requests.InvalidUrlException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Requests.InvalidUrlException"/> class.
+            </summary>
+            <param name="message">
+            The message.
+            </param>
+            <param name="innerException">
+            The inner exception.
+            </param>
+        </member>
+        <member name="T:Browser.Requests.HttpRequest">
+            <summary>
+            The http request.
+            </summary>
+        </member>
+        <member name="F:Browser.Requests.HttpRequest.FaviconLookupUrl">
+            <summary>
+            The favicon lookup url.
+            </summary>
+        </member>
+        <member name="M:Browser.Requests.HttpRequest.GetAsync(Browser.Requests.Url)">
+            <summary>
+            Gets a HttpResponse asynchronously.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Requests.HttpRequest.GetFaviconAsync(Browser.Requests.Url)">
+            <summary>
+            Gets the favicon image associated with the given URL.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.Requests.HttpResponse">
+            <summary>
+            The http response.
+            </summary>
+        </member>
+        <member name="F:Browser.Requests.HttpResponse.TitleMatch">
+            <summary>
+            The title match.
+            </summary>
+        </member>
+        <member name="F:Browser.Requests.HttpResponse._title">
+            <summary>
+            The title.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.HttpResponse.Content">
+            <summary>
+            Gets or sets the content.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.HttpResponse.Header">
+            <summary>
+            Gets or sets the header.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.HttpResponse.Status">
+            <summary>
+            Gets or sets the status.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.HttpResponse.Url">
+            <summary>
+            Gets or sets the url.
+            </summary>
+        </member>
+        <member name="M:Browser.Requests.HttpResponse.GetTitle">
+            <summary>
+            Gets the title asynchronously, and caches it.
+            </summary>
+            <returns>
+            The <see cref="T:System.String">title</see>.
+            </returns>
+        </member>
+        <member name="T:Browser.Requests.Url">
+            <summary>
+            The url class, a "subset" of the URI class that is only compatible with http. Immutable.
+            </summary>
+        </member>
+        <member name="M:Browser.Requests.Url.FromString(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Requests.Url"/> class from a string.
+            </summary>
+            <param name="url">
+            The url string.
+            </param>
+            <returns>
+            The <see cref="T:Browser.Requests.Url"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Requests.Url.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Requests.Url"/> class.
+            </summary>
+            <param name="scheme">
+            The scheme.
+            </param>
+            <param name="host">
+            The host.
+            </param>
+            <param name="path">
+            The path.
+            </param>
+        </member>
+        <member name="M:Browser.Requests.Url.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Browser.Requests.Url"/> class from being created.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.Url.HashCode">
+            <summary>
+            The hash code.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.Url.Path">
+            <summary>
+            Gets the path.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.Url.Host">
+            <summary>
+            Gets the host.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.Url.Scheme">
+            <summary>
+            Gets the scheme.
+            </summary>
+        </member>
+        <member name="P:Browser.Requests.Url.Id">
+            <summary>
+            Gets the id.
+            </summary>
+        </member>
+        <member name="M:Browser.Requests.Url.op_Equality(Browser.Requests.Url,Browser.Requests.Url)">
+            <summary>
+            Overrides the == operator to check for equality.
+            </summary>
+            <param name="a">
+            The a.
+            </param>
+            <param name="b">
+            The b.
+            </param>
+            <returns>
+            Whether the urls point to the same place.
+            </returns>
+        </member>
+        <member name="M:Browser.Requests.Url.op_Inequality(Browser.Requests.Url,Browser.Requests.Url)">
+            <summary>
+            Overrides the != operator to check for equality.
+            </summary>
+            <param name="a">
+            The a.
+            </param>
+            <param name="b">
+            The b.
+            </param>
+            <returns>
+            Whether the urls don't point to the same place.
+            </returns>
+        </member>
+        <member name="M:Browser.Requests.Url.ToString">
+            <summary>
+            Converts the url to a string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Requests.Url.Equals(System.Object)">
+            <summary>
+            Overrides object.equals to check for equality.
+            </summary>
+            <param name="other">
+            The other.
+            </param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Requests.Url.GetHashCode">
+            <summary>
+            The get hash code.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.Views.BindableListView">
+             <summary>
+             A ListView with complex data binding support.
+             </summary>
+             <remarks>
+             <p>Windows Forms provides a built-in <see cref="T:System.Windows.Forms.ListView"/> control,
+             which is essentially a wrapper of the standard Win32 list view. While
+             this is a very powerful control, it does not support complex dataI
+             binding. It supports simple binding, as all controls do, but simple
+             binding only binds a single row of data. The absence of complex
+             binding (i.e. the ability to bind to whole lists of data) is
+             disappointing in a class whose main purpose is to display lists of
+             things.</p>
+            
+             <p>This class derives from <see cref="T:System.Windows.Forms.ListView"/> and adds support
+             for complex binding, through its <see cref="P:Browser.Views.BindableListView.DataSource"/> and
+             <see cref="P:Browser.Views.BindableListView.DataMember"/> properties. These behave much like the
+             equivalent properties on the =<see cref="T:System.Windows.Forms.DataGrid"/> control.</p>
+            
+             <p>Note that the primary purpose of this control is to illustrate
+             data binding implementation techniques. It is NOT designed as an
+             industrial-strength control for use in production code. If you use
+             this in live systems, you do so at your own risk; it would almost
+             certainly be a better idea to look at the various professional
+             bindable grid controls on the market.</p>
+             </remarks>
+        </member>
+        <member name="E:Browser.Views.BindableListView.DataMemberChanged">
+             <summary>
+             Raised when the DataMember property changes.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.BindableListView.DataSourceChanged">
+            <summary>
+            Raised when the DataSource property changes.
+            </summary>
+        </member>
+        <member name="P:Browser.Views.BindableListView.DataMember">
+            <summary>
+            Identifies the item or relation within the data source whose
+            contents should be shown.
+            </summary>
+            <remarks>
+            <p>If the <see cref="P:Browser.Views.BindableListView.DataSource"/> refers to a container of lists
+            such as a <see cref="T:System.Data.DataSet"/>, this property should be used to
+            indicate which list should be shown.</p>
+            
+            <p>Even when <see cref="P:Browser.Views.BindableListView.DataSource"/> refers to a specific list,
+            you can still set this property to indicate that a related table
+            should be shown by specifying a relation name. This will cause
+            this control to display only those rows in the child table related
+            to the currently selected row in the parent table.</p>
+            </remarks>
+        </member>
+        <member name="P:Browser.Views.BindableListView.DataSource">
+             <summary>
+             The data source to which this control is bound.
+             </summary>
+             <remarks>
+             <p>To make this control display the contents of a data source, you
+             should set this property to refer to that data source. The source
+             should implement either <see cref="T:System.Collections.IList"/>,
+             <see cref="T:System.ComponentModel.IBindingList"/>, or <see cref="T:System.ComponentModel.IListSource"/>.</p>
+            
+             <p>When binding to a list container (i.e. one that implements the
+             <see cref="T:System.ComponentModel.IListSource"/> interface, such as <see cref="T:System.Data.DataSet"/>)
+             you must also set the <see cref="P:Browser.Views.BindableListView.DataMember"/> property in order
+             to identify which particular list you would like to display. You
+             may also set the <see cref="P:Browser.Views.BindableListView.DataMember"/> property even when
+             DataSource refers to a list, since <see cref="P:Browser.Views.BindableListView.DataMember"/> can
+             also be used to navigate relations between lists.</p>
+             </remarks>
+        </member>
+        <member name="M:Browser.Views.BindableListView.OnBindingContextChanged(System.EventArgs)">
+            <summary>
+            Handles binding context changes
+            </summary>
+            <param name="e">The EventArgs that will be passed to any handlers
+            of the BindingContextChanged event.</param>
+        </member>
+        <member name="M:Browser.Views.BindableListView.OnDataMemberChanged(System.EventArgs)">
+            <summary>
+            Called when the DataMember property changes.
+            </summary>
+            <param name="e">The EventArgs that will be passed to any handlers
+            of the DataMemberChanged event.</param>
+        </member>
+        <member name="M:Browser.Views.BindableListView.OnDataSourceChanged(System.EventArgs)">
+            <summary>
+            Called when the DataSource property changes
+            </summary>
+            <param name="e">The EventArgs that will be passed to any handlers
+            of the DataSourceChanged event.</param>
+        </member>
+        <member name="M:Browser.Views.BindableListView.OnParentBindingContextChanged(System.EventArgs)">
+            <summary>
+            Handles parent binding context changes
+            </summary>
+            <param name="e">Unused EventArgs.</param>
+        </member>
+        <member name="M:Browser.Views.BindableListView.BindingListChanged(System.Object,System.ComponentModel.ListChangedEventArgs)">
+            <summary>
+            IBindingList ListChanged event handler. Deals with fine-grained
+            changes to list items.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.BindableListView.BuildItemForRow(System.Object)">
+            <summary>
+            Build a single <see cref="T:System.Windows.Forms.ListViewItem"/> for a single row from the source. (We
+            need to do this when constructing the original list, but this is
+            also called in the <see cref="E:System.ComponentModel.IBindingList.ListChanged" /> event handler when
+            updating individual items.)
+            </summary>
+            <param name="row">
+            The row.
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Browser.Views.BindableListView.LoadItemsFromSource">
+            <summary>
+            Reload list items from the data source.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.Browser">
+            <inheritdoc cref="T:System.Windows.Forms.Form" />
+            <summary>
+                The main control for the application.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.Browser.#ctor">
+            <inheritdoc />
+            <summary>
+                Constructor.
+            </summary>
+        </member>
+        <member name="F:Browser.Views.Browser._recentlySelectedFavorite">
+            <summary>
+            The _recently selected.
+            </summary>
+        </member>
+        <member name="F:Browser.Views.Browser._recentlySelectedHistory">
+            <summary>
+            The _recently selected history.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.Browser.InsertTab(System.Int32,System.Windows.Forms.TabPage)">
+            <summary>
+                Inserts a tab at the specified index, or if out of range and the start or end.
+            </summary>
+            <param name="index">The index to insert it at.</param>
+            <param name="tab">The TabPage to insert.</param>
+        </member>
+        <member name="M:Browser.Views.Browser.RemoveTab(System.String)">
+            <summary>
+                Removes tab by the guid.
+            </summary>
+            <param name="guid">The GUID of the tab you want to remove.</param>
+        </member>
+        <member name="M:Browser.Views.Browser.SelectTab(System.String)">
+            <summary>
+                Selects the tab by the guid.
+            </summary>
+            <param name="guid">The GUID of the tab you want to select.</param>
+        </member>
+        <member name="M:Browser.Views.Browser.BindImageList(System.Windows.Forms.ImageList)">
+            <summary>
+                Sets the image history of the browser to the specified history.
+            </summary>
+            <param name="list">The imagelist you want to set.</param>
+        </member>
+        <member name="M:Browser.Views.Browser.BindFavorites(System.ComponentModel.BindingList{Browser.History.FavoritesViewModel})">
+            <inheritdoc />
+            <summary>
+            The bind favorites.
+            </summary>
+            <param name="favorites">
+                The favorites.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.BindHistory(System.ComponentModel.BindingList{Browser.History.HistoryViewModel})">
+            <inheritdoc />
+            <summary>
+            The bind history.
+            </summary>
+            <param name="history">
+                The history.
+            </param>
+        </member>
+        <member name="E:Browser.Views.Browser.CloseTab">
+            <summary>
+            The close tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.CloseWindow">
+            <summary>
+            The close window event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.FavoritesListOpen">
+            <summary>
+            The favorites list open event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.FavoritesListEdit">
+            <summary>
+            The favorites list edit event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.HistoryListOpen">
+            <summary>
+            The history list open event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.HistoryListSave">
+            <summary>
+            The history list save event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.HomeChanged">
+            <summary>
+            The home changed event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.TabListMiddleMouseClick">
+            <summary>
+            The middle mouse click event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.NewIncognitoTab">
+            <summary>
+            The new incognito tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.NewTab">
+            <summary>
+            The new tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.NewWindow">
+            <summary>
+            The new window event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.NextTab">
+            <summary>
+            The next tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.PrevTab">
+            <summary>
+            The prev tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.ReloadTab">
+            <summary>
+            The reload tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.TabChanged">
+            <summary>
+            The tab changed event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.Browser.GoHome">
+            <summary>
+            The go home event.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.Browser.OnCloseTabButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The close tab button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnCloseWindowButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The close window button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnGoHomeButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The go home button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnNewIncognitoTabButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The new incognito tab button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnNewTabButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The new tab button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnNewWindowButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The new window button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnNextTabButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The next tab button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnPrevTabButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The on prev tab button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnReloadTabButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The on reload tab button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnSelectedTabIndexChanged(System.Object,System.EventArgs)">
+            <summary>
+            The on selected tab index changed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnSetAsHomeButtonPressed(System.Object,System.EventArgs)">
+            <summary>
+            The on set as home button pressed.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnTabsMouseClick(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            The on tabs mouse click.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnFavoritesListClick(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            The on favorites list click.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.EditFavoritesItem(System.Object,System.EventArgs)">
+            <summary>
+            The edit favorites item.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OpenFavoritesItem(System.Object,System.EventArgs)">
+            <summary>
+            The open favorites item.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnHistoryListDoubleClicked(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            The on history history double clicked.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnFavoritesListDoubleClicked(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            The favorites double clicked.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OpenHistoryItem(System.Object,System.EventArgs)">
+            <summary>
+            The open history item.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.SaveHistoryItem(System.Object,System.EventArgs)">
+            <summary>
+            The save history item.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.Browser.OnHistoryListClick(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            The on history list click.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="F:Browser.Views.Browser.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.Browser.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Browser.Views.Browser.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.EditFavoritesWindow">
+            <summary>
+            The edit favorites window.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Views.EditFavoritesWindow"/> class.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.Save_Click(System.Object,System.EventArgs)">
+            <summary>
+            The save_ click.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.Cancel_Click(System.Object,System.EventArgs)">
+            <summary>
+            The cancel_ click.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.Delete_Click(System.Object,System.EventArgs)">
+            <summary>
+            The delete_ click.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="E:Browser.Views.EditFavoritesWindow.SaveButtonClicked">
+            <summary>
+            The save button clicked.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.EditFavoritesWindow.CancelButtonClicked">
+            <summary>
+            The cancel button clicked.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.EditFavoritesWindow.DeleteButtonClicked">
+            <inheritdoc />
+            <summary>
+            The delete button clicked.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.DisplayFavoritesLocation(System.String,System.String)">
+            <inheritdoc />
+            <summary>
+            The display favorites Location.
+            </summary>
+            <param name="name"></param>
+            <param name="url"></param>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.GetUpdate">
+            <inheritdoc />
+            <summary>
+            The get update.
+            </summary>
+            <returns>
+            The <see cref="T:Browser.Favorites.FavoritesLocation" />.
+            </returns>
+        </member>
+        <member name="F:Browser.Views.EditFavoritesWindow.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Browser.Views.EditFavoritesWindow.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.IBrowser">
+            <summary>
+            The Browser interface.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.IBrowser.Show">
+            <summary>
+            Opens the <see cref="T:Browser.Views.IBrowser"/>.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.IBrowser.Close">
+            <summary>
+            Closes the <see cref="T:Browser.Views.IBrowser"/>.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.IBrowser.InsertTab(System.Int32,System.Windows.Forms.TabPage)">
+            <summary>
+            Inserts a tab at the specified index.
+            </summary>
+            <param name="index">
+            The index.
+            </param>
+            <param name="tab">
+            The tab.
+            </param>
+        </member>
+        <member name="M:Browser.Views.IBrowser.RemoveTab(System.String)">
+            <summary>
+            Removes a tab by guid.
+            </summary>
+            <param name="guid">
+            The guid.
+            </param>
+        </member>
+        <member name="M:Browser.Views.IBrowser.SelectTab(System.String)">
+            <summary>
+            Selects a tab by guid.
+            </summary>
+            <param name="guid">
+            The guid.
+            </param>
+        </member>
+        <member name="M:Browser.Views.IBrowser.BindImageList(System.Windows.Forms.ImageList)">
+            <summary>
+            Binds the specified image list to the UI.
+            </summary>
+            <param name="list">
+            The images to bind.
+            </param>
+            <remarks>
+            Used for binding the favicons to the UI.
+            </remarks>
+        </member>
+        <member name="M:Browser.Views.IBrowser.BindFavorites(System.ComponentModel.BindingList{Browser.History.FavoritesViewModel})">
+            <summary>
+            Binds a list of <see cref="T:Browser.History.FavoritesViewModel"/> to the UI.
+            </summary>
+            <param name="favorites">
+            The <see cref="T:System.ComponentModel.BindingList`1"/> to bind.
+            </param>
+        </member>
+        <member name="M:Browser.Views.IBrowser.BindHistory(System.ComponentModel.BindingList{Browser.History.HistoryViewModel})">
+            <summary>
+            Binds a list of <see cref="T:Browser.History.HistoryViewModel"/> to the UI.
+            </summary>
+            <param name="history">
+            The <see cref="T:System.ComponentModel.BindingList`1"/> to bind.
+            </param>
+        </member>
+        <member name="E:Browser.Views.IBrowser.CloseTab">
+            <summary>
+            The close tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.CloseWindow">
+            <summary>
+            The close window event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.FavoritesListOpen">
+            <summary>
+            The favorites list open event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.FavoritesListEdit">
+            <summary>
+            The favorites list edit event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.HistoryListOpen">
+            <summary>
+            The history list open event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.HistoryListSave">
+            <summary>
+            The history list save to favorites event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.HomeChanged">
+            <summary>
+            The home changed event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.TabListMiddleMouseClick">
+            <summary>
+            The tab list middle mouse click event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.NewIncognitoTab">
+            <summary>
+            The new incognito tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.NewTab">
+            <summary>
+            The new tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.NewWindow">
+            <summary>
+            The new window event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.NextTab">
+            <summary>
+            The next tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.PrevTab">
+            <summary>
+            The previous tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.ReloadTab">
+            <summary>
+            The reload tab event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.TabChanged">
+            <summary>
+            The tab changed event.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IBrowser.GoHome">
+            <summary>
+            The go home event.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.TabChangedEventHandler">
+            <summary>
+            The tab changed event handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="T:Browser.Views.TabChangedEventArgs">
+            <summary>
+            The tab changed event args.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.TabChangedEventArgs.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Views.TabChangedEventArgs"/> class.
+            </summary>
+            <param name="index">
+            The index.
+            </param>
+        </member>
+        <member name="P:Browser.Views.TabChangedEventArgs.SelectedIndex">
+            <summary>
+            Gets the selected index.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.HistoryListEventHandler">
+            <summary>
+            The history double click event handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="historyClickEventArgs">
+            The history click event args.
+            </param>
+        </member>
+        <member name="T:Browser.Views.HistoryClickEventArgs">
+            <summary>
+            The history click event args.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.HistoryClickEventArgs.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Views.HistoryClickEventArgs"/> class.
+            </summary>
+            <param name="index">
+            The index.
+            </param>
+        </member>
+        <member name="P:Browser.Views.HistoryClickEventArgs.ClickedIndex">
+            <summary>
+            Gets the index.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.FavoritesListEventHandler">
+            <summary>
+            The favorites double click event handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="args">
+            The args.
+            </param>
+        </member>
+        <member name="T:Browser.Views.FavoritesClickEventArgs">
+            <inheritdoc />
+            <summary>
+            The favorites click event args.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.FavoritesClickEventArgs.#ctor(System.Int32)">
+            <inheritdoc />
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Views.FavoritesClickEventArgs" /> class.
+            </summary>
+            <param name="favoritesSelectedIndex">
+            The favorites selected index.
+            </param>
+        </member>
+        <member name="P:Browser.Views.FavoritesClickEventArgs.ClickedIndex">
+            <summary>
+            Gets the selected index.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.IEditFavorites">
+            <summary>
+            The EditFavorites interface.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IEditFavorites.SaveButtonClicked">
+            <summary>
+            The save button clicked.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IEditFavorites.CancelButtonClicked">
+            <summary>
+            The cancel button clicked.
+            </summary>
+        </member>
+        <member name="E:Browser.Views.IEditFavorites.DeleteButtonClicked">
+            <summary>
+            The delete button clicked.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.IEditFavorites.DisplayFavoritesLocation(System.String,System.String)">
+            <summary>
+            The display favorites Location.
+            </summary>
+            <param name="name">The name of the favorite.</param>
+            <param name="url">The Url of the favorite.</param>
+        </member>
+        <member name="M:Browser.Views.IEditFavorites.Close">
+            <summary>
+            The close.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.IEditFavorites.GetUpdate">
+            <summary>
+            The get update.
+            </summary>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="T:Browser.Views.ITab">
+            <summary>
+            The interface for interacting with a tab in the browser.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.ITab.Show">
+            <summary>
+            The show.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.UrlUpdateEventHandler">
+            <summary>
+            The url update event handler.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="e">
+            The e.
+            </param>
+        </member>
+        <member name="T:Browser.Views.UrlUpdateEventArgs">
+            <summary>
+            The url update event args.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.UrlUpdateEventArgs.#ctor(Browser.Requests.Url)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Views.UrlUpdateEventArgs"/> class.
+            </summary>
+            <param name="url">
+            The url.
+            </param>
+        </member>
+        <member name="P:Browser.Views.UrlUpdateEventArgs.Url">
+            <summary>
+            Gets the url.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.RenderDocument">
+            <summary>
+            The render document.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.RenderDocument.#ctor(Browser.Requests.HttpResponse)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Browser.Views.RenderDocument"/> class.
+            </summary>
+            <param name="document">
+            The document.
+            </param>
+        </member>
+        <member name="M:Browser.Views.RenderDocument.Display(Browser.Requests.HttpResponse)">
+            <summary>
+            The render.
+            </summary>
+            <param name="document">
+            The document.
+            </param>
+        </member>
+        <member name="F:Browser.Views.RenderDocument.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.RenderDocument.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Browser.Views.RenderDocument.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Browser.Views.Tab">
+            <inheritdoc cref="T:System.Windows.Forms.TabPage" />
+            <summary>
+                The base class for the browser tabs.
+            </summary>
+        </member>
+        <member name="F:Browser.Views.Tab.SynchronizationContext">
+            <summary>
+            The synchronization context.
+            </summary>
+        </member>
+        <member name="F:Browser.Views.Tab._faviconIndex">
+            <summary>
+                Held onto so that the spinner can reference it when done spinning.
+            </summary>
+        </member>
+        <member name="P:Browser.Views.Tab.Loading">
+            <summary>
+                Sets the loading value and starts the spinner if not already running.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.Tab.StartSpinner">
+            <summary>
+            The start spinner.
+            </summary>
+        </member>
+        <member name="F:Browser.Views.Tab.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Browser.Views.Tab.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Browser.Views.Tab.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Browser.Program">
+            <summary>
+            The main program.
+            </summary>
+        </member>
+        <member name="F:Browser.Program.container">
+            <summary>
+            The container.
+            </summary>
+        </member>
+        <member name="M:Browser.Program.BootStrap">
+            <summary>
+            Sets up the dependency injection.
+            </summary>
+        </member>
+        <member name="M:Browser.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:Browser.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.back">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.forward">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_10">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_11">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_12">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_13">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_14">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_15">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_16">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_3">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_4">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_5">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_6">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_7">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_8">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.Frame_9">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.home">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.NewTab">
+            <summary>
+              Looks up a localized string similar to New Tab.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.nofavicon">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.reload">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:Browser.Properties.Resources.star">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+    </members>
+</doc>

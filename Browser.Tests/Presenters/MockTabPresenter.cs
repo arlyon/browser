@@ -20,8 +20,13 @@ namespace Browser.Tests.Presenters
     class MockTabPresenter : ITabPresenter
     {
 
+        private IHistory _history;
+
         public MockTabPresenter(ITab tab, IFavorites favorites, IConfig config, IFavicon favicons, IHistory history, ITabHistory tabHistory)
         {
+            this.Name = Guid.NewGuid().ToString();
+            tab.Name = this.Name;
+            this._history = history;
         }
 
         public string Name { get; set; }
@@ -30,6 +35,7 @@ namespace Browser.Tests.Presenters
 
         public void Push(Url url)
         {
+            this._history.Push(new HistoryLocation(url));
             this.url = url;
         }
 

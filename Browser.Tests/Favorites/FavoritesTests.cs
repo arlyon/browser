@@ -125,19 +125,18 @@
         public void GetViewModelTest()
         {
             // create new item
-            var favorites = new SqliteFavorites(new MockConfig(), new MockFaviconCache());
-            var loc = favorites.GetOrCreate(Url.FromString("www.test.com"));
+            var loc = this._favorites.GetOrCreate(Url.FromString("www.test.com"));
 
             // get view model and assert the item exists
-            var model = favorites.GetViewModel();
+            var model = this._favorites.GetViewModel();
             var count = model.Count;
             Assert.IsNotNull(model.Single(modellocation => modellocation.Url == loc.Url.ToString()));
             Assert.AreEqual(count, model.Count);
 
             // add new item to favorites and assert viewmodel is updated
-            var loc2 = favorites.GetOrCreate(Url.FromString("www.test2.com"));
+            var loc2 = this._favorites.GetOrCreate(Url.FromString("www.test2.com"));
             Assert.AreEqual(++count, model.Count);
-            favorites.DeleteById(loc.Id);
+            this._favorites.DeleteById(loc.Id);
         }
 
         /// <summary>
@@ -147,15 +146,14 @@
         public void UpdateByIdTest()
         {
             // create new item
-            var favorites = new SqliteFavorites(new MockConfig(), new MockFaviconCache());
-            var loc = favorites.GetOrCreate(Url.FromString("www.test.com"));
+            var loc = this._favorites.GetOrCreate(Url.FromString("www.test.com"));
 
             var newurl = Url.FromString("www.updatedtest.com");
-            favorites.UpdateById(loc.Id, new FavoritesLocation(newurl));
-            var loc2 = favorites.GetOrCreate(newurl);
+            this._favorites.UpdateById(loc.Id, new FavoritesLocation(newurl));
+
+            var loc2 = this._favorites.GetOrCreate(newurl);
             Assert.AreEqual(loc.Id, loc2.Id);
-            Assert.AreNotEqual(loc.Name, loc2.Name);
-            Assert.AreNotEqual(loc.Url, loc2.Url);
+            Assert.AreEqual(loc2.Url, newurl);
         }
     }
 }

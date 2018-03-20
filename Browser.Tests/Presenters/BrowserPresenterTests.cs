@@ -101,6 +101,7 @@
                 (tab, favorites, config, favicons, history, tabHistory) => new MockTabPresenter(tab, favorites, config, favicons, history, tabHistory));
 
             // TODO finish
+            Assert.Fail();
         }
 
         /// <summary>
@@ -187,6 +188,8 @@
                 config,
                 new MockFaviconCache(),
                 (tab, f, c, favicons, history, tabHistory) => new MockTabPresenter(tab, f, c, favicons, history, tabHistory));
+
+            favorites.GetOrCreate(Url.FromString("www.test.com"));
             view.InvokeFavoritesListOpen(0);
 
             // easiest way to check if the url has changed

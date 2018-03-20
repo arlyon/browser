@@ -30,7 +30,6 @@
         private static void BootStrap()
         {
             container = new Container();
-            container.Options.DefaultScopedLifestyle = new ThreadScopedLifestyle();
 
             container.Register<IHistory, History.SqliteHistory>(Lifestyle.Singleton);
             container.Register<IFavorites, Favorites.SqliteFavorites>(Lifestyle.Singleton);
